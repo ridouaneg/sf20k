@@ -18,6 +18,7 @@ def parse_args():
     parser.add_argument("--task", type=str, default="translate", choices=["transcribe", "translate"], help="Diarize the audio before extracting subtitles")
     parser.add_argument("--diarize", action="store_true", help="Diarize the audio before extracting subtitles")
     parser.add_argument("--access_token", type=str, default=None, help="HuggingFace token to access pyannote")
+    parser.add_argument("--n_subsample", type=int, default=-1, help="Number of videos to subsample")
     return parser.parse_args()
 
 def setup_logging():
