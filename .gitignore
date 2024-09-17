@@ -2,3 +2,8 @@ data/videos/*
 data/faces/*
 data/shots/*
 data/subtitles/*
+
+experiments/baselines/LongVA/*
+!experiments/baselines/LongVA/run_longva.py
+!experiments/baselines/LongVA/eval_longva.py
+!experiments/baselines/LongVA/INSTALL.md
