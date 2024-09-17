@@ -61,6 +61,7 @@ def read_video(video_path, fps=1.0):
             ret, frame = cap.retrieve()
             if not ret:
                 break
+            
             frames.append(frame)
         
         frame_count += 1
