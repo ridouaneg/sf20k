@@ -1,0 +1,638 @@
+video_id,frame_id,face_id,frame_number,face_number,facial_area,face_confidence
+EnYZX6z64lo,EnYZX6z64lo_0066,EnYZX6z64lo_0066_00,66,0,"{'x': 157, 'y': 98, 'w': 171, 'h': 192, 'left_eye': None, 'right_eye': None}",0.95
+EnYZX6z64lo,EnYZX6z64lo_0072,EnYZX6z64lo_0072_00,72,0,"{'x': 115, 'y': 57, 'w': 183, 'h': 199, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0080,EnYZX6z64lo_0080_00,80,0,"{'x': 98, 'y': 64, 'w': 200, 'h': 176, 'left_eye': None, 'right_eye': None}",0.94
+EnYZX6z64lo,EnYZX6z64lo_0081,EnYZX6z64lo_0081_00,81,0,"{'x': 106, 'y': 86, 'w': 171, 'h': 175, 'left_eye': None, 'right_eye': None}",0.93
+EnYZX6z64lo,EnYZX6z64lo_0201,EnYZX6z64lo_0201_00,201,0,"{'x': 337, 'y': 43, 'w': 166, 'h': 221, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0221,EnYZX6z64lo_0221_00,221,0,"{'x': 290, 'y': 40, 'w': 166, 'h': 243, 'left_eye': None, 'right_eye': None}",0.91
+EnYZX6z64lo,EnYZX6z64lo_0251,EnYZX6z64lo_0251_00,251,0,"{'x': 128, 'y': 45, 'w': 166, 'h': 187, 'left_eye': (237, 100), 'right_eye': (166, 115)}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0252,EnYZX6z64lo_0252_00,252,0,"{'x': 123, 'y': 45, 'w': 167, 'h': 187, 'left_eye': (236, 105), 'right_eye': (161, 118)}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0261,EnYZX6z64lo_0261_00,261,0,"{'x': 128, 'y': 60, 'w': 157, 'h': 184, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0265,EnYZX6z64lo_0265_00,265,0,"{'x': 128, 'y': 50, 'w': 174, 'h': 187, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0266,EnYZX6z64lo_0266_00,266,0,"{'x': 128, 'y': 48, 'w': 170, 'h': 206, 'left_eye': (252, 120), 'right_eye': (175, 128)}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0268,EnYZX6z64lo_0268_00,268,0,"{'x': 132, 'y': 50, 'w': 175, 'h': 202, 'left_eye': (257, 118), 'right_eye': (182, 126)}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0270,EnYZX6z64lo_0270_00,270,0,"{'x': 123, 'y': 69, 'w': 158, 'h': 168, 'left_eye': None, 'right_eye': None}",0.95
+EnYZX6z64lo,EnYZX6z64lo_0282,EnYZX6z64lo_0282_00,282,0,"{'x': 264, 'y': 98, 'w': 77, 'h': 106, 'left_eye': None, 'right_eye': None}",0.91
+EnYZX6z64lo,EnYZX6z64lo_0283,EnYZX6z64lo_0283_00,283,0,"{'x': 268, 'y': 91, 'w': 81, 'h': 122, 'left_eye': None, 'right_eye': None}",0.95
+EnYZX6z64lo,EnYZX6z64lo_0285,EnYZX6z64lo_0285_00,285,0,"{'x': 298, 'y': 81, 'w': 90, 'h': 125, 'left_eye': None, 'right_eye': None}",0.98
+EnYZX6z64lo,EnYZX6z64lo_0290,EnYZX6z64lo_0290_00,290,0,"{'x': 273, 'y': 57, 'w': 132, 'h': 171, 'left_eye': (342, 126), 'right_eye': (310, 120)}",0.93
+EnYZX6z64lo,EnYZX6z64lo_0298,EnYZX6z64lo_0298_00,298,0,"{'x': 238, 'y': 72, 'w': 150, 'h': 177, 'left_eye': (324, 141), 'right_eye': (275, 140)}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0299,EnYZX6z64lo_0299_00,299,0,"{'x': 264, 'y': 55, 'w': 145, 'h': 187, 'left_eye': (346, 134), 'right_eye': (299, 129)}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0300,EnYZX6z64lo_0300_00,300,0,"{'x': 247, 'y': 60, 'w': 158, 'h': 184, 'left_eye': (342, 135), 'right_eye': (287, 136)}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0301,EnYZX6z64lo_0301_00,301,0,"{'x': 256, 'y': 69, 'w': 149, 'h': 195, 'left_eye': (350, 142), 'right_eye': (295, 140)}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0302,EnYZX6z64lo_0302_00,302,0,"{'x': 256, 'y': 76, 'w': 149, 'h': 197, 'left_eye': (358, 149), 'right_eye': (298, 150)}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0306,EnYZX6z64lo_0306_00,306,0,"{'x': 238, 'y': 76, 'w': 154, 'h': 202, 'left_eye': (345, 150), 'right_eye': (283, 153)}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0316,EnYZX6z64lo_0316_00,316,0,"{'x': 311, 'y': 132, 'w': 68, 'h': 88, 'left_eye': None, 'right_eye': None}",0.93
+EnYZX6z64lo,EnYZX6z64lo_0317,EnYZX6z64lo_0317_00,317,0,"{'x': 298, 'y': 57, 'w': 81, 'h': 123, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0333,EnYZX6z64lo_0333_00,333,0,"{'x': 328, 'y': 88, 'w': 94, 'h': 152, 'left_eye': None, 'right_eye': None}",0.92
+EnYZX6z64lo,EnYZX6z64lo_0389,EnYZX6z64lo_0389_00,389,0,"{'x': 179, 'y': 108, 'w': 158, 'h': 177, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0398,EnYZX6z64lo_0398_00,398,0,"{'x': 311, 'y': 43, 'w': 196, 'h': 230, 'left_eye': (437, 138), 'right_eye': (366, 107)}",0.98
+EnYZX6z64lo,EnYZX6z64lo_0399,EnYZX6z64lo_0399_00,399,0,"{'x': 328, 'y': 43, 'w': 179, 'h': 225, 'left_eye': (447, 139), 'right_eye': (378, 105)}",0.92
+EnYZX6z64lo,EnYZX6z64lo_0400,EnYZX6z64lo_0400_00,400,0,"{'x': 337, 'y': 45, 'w': 187, 'h': 226, 'left_eye': None, 'right_eye': None}",0.93
+EnYZX6z64lo,EnYZX6z64lo_0409,EnYZX6z64lo_0409_00,409,0,"{'x': 328, 'y': 84, 'w': 166, 'h': 204, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0422,EnYZX6z64lo_0422_00,422,0,"{'x': 366, 'y': 67, 'w': 150, 'h': 177, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0430,EnYZX6z64lo_0430_00,430,0,"{'x': 358, 'y': 57, 'w': 175, 'h': 202, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0431,EnYZX6z64lo_0431_00,431,0,"{'x': 349, 'y': 57, 'w': 175, 'h': 202, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0446,EnYZX6z64lo_0446_00,446,0,"{'x': 324, 'y': 76, 'w': 153, 'h': 195, 'left_eye': None, 'right_eye': None}",0.98
+EnYZX6z64lo,EnYZX6z64lo_0453,EnYZX6z64lo_0453_00,453,0,"{'x': 392, 'y': 86, 'w': 94, 'h': 127, 'left_eye': None, 'right_eye': None}",0.91
+EnYZX6z64lo,EnYZX6z64lo_0454,EnYZX6z64lo_0454_00,454,0,"{'x': 392, 'y': 88, 'w': 94, 'h': 123, 'left_eye': None, 'right_eye': None}",0.91
+EnYZX6z64lo,EnYZX6z64lo_0461,EnYZX6z64lo_0461_00,461,0,"{'x': 315, 'y': 45, 'w': 184, 'h': 209, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0462,EnYZX6z64lo_0462_00,462,0,"{'x': 332, 'y': 45, 'w': 180, 'h': 219, 'left_eye': (458, 135), 'right_eye': (381, 114)}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0509,EnYZX6z64lo_0509_00,509,0,"{'x': 294, 'y': 52, 'w': 154, 'h': 164, 'left_eye': None, 'right_eye': None}",0.92
+EnYZX6z64lo,EnYZX6z64lo_0510,EnYZX6z64lo_0510_00,510,0,"{'x': 337, 'y': 50, 'w': 157, 'h': 168, 'left_eye': None, 'right_eye': None}",0.98
+EnYZX6z64lo,EnYZX6z64lo_0511,EnYZX6z64lo_0511_00,511,0,"{'x': 341, 'y': 50, 'w': 162, 'h': 173, 'left_eye': None, 'right_eye': None}",0.94
+EnYZX6z64lo,EnYZX6z64lo_0512,EnYZX6z64lo_0512_00,512,0,"{'x': 311, 'y': 62, 'w': 162, 'h': 180, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0513,EnYZX6z64lo_0513_00,513,0,"{'x': 315, 'y': 60, 'w': 162, 'h': 175, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0516,EnYZX6z64lo_0516_00,516,0,"{'x': 324, 'y': 60, 'w': 153, 'h': 175, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0517,EnYZX6z64lo_0517_00,517,0,"{'x': 320, 'y': 57, 'w': 157, 'h': 171, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0521,EnYZX6z64lo_0521_00,521,0,"{'x': 311, 'y': 69, 'w': 154, 'h': 168, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0751,EnYZX6z64lo_0751_00,751,0,"{'x': 85, 'y': 50, 'w': 209, 'h': 202, 'left_eye': None, 'right_eye': None}",0.98
+EnYZX6z64lo,EnYZX6z64lo_0756,EnYZX6z64lo_0756_00,756,0,"{'x': 128, 'y': 50, 'w': 204, 'h': 194, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0759,EnYZX6z64lo_0759_00,759,0,"{'x': 102, 'y': 45, 'w': 196, 'h': 190, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0760,EnYZX6z64lo_0760_00,760,0,"{'x': 110, 'y': 45, 'w': 201, 'h': 228, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0761,EnYZX6z64lo_0761_00,761,0,"{'x': 98, 'y': 50, 'w': 204, 'h': 204, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0766,EnYZX6z64lo_0766_00,766,0,"{'x': 119, 'y': 48, 'w': 188, 'h': 196, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0767,EnYZX6z64lo_0767_00,767,0,"{'x': 123, 'y': 48, 'w': 197, 'h': 208, 'left_eye': None, 'right_eye': None}",0.98
+EnYZX6z64lo,EnYZX6z64lo_0768,EnYZX6z64lo_0768_00,768,0,"{'x': 153, 'y': 52, 'w': 192, 'h': 188, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0771,EnYZX6z64lo_0771_00,771,0,"{'x': 136, 'y': 45, 'w': 205, 'h': 202, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0772,EnYZX6z64lo_0772_00,772,0,"{'x': 115, 'y': 50, 'w': 213, 'h': 221, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0773,EnYZX6z64lo_0773_00,773,0,"{'x': 102, 'y': 45, 'w': 209, 'h': 235, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0774,EnYZX6z64lo_0774_00,774,0,"{'x': 123, 'y': 48, 'w': 209, 'h': 218, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0779,EnYZX6z64lo_0779_00,779,0,"{'x': 98, 'y': 48, 'w': 200, 'h': 199, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0841,EnYZX6z64lo_0841_00,841,0,"{'x': 311, 'y': 60, 'w': 171, 'h': 211, 'left_eye': (419, 133), 'right_eye': (358, 147)}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0842,EnYZX6z64lo_0842_00,842,0,"{'x': 418, 'y': 55, 'w': 175, 'h': 213, 'left_eye': (545, 143), 'right_eye': (475, 125)}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0843,EnYZX6z64lo_0843_00,843,0,"{'x': 320, 'y': 45, 'w': 174, 'h': 178, 'left_eye': (437, 83), 'right_eye': (369, 96)}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0864,EnYZX6z64lo_0864_00,864,0,"{'x': 273, 'y': 62, 'w': 81, 'h': 113, 'left_eye': None, 'right_eye': None}",0.98
+EnYZX6z64lo,EnYZX6z64lo_0879,EnYZX6z64lo_0879_00,879,0,"{'x': 264, 'y': 67, 'w': 90, 'h': 122, 'left_eye': None, 'right_eye': None}",0.95
+EnYZX6z64lo,EnYZX6z64lo_0880,EnYZX6z64lo_0880_00,880,0,"{'x': 260, 'y': 64, 'w': 98, 'h': 125, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0898,EnYZX6z64lo_0898_00,898,0,"{'x': 226, 'y': 50, 'w': 153, 'h': 206, 'left_eye': None, 'right_eye': None}",0.92
+EnYZX6z64lo,EnYZX6z64lo_0899,EnYZX6z64lo_0899_00,899,0,"{'x': 200, 'y': 45, 'w': 171, 'h': 214, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0900,EnYZX6z64lo_0900_00,900,0,"{'x': 204, 'y': 48, 'w': 184, 'h': 232, 'left_eye': None, 'right_eye': None}",0.94
+EnYZX6z64lo,EnYZX6z64lo_0901,EnYZX6z64lo_0901_00,901,0,"{'x': 192, 'y': 45, 'w': 187, 'h': 231, 'left_eye': None, 'right_eye': None}",0.91
+EnYZX6z64lo,EnYZX6z64lo_0902,EnYZX6z64lo_0902_00,902,0,"{'x': 362, 'y': 52, 'w': 201, 'h': 240, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0907,EnYZX6z64lo_0907_00,907,0,"{'x': 157, 'y': 60, 'w': 150, 'h': 187, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0908,EnYZX6z64lo_0908_00,908,0,"{'x': 162, 'y': 50, 'w': 153, 'h': 185, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0909,EnYZX6z64lo_0909_00,909,0,"{'x': 140, 'y': 50, 'w': 150, 'h': 190, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0910,EnYZX6z64lo_0910_00,910,0,"{'x': 290, 'y': 43, 'w': 226, 'h': 245, 'left_eye': None, 'right_eye': None}",0.96
+EnYZX6z64lo,EnYZX6z64lo_0913,EnYZX6z64lo_0913_00,913,0,"{'x': 183, 'y': 52, 'w': 149, 'h': 190, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0914,EnYZX6z64lo_0914_00,914,0,"{'x': 226, 'y': 57, 'w': 136, 'h': 190, 'left_eye': None, 'right_eye': None}",0.94
+EnYZX6z64lo,EnYZX6z64lo_0915,EnYZX6z64lo_0915_00,915,0,"{'x': 213, 'y': 74, 'w': 141, 'h': 182, 'left_eye': None, 'right_eye': None}",0.91
+EnYZX6z64lo,EnYZX6z64lo_0917,EnYZX6z64lo_0917_00,917,0,"{'x': 302, 'y': 45, 'w': 210, 'h': 240, 'left_eye': (474, 117), 'right_eye': (415, 98)}",0.96
+EnYZX6z64lo,EnYZX6z64lo_0918,EnYZX6z64lo_0918_00,918,0,"{'x': 298, 'y': 45, 'w': 209, 'h': 240, 'left_eye': (472, 117), 'right_eye': (411, 100)}",0.98
+EnYZX6z64lo,EnYZX6z64lo_0919,EnYZX6z64lo_0919_00,919,0,"{'x': 285, 'y': 48, 'w': 214, 'h': 237, 'left_eye': (462, 117), 'right_eye': (400, 102)}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0920,EnYZX6z64lo_0920_00,920,0,"{'x': 281, 'y': 52, 'w': 205, 'h': 236, 'left_eye': (453, 120), 'right_eye': (392, 104)}",0.98
+EnYZX6z64lo,EnYZX6z64lo_0921,EnYZX6z64lo_0921_00,921,0,"{'x': 281, 'y': 50, 'w': 205, 'h': 238, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0922,EnYZX6z64lo_0922_00,922,0,"{'x': 281, 'y': 50, 'w': 205, 'h': 240, 'left_eye': None, 'right_eye': None}",0.98
+EnYZX6z64lo,EnYZX6z64lo_0923,EnYZX6z64lo_0923_00,923,0,"{'x': 281, 'y': 50, 'w': 205, 'h': 242, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0924,EnYZX6z64lo_0924_00,924,0,"{'x': 281, 'y': 52, 'w': 205, 'h': 238, 'left_eye': (451, 122), 'right_eye': (391, 106)}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0925,EnYZX6z64lo_0925_00,925,0,"{'x': 264, 'y': 50, 'w': 137, 'h': 190, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0926,EnYZX6z64lo_0926_00,926,0,"{'x': 260, 'y': 48, 'w': 141, 'h': 187, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0927,EnYZX6z64lo_0927_00,927,0,"{'x': 251, 'y': 50, 'w': 145, 'h': 199, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0928,EnYZX6z64lo_0928_00,928,0,"{'x': 247, 'y': 48, 'w': 154, 'h': 208, 'left_eye': None, 'right_eye': None}",1.0
+EnYZX6z64lo,EnYZX6z64lo_0929,EnYZX6z64lo_0929_00,929,0,"{'x': 251, 'y': 48, 'w': 150, 'h': 216, 'left_eye': (311, 161), 'right_eye': (291, 103)}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0930,EnYZX6z64lo_0930_00,930,0,"{'x': 247, 'y': 48, 'w': 145, 'h': 230, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0931,EnYZX6z64lo_0931_00,931,0,"{'x': 243, 'y': 50, 'w': 158, 'h': 242, 'left_eye': None, 'right_eye': None}",0.96
+EnYZX6z64lo,EnYZX6z64lo_0932,EnYZX6z64lo_0932_00,932,0,"{'x': 238, 'y': 52, 'w': 171, 'h': 248, 'left_eye': (312, 183), 'right_eye': (286, 112)}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0933,EnYZX6z64lo_0933_00,933,0,"{'x': 230, 'y': 52, 'w': 188, 'h': 257, 'left_eye': (305, 187), 'right_eye': (275, 111)}",0.92
+EnYZX6z64lo,EnYZX6z64lo_0945,EnYZX6z64lo_0945_00,945,0,"{'x': 102, 'y': 48, 'w': 273, 'h': 273, 'left_eye': (314, 197), 'right_eye': (285, 97)}",0.92
+EnYZX6z64lo,EnYZX6z64lo_0946,EnYZX6z64lo_0946_00,946,0,"{'x': 85, 'y': 43, 'w': 260, 'h': 273, 'left_eye': (286, 197), 'right_eye': (259, 99)}",0.91
+EnYZX6z64lo,EnYZX6z64lo_0951,EnYZX6z64lo_0951_00,951,0,"{'x': 153, 'y': 45, 'w': 316, 'h': 267, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0953,EnYZX6z64lo_0953_00,953,0,"{'x': 157, 'y': 43, 'w': 278, 'h': 269, 'left_eye': None, 'right_eye': None}",0.91
+EnYZX6z64lo,EnYZX6z64lo_0959,EnYZX6z64lo_0959_00,959,0,"{'x': 132, 'y': 48, 'w': 298, 'h': 271, 'left_eye': None, 'right_eye': None}",0.96
+EnYZX6z64lo,EnYZX6z64lo_0960,EnYZX6z64lo_0960_00,960,0,"{'x': 153, 'y': 48, 'w': 307, 'h': 268, 'left_eye': None, 'right_eye': None}",0.95
+EnYZX6z64lo,EnYZX6z64lo_0961,EnYZX6z64lo_0961_00,961,0,"{'x': 89, 'y': 45, 'w': 290, 'h': 276, 'left_eye': (306, 108), 'right_eye': (299, 210)}",0.95
+EnYZX6z64lo,EnYZX6z64lo_0962,EnYZX6z64lo_0962_00,962,0,"{'x': 89, 'y': 45, 'w': 290, 'h': 269, 'left_eye': (363, 88), 'right_eye': (306, 86)}",0.96
+EnYZX6z64lo,EnYZX6z64lo_0971,EnYZX6z64lo_0971_00,971,0,"{'x': 264, 'y': 43, 'w': 192, 'h': 187, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0972,EnYZX6z64lo_0972_00,972,0,"{'x': 209, 'y': 40, 'w': 209, 'h': 226, 'left_eye': None, 'right_eye': None}",0.99
+EnYZX6z64lo,EnYZX6z64lo_0987,EnYZX6z64lo_0987_00,987,0,"{'x': 145, 'y': 50, 'w': 251, 'h': 262, 'left_eye': None, 'right_eye': None}",0.93
+EnYZX6z64lo,EnYZX6z64lo_0988,EnYZX6z64lo_0988_00,988,0,"{'x': 145, 'y': 48, 'w': 260, 'h': 264, 'left_eye': None, 'right_eye': None}",0.92
+EnYZX6z64lo,EnYZX6z64lo_0989,EnYZX6z64lo_0989_00,989,0,"{'x': 174, 'y': 38, 'w': 256, 'h': 269, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_0990,EnYZX6z64lo_0990_00,990,0,"{'x': 179, 'y': 43, 'w': 256, 'h': 269, 'left_eye': None, 'right_eye': None}",0.97
+EnYZX6z64lo,EnYZX6z64lo_1026,EnYZX6z64lo_1026_00,1026,0,"{'x': 55, 'y': 55, 'w': 525, 'h': 225, 'left_eye': None, 'right_eye': None}",0.92
+EnYZX6z64lo,EnYZX6z64lo_1027,EnYZX6z64lo_1027_00,1027,0,"{'x': 55, 'y': 55, 'w': 525, 'h': 225, 'left_eye': None, 'right_eye': None}",0.92
+EnYZX6z64lo,EnYZX6z64lo_1028,EnYZX6z64lo_1028_00,1028,0,"{'x': 55, 'y': 57, 'w': 525, 'h': 226, 'left_eye': None, 'right_eye': None}",0.93
+q2S1LjaPPOs,q2S1LjaPPOs_0018,q2S1LjaPPOs_0018_00,18,0,"{'x': 256, 'y': 86, 'w': 128, 'h': 192, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0019,q2S1LjaPPOs_0019_00,19,0,"{'x': 268, 'y': 84, 'w': 124, 'h': 184, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0020,q2S1LjaPPOs_0020_00,20,0,"{'x': 260, 'y': 84, 'w': 128, 'h': 194, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0021,q2S1LjaPPOs_0021_00,21,0,"{'x': 260, 'y': 86, 'w': 128, 'h': 185, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0030,q2S1LjaPPOs_0030_00,30,0,"{'x': 256, 'y': 64, 'w': 132, 'h': 188, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0031,q2S1LjaPPOs_0031_00,31,0,"{'x': 256, 'y': 84, 'w': 128, 'h': 184, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0032,q2S1LjaPPOs_0032_00,32,0,"{'x': 260, 'y': 79, 'w': 128, 'h': 180, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0033,q2S1LjaPPOs_0033_00,33,0,"{'x': 260, 'y': 81, 'w': 128, 'h': 183, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0037,q2S1LjaPPOs_0037_00,37,0,"{'x': 209, 'y': 69, 'w': 136, 'h': 178, 'left_eye': (315, 145), 'right_eye': (260, 142)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0038,q2S1LjaPPOs_0038_00,38,0,"{'x': 209, 'y': 84, 'w': 136, 'h': 180, 'left_eye': (319, 162), 'right_eye': (264, 157)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0039,q2S1LjaPPOs_0039_00,39,0,"{'x': 213, 'y': 74, 'w': 136, 'h': 185, 'left_eye': (323, 152), 'right_eye': (265, 149)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0048,q2S1LjaPPOs_0048_00,48,0,"{'x': 157, 'y': 43, 'w': 175, 'h': 221, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0049,q2S1LjaPPOs_0049_00,49,0,"{'x': 162, 'y': 45, 'w': 183, 'h': 240, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0064,q2S1LjaPPOs_0064_00,64,0,"{'x': 174, 'y': 64, 'w': 128, 'h': 192, 'left_eye': (286, 146), 'right_eye': (232, 145)}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0065,q2S1LjaPPOs_0065_00,65,0,"{'x': 128, 'y': 79, 'w': 145, 'h': 182, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0066,q2S1LjaPPOs_0066_00,66,0,"{'x': 192, 'y': 52, 'w': 140, 'h': 192, 'left_eye': (246, 123), 'right_eye': (229, 197)}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0068,q2S1LjaPPOs_0068_00,68,0,"{'x': 226, 'y': 64, 'w': 192, 'h': 238, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0069,q2S1LjaPPOs_0069_00,69,0,"{'x': 200, 'y': 50, 'w': 205, 'h': 240, 'left_eye': None, 'right_eye': None}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0072,q2S1LjaPPOs_0072_00,72,0,"{'x': 277, 'y': 55, 'w': 141, 'h': 197, 'left_eye': (376, 130), 'right_eye': (315, 131)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0073,q2S1LjaPPOs_0073_00,73,0,"{'x': 238, 'y': 64, 'w': 137, 'h': 188, 'left_eye': (348, 143), 'right_eye': (289, 142)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0074,q2S1LjaPPOs_0074_00,74,0,"{'x': 234, 'y': 62, 'w': 132, 'h': 197, 'left_eye': (342, 139), 'right_eye': (282, 137)}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0075,q2S1LjaPPOs_0075_00,75,0,"{'x': 209, 'y': 72, 'w': 136, 'h': 192, 'left_eye': None, 'right_eye': None}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0076,q2S1LjaPPOs_0076_00,76,0,"{'x': 234, 'y': 67, 'w': 141, 'h': 185, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0084,q2S1LjaPPOs_0084_00,84,0,"{'x': 243, 'y': 74, 'w': 141, 'h': 187, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0085,q2S1LjaPPOs_0085_00,85,0,"{'x': 281, 'y': 60, 'w': 196, 'h': 220, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0086,q2S1LjaPPOs_0086_00,86,0,"{'x': 238, 'y': 40, 'w': 197, 'h': 240, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0087,q2S1LjaPPOs_0087_00,87,0,"{'x': 221, 'y': 45, 'w': 184, 'h': 255, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0088,q2S1LjaPPOs_0088_00,88,0,"{'x': 213, 'y': 52, 'w': 196, 'h': 245, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0094,q2S1LjaPPOs_0094_00,94,0,"{'x': 174, 'y': 86, 'w': 141, 'h': 185, 'left_eye': (280, 164), 'right_eye': (219, 163)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0095,q2S1LjaPPOs_0095_00,95,0,"{'x': 187, 'y': 64, 'w': 133, 'h': 188, 'left_eye': (297, 142), 'right_eye': (238, 141)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0099,q2S1LjaPPOs_0099_00,99,0,"{'x': 153, 'y': 57, 'w': 128, 'h': 192, 'left_eye': None, 'right_eye': None}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0100,q2S1LjaPPOs_0100_00,100,0,"{'x': 166, 'y': 74, 'w': 141, 'h': 182, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0101,q2S1LjaPPOs_0101_00,101,0,"{'x': 243, 'y': 72, 'w': 141, 'h': 187, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0161,q2S1LjaPPOs_0161_00,161,0,"{'x': 196, 'y': 72, 'w': 94, 'h': 86, 'left_eye': None, 'right_eye': None}",0.91
+q2S1LjaPPOs,q2S1LjaPPOs_0165,q2S1LjaPPOs_0165_00,165,0,"{'x': 354, 'y': 79, 'w': 59, 'h': 84, 'left_eye': None, 'right_eye': None}",0.92
+q2S1LjaPPOs,q2S1LjaPPOs_0167,q2S1LjaPPOs_0167_00,167,0,"{'x': 354, 'y': 88, 'w': 72, 'h': 96, 'left_eye': (411, 125), 'right_eye': (375, 131)}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0170,q2S1LjaPPOs_0170_00,170,0,"{'x': 264, 'y': 57, 'w': 124, 'h': 180, 'left_eye': (345, 126), 'right_eye': (292, 133)}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0171,q2S1LjaPPOs_0171_00,171,0,"{'x': 183, 'y': 64, 'w': 94, 'h': 94, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0173,q2S1LjaPPOs_0173_00,173,0,"{'x': 273, 'y': 52, 'w': 128, 'h': 176, 'left_eye': (357, 121), 'right_eye': (303, 127)}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0174,q2S1LjaPPOs_0174_00,174,0,"{'x': 268, 'y': 55, 'w': 124, 'h': 177, 'left_eye': (350, 125), 'right_eye': (296, 132)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0175,q2S1LjaPPOs_0175_00,175,0,"{'x': 268, 'y': 52, 'w': 120, 'h': 185, 'left_eye': (347, 124), 'right_eye': (292, 130)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0191,q2S1LjaPPOs_0191_00,191,0,"{'x': 332, 'y': 64, 'w': 90, 'h': 120, 'left_eye': None, 'right_eye': None}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0192,q2S1LjaPPOs_0192_00,192,0,"{'x': 328, 'y': 62, 'w': 85, 'h': 115, 'left_eye': (383, 112), 'right_eye': (346, 114)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0193,q2S1LjaPPOs_0193_00,193,0,"{'x': 320, 'y': 88, 'w': 89, 'h': 113, 'left_eye': None, 'right_eye': None}",0.92
+q2S1LjaPPOs,q2S1LjaPPOs_0194,q2S1LjaPPOs_0194_00,194,0,"{'x': 157, 'y': 69, 'w': 99, 'h': 115, 'left_eye': None, 'right_eye': None}",0.9
+q2S1LjaPPOs,q2S1LjaPPOs_0200,q2S1LjaPPOs_0200_00,200,0,"{'x': 226, 'y': 64, 'w': 89, 'h': 125, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0202,q2S1LjaPPOs_0202_00,202,0,"{'x': 285, 'y': 64, 'w': 90, 'h': 130, 'left_eye': None, 'right_eye': None}",0.91
+q2S1LjaPPOs,q2S1LjaPPOs_0256,q2S1LjaPPOs_0256_00,256,0,"{'x': 315, 'y': 45, 'w': 133, 'h': 197, 'left_eye': (397, 128), 'right_eye': (341, 127)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0257,q2S1LjaPPOs_0257_00,257,0,"{'x': 302, 'y': 69, 'w': 124, 'h': 187, 'left_eye': (386, 145), 'right_eye': (331, 144)}",0.9
+q2S1LjaPPOs,q2S1LjaPPOs_0258,q2S1LjaPPOs_0258_00,258,0,"{'x': 281, 'y': 93, 'w': 124, 'h': 187, 'left_eye': (362, 171), 'right_eye': (306, 168)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0259,q2S1LjaPPOs_0259_00,259,0,"{'x': 285, 'y': 84, 'w': 133, 'h': 189, 'left_eye': (369, 164), 'right_eye': (313, 159)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0260,q2S1LjaPPOs_0260_00,260,0,"{'x': 256, 'y': 76, 'w': 132, 'h': 195, 'left_eye': (335, 157), 'right_eye': (278, 154)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0261,q2S1LjaPPOs_0261_00,261,0,"{'x': 277, 'y': 76, 'w': 136, 'h': 188, 'left_eye': (366, 153), 'right_eye': (308, 150)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0262,q2S1LjaPPOs_0262_00,262,0,"{'x': 273, 'y': 81, 'w': 136, 'h': 195, 'left_eye': (363, 158), 'right_eye': (306, 155)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0266,q2S1LjaPPOs_0266_00,266,0,"{'x': 320, 'y': 69, 'w': 136, 'h': 192, 'left_eye': (405, 149), 'right_eye': (347, 148)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0267,q2S1LjaPPOs_0267_00,267,0,"{'x': 315, 'y': 67, 'w': 133, 'h': 189, 'left_eye': (402, 146), 'right_eye': (343, 143)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0268,q2S1LjaPPOs_0268_00,268,0,"{'x': 298, 'y': 79, 'w': 132, 'h': 185, 'left_eye': (389, 156), 'right_eye': (331, 154)}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0269,q2S1LjaPPOs_0269_00,269,0,"{'x': 183, 'y': 48, 'w': 158, 'h': 184, 'left_eye': (299, 129), 'right_eye': (279, 133)}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0270,q2S1LjaPPOs_0270_00,270,0,"{'x': 192, 'y': 60, 'w': 162, 'h': 194, 'left_eye': None, 'right_eye': None}",0.9
+q2S1LjaPPOs,q2S1LjaPPOs_0271,q2S1LjaPPOs_0271_00,271,0,"{'x': 192, 'y': 43, 'w': 170, 'h': 211, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0272,q2S1LjaPPOs_0272_00,272,0,"{'x': 200, 'y': 55, 'w': 154, 'h': 182, 'left_eye': (317, 138), 'right_eye': (255, 134)}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0277,q2S1LjaPPOs_0277_00,277,0,"{'x': 230, 'y': 48, 'w': 162, 'h': 194, 'left_eye': (351, 127), 'right_eye': (288, 128)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0278,q2S1LjaPPOs_0278_00,278,0,"{'x': 277, 'y': 72, 'w': 141, 'h': 189, 'left_eye': (364, 146), 'right_eye': (308, 145)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0279,q2S1LjaPPOs_0279_00,279,0,"{'x': 277, 'y': 72, 'w': 136, 'h': 189, 'left_eye': (363, 149), 'right_eye': (306, 148)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0280,q2S1LjaPPOs_0280_00,280,0,"{'x': 260, 'y': 67, 'w': 136, 'h': 194, 'left_eye': (343, 147), 'right_eye': (288, 146)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0281,q2S1LjaPPOs_0281_00,281,0,"{'x': 264, 'y': 69, 'w': 137, 'h': 197, 'left_eye': (347, 148), 'right_eye': (291, 145)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0291,q2S1LjaPPOs_0291_00,291,0,"{'x': 277, 'y': 88, 'w': 132, 'h': 195, 'left_eye': (358, 171), 'right_eye': (303, 169)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0292,q2S1LjaPPOs_0292_00,292,0,"{'x': 285, 'y': 86, 'w': 133, 'h': 187, 'left_eye': (370, 166), 'right_eye': (314, 164)}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0311,q2S1LjaPPOs_0311_00,311,0,"{'x': 234, 'y': 64, 'w': 150, 'h': 226, 'left_eye': None, 'right_eye': None}",0.91
+q2S1LjaPPOs,q2S1LjaPPOs_0326,q2S1LjaPPOs_0326_00,326,0,"{'x': 243, 'y': 62, 'w': 136, 'h': 211, 'left_eye': None, 'right_eye': None}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0327,q2S1LjaPPOs_0327_00,327,0,"{'x': 247, 'y': 60, 'w': 132, 'h': 213, 'left_eye': None, 'right_eye': None}",0.92
+q2S1LjaPPOs,q2S1LjaPPOs_0329,q2S1LjaPPOs_0329_00,329,0,"{'x': 243, 'y': 64, 'w': 136, 'h': 214, 'left_eye': None, 'right_eye': None}",0.92
+q2S1LjaPPOs,q2S1LjaPPOs_0331,q2S1LjaPPOs_0331_00,331,0,"{'x': 277, 'y': 69, 'w': 72, 'h': 103, 'left_eye': (333, 110), 'right_eye': (299, 111)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0332,q2S1LjaPPOs_0332_00,332,0,"{'x': 277, 'y': 67, 'w': 72, 'h': 110, 'left_eye': (332, 110), 'right_eye': (298, 111)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0333,q2S1LjaPPOs_0333_00,333,0,"{'x': 277, 'y': 67, 'w': 77, 'h': 108, 'left_eye': (333, 109), 'right_eye': (299, 109)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0334,q2S1LjaPPOs_0334_00,334,0,"{'x': 277, 'y': 62, 'w': 72, 'h': 118, 'left_eye': (332, 107), 'right_eye': (298, 107)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0335,q2S1LjaPPOs_0335_00,335,0,"{'x': 273, 'y': 57, 'w': 81, 'h': 127, 'left_eye': (334, 104), 'right_eye': (299, 105)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0336,q2S1LjaPPOs_0336_00,336,0,"{'x': 273, 'y': 55, 'w': 81, 'h': 120, 'left_eye': (335, 104), 'right_eye': (300, 104)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0337,q2S1LjaPPOs_0337_00,337,0,"{'x': 273, 'y': 52, 'w': 85, 'h': 120, 'left_eye': (335, 101), 'right_eye': (299, 102)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0340,q2S1LjaPPOs_0340_00,340,0,"{'x': 264, 'y': 55, 'w': 128, 'h': 175, 'left_eye': (353, 131), 'right_eye': (298, 130)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0344,q2S1LjaPPOs_0344_00,344,0,"{'x': 281, 'y': 76, 'w': 85, 'h': 120, 'left_eye': (347, 126), 'right_eye': (313, 125)}",0.93
+q2S1LjaPPOs,q2S1LjaPPOs_0346,q2S1LjaPPOs_0346_00,346,0,"{'x': 277, 'y': 55, 'w': 85, 'h': 134, 'left_eye': (340, 111), 'right_eye': (301, 110)}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0347,q2S1LjaPPOs_0347_00,347,0,"{'x': 273, 'y': 52, 'w': 89, 'h': 132, 'left_eye': (339, 108), 'right_eye': (298, 108)}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0348,q2S1LjaPPOs_0348_00,348,0,"{'x': 243, 'y': 64, 'w': 141, 'h': 214, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0349,q2S1LjaPPOs_0349_00,349,0,"{'x': 247, 'y': 64, 'w': 137, 'h': 212, 'left_eye': None, 'right_eye': None}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0350,q2S1LjaPPOs_0350_00,350,0,"{'x': 243, 'y': 62, 'w': 141, 'h': 214, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0351,q2S1LjaPPOs_0351_00,351,0,"{'x': 268, 'y': 55, 'w': 98, 'h': 134, 'left_eye': (340, 112), 'right_eye': (297, 111)}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0352,q2S1LjaPPOs_0352_00,352,0,"{'x': 260, 'y': 57, 'w': 98, 'h': 135, 'left_eye': (334, 113), 'right_eye': (290, 113)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0353,q2S1LjaPPOs_0353_00,353,0,"{'x': 145, 'y': 33, 'w': 294, 'h': 300, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0354,q2S1LjaPPOs_0354_00,354,0,"{'x': 132, 'y': 28, 'w': 290, 'h': 305, 'left_eye': (334, 110), 'right_eye': (308, 271)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0355,q2S1LjaPPOs_0355_00,355,0,"{'x': 256, 'y': 69, 'w': 106, 'h': 149, 'left_eye': (334, 131), 'right_eye': (287, 131)}",0.91
+q2S1LjaPPOs,q2S1LjaPPOs_0360,q2S1LjaPPOs_0360_00,360,0,"{'x': 183, 'y': 40, 'w': 286, 'h': 322, 'left_eye': None, 'right_eye': None}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0361,q2S1LjaPPOs_0361_00,361,0,"{'x': 183, 'y': 40, 'w': 282, 'h': 320, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0362,q2S1LjaPPOs_0362_00,362,0,"{'x': 179, 'y': 36, 'w': 277, 'h': 328, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0363,q2S1LjaPPOs_0363_00,363,0,"{'x': 162, 'y': 36, 'w': 298, 'h': 307, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0364,q2S1LjaPPOs_0364_00,364,0,"{'x': 251, 'y': 69, 'w': 128, 'h': 187, 'left_eye': (346, 146), 'right_eye': (291, 146)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0365,q2S1LjaPPOs_0365_00,365,0,"{'x': 247, 'y': 74, 'w': 132, 'h': 185, 'left_eye': (345, 148), 'right_eye': (288, 150)}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0366,q2S1LjaPPOs_0366_00,366,0,"{'x': 243, 'y': 72, 'w': 136, 'h': 184, 'left_eye': (342, 147), 'right_eye': (285, 149)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0367,q2S1LjaPPOs_0367_00,367,0,"{'x': 243, 'y': 74, 'w': 141, 'h': 192, 'left_eye': (347, 150), 'right_eye': (287, 152)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0368,q2S1LjaPPOs_0368_00,368,0,"{'x': 247, 'y': 72, 'w': 137, 'h': 204, 'left_eye': (348, 151), 'right_eye': (289, 152)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0369,q2S1LjaPPOs_0369_00,369,0,"{'x': 247, 'y': 76, 'w': 145, 'h': 202, 'left_eye': (350, 154), 'right_eye': (289, 155)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0370,q2S1LjaPPOs_0370_00,370,0,"{'x': 247, 'y': 79, 'w': 145, 'h': 201, 'left_eye': (353, 155), 'right_eye': (291, 157)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0371,q2S1LjaPPOs_0371_00,371,0,"{'x': 153, 'y': 31, 'w': 277, 'h': 302, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0372,q2S1LjaPPOs_0372_00,372,0,"{'x': 153, 'y': 33, 'w': 286, 'h': 298, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0373,q2S1LjaPPOs_0373_00,373,0,"{'x': 166, 'y': 26, 'w': 286, 'h': 302, 'left_eye': None, 'right_eye': None}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0374,q2S1LjaPPOs_0374_00,374,0,"{'x': 179, 'y': 28, 'w': 294, 'h': 305, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0375,q2S1LjaPPOs_0375_00,375,0,"{'x': 183, 'y': 26, 'w': 294, 'h': 310, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0376,q2S1LjaPPOs_0376_00,376,0,"{'x': 238, 'y': 76, 'w': 150, 'h': 207, 'left_eye': (349, 157), 'right_eye': (285, 160)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0377,q2S1LjaPPOs_0377_00,377,0,"{'x': 234, 'y': 81, 'w': 150, 'h': 204, 'left_eye': (345, 159), 'right_eye': (280, 162)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0378,q2S1LjaPPOs_0378_00,378,0,"{'x': 238, 'y': 84, 'w': 150, 'h': 206, 'left_eye': (350, 166), 'right_eye': (284, 167)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0379,q2S1LjaPPOs_0379_00,379,0,"{'x': 234, 'y': 81, 'w': 158, 'h': 216, 'left_eye': (353, 167), 'right_eye': (284, 168)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0380,q2S1LjaPPOs_0380_00,380,0,"{'x': 230, 'y': 79, 'w': 162, 'h': 221, 'left_eye': (350, 165), 'right_eye': (280, 167)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0381,q2S1LjaPPOs_0381_00,381,0,"{'x': 230, 'y': 79, 'w': 166, 'h': 223, 'left_eye': (352, 167), 'right_eye': (280, 168)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0382,q2S1LjaPPOs_0382_00,382,0,"{'x': 230, 'y': 86, 'w': 166, 'h': 221, 'left_eye': (355, 174), 'right_eye': (282, 176)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0383,q2S1LjaPPOs_0383_00,383,0,"{'x': 264, 'y': 69, 'w': 81, 'h': 113, 'left_eye': (326, 115), 'right_eye': (288, 115)}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0384,q2S1LjaPPOs_0384_00,384,0,"{'x': 268, 'y': 69, 'w': 81, 'h': 125, 'left_eye': (326, 119), 'right_eye': (290, 119)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0390,q2S1LjaPPOs_0390_00,390,0,"{'x': 264, 'y': 62, 'w': 132, 'h': 216, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0391,q2S1LjaPPOs_0391_00,391,0,"{'x': 256, 'y': 72, 'w': 145, 'h': 206, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0421,q2S1LjaPPOs_0421_00,421,0,"{'x': 200, 'y': 96, 'w': 98, 'h': 108, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0422,q2S1LjaPPOs_0422_00,422,0,"{'x': 196, 'y': 88, 'w': 94, 'h': 106, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0423,q2S1LjaPPOs_0423_00,423,0,"{'x': 192, 'y': 86, 'w': 98, 'h': 106, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0426,q2S1LjaPPOs_0426_00,426,0,"{'x': 183, 'y': 81, 'w': 102, 'h': 111, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0427,q2S1LjaPPOs_0427_00,427,0,"{'x': 196, 'y': 79, 'w': 94, 'h': 113, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0428,q2S1LjaPPOs_0428_00,428,0,"{'x': 196, 'y': 86, 'w': 94, 'h': 106, 'left_eye': None, 'right_eye': None}",0.93
+q2S1LjaPPOs,q2S1LjaPPOs_0429,q2S1LjaPPOs_0429_00,429,0,"{'x': 196, 'y': 88, 'w': 94, 'h': 104, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0430,q2S1LjaPPOs_0430_00,430,0,"{'x': 200, 'y': 88, 'w': 94, 'h': 104, 'left_eye': None, 'right_eye': None}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0431,q2S1LjaPPOs_0431_00,431,0,"{'x': 204, 'y': 84, 'w': 90, 'h': 108, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0457,q2S1LjaPPOs_0457_00,457,0,"{'x': 226, 'y': 76, 'w': 98, 'h': 116, 'left_eye': None, 'right_eye': None}",0.91
+q2S1LjaPPOs,q2S1LjaPPOs_0459,q2S1LjaPPOs_0459_00,459,0,"{'x': 234, 'y': 81, 'w': 90, 'h': 111, 'left_eye': None, 'right_eye': None}",0.92
+q2S1LjaPPOs,q2S1LjaPPOs_0465,q2S1LjaPPOs_0465_00,465,0,"{'x': 260, 'y': 81, 'w': 94, 'h': 108, 'left_eye': None, 'right_eye': None}",0.9
+q2S1LjaPPOs,q2S1LjaPPOs_0468,q2S1LjaPPOs_0468_00,468,0,"{'x': 290, 'y': 81, 'w': 89, 'h': 111, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0470,q2S1LjaPPOs_0470_00,470,0,"{'x': 290, 'y': 91, 'w': 89, 'h': 101, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0472,q2S1LjaPPOs_0472_00,472,0,"{'x': 260, 'y': 88, 'w': 102, 'h': 106, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0478,q2S1LjaPPOs_0478_00,478,0,"{'x': 268, 'y': 84, 'w': 98, 'h': 110, 'left_eye': None, 'right_eye': None}",0.92
+q2S1LjaPPOs,q2S1LjaPPOs_0480,q2S1LjaPPOs_0480_00,480,0,"{'x': 320, 'y': 93, 'w': 106, 'h': 108, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0483,q2S1LjaPPOs_0483_00,483,0,"{'x': 251, 'y': 79, 'w': 94, 'h': 113, 'left_eye': None, 'right_eye': None}",0.93
+q2S1LjaPPOs,q2S1LjaPPOs_0484,q2S1LjaPPOs_0484_00,484,0,"{'x': 268, 'y': 84, 'w': 94, 'h': 96, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0485,q2S1LjaPPOs_0485_00,485,0,"{'x': 260, 'y': 88, 'w': 98, 'h': 101, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0501,q2S1LjaPPOs_0501_00,501,0,"{'x': 243, 'y': 69, 'w': 136, 'h': 197, 'left_eye': (344, 150), 'right_eye': (284, 146)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0502,q2S1LjaPPOs_0502_00,502,0,"{'x': 247, 'y': 74, 'w': 137, 'h': 190, 'left_eye': (300, 194), 'right_eye': (288, 150)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0523,q2S1LjaPPOs_0523_00,523,0,"{'x': 179, 'y': 52, 'w': 77, 'h': 106, 'left_eye': None, 'right_eye': None}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0664,q2S1LjaPPOs_0664_00,664,0,"{'x': 59, 'y': 28, 'w': 265, 'h': 310, 'left_eye': (293, 136), 'right_eye': (208, 136)}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0680,q2S1LjaPPOs_0680_00,680,0,"{'x': 179, 'y': 103, 'w': 141, 'h': 165, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0743,q2S1LjaPPOs_0743_00,743,0,"{'x': 392, 'y': 55, 'w': 81, 'h': 113, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0744,q2S1LjaPPOs_0744_00,744,0,"{'x': 388, 'y': 52, 'w': 77, 'h': 101, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0745,q2S1LjaPPOs_0745_00,745,0,"{'x': 392, 'y': 50, 'w': 81, 'h': 108, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0746,q2S1LjaPPOs_0746_00,746,0,"{'x': 401, 'y': 50, 'w': 81, 'h': 110, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0747,q2S1LjaPPOs_0747_00,747,0,"{'x': 422, 'y': 45, 'w': 77, 'h': 108, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0748,q2S1LjaPPOs_0748_00,748,0,"{'x': 430, 'y': 40, 'w': 82, 'h': 106, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0749,q2S1LjaPPOs_0749_00,749,0,"{'x': 405, 'y': 55, 'w': 85, 'h': 108, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0750,q2S1LjaPPOs_0750_00,750,0,"{'x': 396, 'y': 57, 'w': 81, 'h': 113, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0751,q2S1LjaPPOs_0751_00,751,0,"{'x': 392, 'y': 55, 'w': 81, 'h': 113, 'left_eye': (437, 100), 'right_eye': (405, 102)}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0752,q2S1LjaPPOs_0752_00,752,0,"{'x': 388, 'y': 52, 'w': 77, 'h': 113, 'left_eye': (430, 95), 'right_eye': (416, 134)}",0.93
+q2S1LjaPPOs,q2S1LjaPPOs_0753,q2S1LjaPPOs_0753_00,753,0,"{'x': 392, 'y': 50, 'w': 81, 'h': 106, 'left_eye': (434, 94), 'right_eye': (408, 92)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0755,q2S1LjaPPOs_0755_00,755,0,"{'x': 384, 'y': 50, 'w': 81, 'h': 113, 'left_eye': None, 'right_eye': None}",0.91
+q2S1LjaPPOs,q2S1LjaPPOs_0756,q2S1LjaPPOs_0756_00,756,0,"{'x': 392, 'y': 40, 'w': 85, 'h': 108, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0760,q2S1LjaPPOs_0760_00,760,0,"{'x': 192, 'y': 76, 'w': 85, 'h': 94, 'left_eye': None, 'right_eye': None}",0.96
+q2S1LjaPPOs,q2S1LjaPPOs_0766,q2S1LjaPPOs_0766_00,766,0,"{'x': 192, 'y': 60, 'w': 89, 'h': 88, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0767,q2S1LjaPPOs_0767_00,767,0,"{'x': 238, 'y': 76, 'w': 90, 'h': 89, 'left_eye': None, 'right_eye': None}",0.93
+q2S1LjaPPOs,q2S1LjaPPOs_0768,q2S1LjaPPOs_0768_00,768,0,"{'x': 247, 'y': 88, 'w': 85, 'h': 94, 'left_eye': None, 'right_eye': None}",0.91
+q2S1LjaPPOs,q2S1LjaPPOs_0770,q2S1LjaPPOs_0770_00,770,0,"{'x': 238, 'y': 91, 'w': 86, 'h': 89, 'left_eye': None, 'right_eye': None}",0.91
+q2S1LjaPPOs,q2S1LjaPPOs_0785,q2S1LjaPPOs_0785_00,785,0,"{'x': 311, 'y': 31, 'w': 192, 'h': 247, 'left_eye': (419, 139), 'right_eye': (343, 134)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0786,q2S1LjaPPOs_0786_00,786,0,"{'x': 332, 'y': 26, 'w': 188, 'h': 247, 'left_eye': (454, 117), 'right_eye': (407, 221)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0787,q2S1LjaPPOs_0787_00,787,0,"{'x': 332, 'y': 24, 'w': 192, 'h': 261, 'left_eye': (455, 123), 'right_eye': (369, 124)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0788,q2S1LjaPPOs_0788_00,788,0,"{'x': 332, 'y': 26, 'w': 180, 'h': 242, 'left_eye': (434, 126), 'right_eye': (359, 119)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0791,q2S1LjaPPOs_0791_00,791,0,"{'x': 311, 'y': 31, 'w': 192, 'h': 252, 'left_eye': (422, 139), 'right_eye': (348, 134)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0792,q2S1LjaPPOs_0792_00,792,0,"{'x': 298, 'y': 24, 'w': 184, 'h': 242, 'left_eye': None, 'right_eye': None}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0793,q2S1LjaPPOs_0793_00,793,0,"{'x': 307, 'y': 21, 'w': 179, 'h': 243, 'left_eye': None, 'right_eye': None}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_0855,q2S1LjaPPOs_0855_00,855,0,"{'x': 200, 'y': 26, 'w': 145, 'h': 194, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_0886,q2S1LjaPPOs_0886_00,886,0,"{'x': 230, 'y': 50, 'w': 149, 'h': 197, 'left_eye': (362, 130), 'right_eye': (299, 120)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_0892,q2S1LjaPPOs_0892_00,892,0,"{'x': 273, 'y': 55, 'w': 123, 'h': 192, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0900,q2S1LjaPPOs_0900_00,900,0,"{'x': 247, 'y': 52, 'w': 132, 'h': 178, 'left_eye': None, 'right_eye': None}",0.92
+q2S1LjaPPOs,q2S1LjaPPOs_0909,q2S1LjaPPOs_0909_00,909,0,"{'x': 268, 'y': 50, 'w': 124, 'h': 182, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_0949,q2S1LjaPPOs_0949_00,949,0,"{'x': 162, 'y': 81, 'w': 166, 'h': 214, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_0976,q2S1LjaPPOs_0976_00,976,0,"{'x': 128, 'y': 48, 'w': 209, 'h': 259, 'left_eye': None, 'right_eye': None}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_0978,q2S1LjaPPOs_0978_00,978,0,"{'x': 162, 'y': 48, 'w': 179, 'h': 249, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_1022,q2S1LjaPPOs_1022_00,1022,0,"{'x': 281, 'y': 26, 'w': 154, 'h': 245, 'left_eye': (385, 120), 'right_eye': (339, 167)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_1024,q2S1LjaPPOs_1024_00,1024,0,"{'x': 268, 'y': 33, 'w': 133, 'h': 233, 'left_eye': (367, 128), 'right_eye': (302, 123)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1025,q2S1LjaPPOs_1025_00,1025,0,"{'x': 273, 'y': 24, 'w': 175, 'h': 249, 'left_eye': (391, 128), 'right_eye': (315, 123)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_1026,q2S1LjaPPOs_1026_00,1026,0,"{'x': 264, 'y': 28, 'w': 175, 'h': 257, 'left_eye': (373, 134), 'right_eye': (297, 129)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1027,q2S1LjaPPOs_1027_00,1027,0,"{'x': 247, 'y': 24, 'w': 175, 'h': 268, 'left_eye': (364, 135), 'right_eye': (285, 128)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1032,q2S1LjaPPOs_1032_00,1032,0,"{'x': 221, 'y': 45, 'w': 124, 'h': 211, 'left_eye': (313, 130), 'right_eye': (271, 205)}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_1038,q2S1LjaPPOs_1038_00,1038,0,"{'x': 51, 'y': 28, 'w': 183, 'h': 260, 'left_eye': (196, 194), 'right_eye': (183, 117)}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_1039,q2S1LjaPPOs_1039_00,1039,0,"{'x': 123, 'y': 36, 'w': 141, 'h': 206, 'left_eye': (221, 108), 'right_eye': (157, 121)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_1053,q2S1LjaPPOs_1053_00,1053,0,"{'x': 68, 'y': 40, 'w': 153, 'h': 207, 'left_eye': (198, 120), 'right_eye': (144, 125)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1054,q2S1LjaPPOs_1054_00,1054,0,"{'x': 157, 'y': 43, 'w': 154, 'h': 221, 'left_eye': None, 'right_eye': None}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1058,q2S1LjaPPOs_1058_00,1058,0,"{'x': 149, 'y': 60, 'w': 141, 'h': 196, 'left_eye': (254, 144), 'right_eye': (187, 147)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_1059,q2S1LjaPPOs_1059_00,1059,0,"{'x': 170, 'y': 57, 'w': 145, 'h': 195, 'left_eye': (288, 139), 'right_eye': (222, 139)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1060,q2S1LjaPPOs_1060_00,1060,0,"{'x': 162, 'y': 74, 'w': 145, 'h': 199, 'left_eye': (279, 153), 'right_eye': (213, 155)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1061,q2S1LjaPPOs_1061_00,1061,0,"{'x': 170, 'y': 69, 'w': 141, 'h': 197, 'left_eye': (285, 151), 'right_eye': (221, 152)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1062,q2S1LjaPPOs_1062_00,1062,0,"{'x': 170, 'y': 69, 'w': 145, 'h': 204, 'left_eye': (286, 150), 'right_eye': (223, 152)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1063,q2S1LjaPPOs_1063_00,1063,0,"{'x': 174, 'y': 62, 'w': 146, 'h': 214, 'left_eye': (262, 225), 'right_eye': (227, 148)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1064,q2S1LjaPPOs_1064_00,1064,0,"{'x': 166, 'y': 64, 'w': 141, 'h': 197, 'left_eye': (280, 145), 'right_eye': (218, 147)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_1065,q2S1LjaPPOs_1065_00,1065,0,"{'x': 179, 'y': 64, 'w': 145, 'h': 192, 'left_eye': (290, 146), 'right_eye': (228, 148)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1066,q2S1LjaPPOs_1066_00,1066,0,"{'x': 179, 'y': 76, 'w': 145, 'h': 185, 'left_eye': (276, 152), 'right_eye': (219, 156)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1067,q2S1LjaPPOs_1067_00,1067,0,"{'x': 157, 'y': 79, 'w': 141, 'h': 189, 'left_eye': (242, 149), 'right_eye': (187, 152)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_1105,q2S1LjaPPOs_1105_00,1105,0,"{'x': 294, 'y': 100, 'w': 149, 'h': 180, 'left_eye': (393, 182), 'right_eye': (330, 180)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_1106,q2S1LjaPPOs_1106_00,1106,0,"{'x': 264, 'y': 112, 'w': 162, 'h': 190, 'left_eye': (366, 195), 'right_eye': (303, 195)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1107,q2S1LjaPPOs_1107_00,1107,0,"{'x': 285, 'y': 117, 'w': 163, 'h': 195, 'left_eye': (383, 200), 'right_eye': (314, 201)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_1108,q2S1LjaPPOs_1108_00,1108,0,"{'x': 221, 'y': 105, 'w': 158, 'h': 195, 'left_eye': (314, 190), 'right_eye': (248, 192)}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_1109,q2S1LjaPPOs_1109_00,1109,0,"{'x': 140, 'y': 81, 'w': 141, 'h': 214, 'left_eye': (222, 170), 'right_eye': (164, 172)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_1110,q2S1LjaPPOs_1110_00,1110,0,"{'x': 166, 'y': 96, 'w': 158, 'h': 211, 'left_eye': (251, 188), 'right_eye': (191, 191)}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_1111,q2S1LjaPPOs_1111_00,1111,0,"{'x': 179, 'y': 110, 'w': 149, 'h': 192, 'left_eye': None, 'right_eye': None}",0.92
+q2S1LjaPPOs,q2S1LjaPPOs_1112,q2S1LjaPPOs_1112_00,1112,0,"{'x': 268, 'y': 93, 'w': 145, 'h': 192, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_1113,q2S1LjaPPOs_1113_00,1113,0,"{'x': 247, 'y': 88, 'w': 145, 'h': 200, 'left_eye': (324, 174), 'right_eye': (266, 175)}",1.0
+q2S1LjaPPOs,q2S1LjaPPOs_1114,q2S1LjaPPOs_1114_00,1114,0,"{'x': 226, 'y': 120, 'w': 149, 'h': 189, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_1115,q2S1LjaPPOs_1115_00,1115,0,"{'x': 243, 'y': 91, 'w': 145, 'h': 192, 'left_eye': None, 'right_eye': None}",0.99
+q2S1LjaPPOs,q2S1LjaPPOs_1297,q2S1LjaPPOs_1297_00,1297,0,"{'x': 192, 'y': 28, 'w': 85, 'h': 99, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_1298,q2S1LjaPPOs_1298_00,1298,0,"{'x': 179, 'y': 88, 'w': 77, 'h': 96, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_1303,q2S1LjaPPOs_1303_00,1303,0,"{'x': 162, 'y': 76, 'w': 85, 'h': 80, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_1351,q2S1LjaPPOs_1351_00,1351,0,"{'x': 119, 'y': 96, 'w': 85, 'h': 86, 'left_eye': None, 'right_eye': None}",0.94
+q2S1LjaPPOs,q2S1LjaPPOs_1360,q2S1LjaPPOs_1360_00,1360,0,"{'x': 157, 'y': 52, 'w': 86, 'h': 84, 'left_eye': None, 'right_eye': None}",0.98
+q2S1LjaPPOs,q2S1LjaPPOs_1361,q2S1LjaPPOs_1361_00,1361,0,"{'x': 166, 'y': 69, 'w': 85, 'h': 87, 'left_eye': None, 'right_eye': None}",0.95
+q2S1LjaPPOs,q2S1LjaPPOs_1369,q2S1LjaPPOs_1369_00,1369,0,"{'x': 196, 'y': 81, 'w': 85, 'h': 108, 'left_eye': None, 'right_eye': None}",0.97
+q2S1LjaPPOs,q2S1LjaPPOs_1380,q2S1LjaPPOs_1380_00,1380,0,"{'x': 345, 'y': 103, 'w': 81, 'h': 117, 'left_eye': (397, 143), 'right_eye': (358, 148)}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0016,3vWycT9i4qs_0016_00,16,0,"{'x': 260, 'y': 67, 'w': 98, 'h': 125, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0017,3vWycT9i4qs_0017_00,17,0,"{'x': 281, 'y': 76, 'w': 90, 'h': 125, 'left_eye': None, 'right_eye': None}",0.9
+3vWycT9i4qs,3vWycT9i4qs_0018,3vWycT9i4qs_0018_00,18,0,"{'x': 298, 'y': 81, 'w': 90, 'h': 127, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0019,3vWycT9i4qs_0019_00,19,0,"{'x': 298, 'y': 81, 'w': 90, 'h': 127, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0025,3vWycT9i4qs_0025_00,25,0,"{'x': 281, 'y': 84, 'w': 73, 'h': 91, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0029,3vWycT9i4qs_0029_00,29,0,"{'x': 157, 'y': 62, 'w': 184, 'h': 182, 'left_eye': None, 'right_eye': None}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0089,3vWycT9i4qs_0089_00,89,0,"{'x': 260, 'y': 98, 'w': 81, 'h': 98, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0090,3vWycT9i4qs_0090_00,90,0,"{'x': 243, 'y': 96, 'w': 72, 'h': 91, 'left_eye': (289, 132), 'right_eye': (257, 131)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0091,3vWycT9i4qs_0091_00,91,0,"{'x': 238, 'y': 98, 'w': 73, 'h': 94, 'left_eye': (287, 134), 'right_eye': (256, 133)}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0092,3vWycT9i4qs_0092_00,92,0,"{'x': 247, 'y': 96, 'w': 81, 'h': 98, 'left_eye': None, 'right_eye': None}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0100,3vWycT9i4qs_0100_00,100,0,"{'x': 337, 'y': 74, 'w': 81, 'h': 125, 'left_eye': None, 'right_eye': None}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0101,3vWycT9i4qs_0101_00,101,0,"{'x': 337, 'y': 96, 'w': 72, 'h': 115, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0102,3vWycT9i4qs_0102_00,102,0,"{'x': 354, 'y': 98, 'w': 76, 'h': 108, 'left_eye': None, 'right_eye': None}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0106,3vWycT9i4qs_0106_00,106,0,"{'x': 349, 'y': 103, 'w': 90, 'h': 108, 'left_eye': None, 'right_eye': None}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0111,3vWycT9i4qs_0111_00,111,0,"{'x': 302, 'y': 96, 'w': 86, 'h': 120, 'left_eye': (360, 145), 'right_eye': (324, 137)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0112,3vWycT9i4qs_0112_00,112,0,"{'x': 302, 'y': 98, 'w': 82, 'h': 118, 'left_eye': (360, 145), 'right_eye': (324, 137)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0113,3vWycT9i4qs_0113_00,113,0,"{'x': 302, 'y': 98, 'w': 86, 'h': 118, 'left_eye': (362, 147), 'right_eye': (326, 138)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0114,3vWycT9i4qs_0114_00,114,0,"{'x': 307, 'y': 100, 'w': 77, 'h': 116, 'left_eye': (361, 149), 'right_eye': (325, 140)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0115,3vWycT9i4qs_0115_00,115,0,"{'x': 311, 'y': 110, 'w': 68, 'h': 101, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0116,3vWycT9i4qs_0116_00,116,0,"{'x': 311, 'y': 117, 'w': 68, 'h': 89, 'left_eye': None, 'right_eye': None}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0137,3vWycT9i4qs_0137_00,137,0,"{'x': 238, 'y': 84, 'w': 158, 'h': 208, 'left_eye': None, 'right_eye': None}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0144,3vWycT9i4qs_0144_00,144,0,"{'x': 277, 'y': 79, 'w': 72, 'h': 98, 'left_eye': (325, 114), 'right_eye': (293, 116)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0145,3vWycT9i4qs_0145_00,145,0,"{'x': 277, 'y': 76, 'w': 72, 'h': 101, 'left_eye': (321, 111), 'right_eye': (291, 114)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0146,3vWycT9i4qs_0146_00,146,0,"{'x': 277, 'y': 76, 'w': 72, 'h': 101, 'left_eye': (323, 110), 'right_eye': (292, 113)}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0147,3vWycT9i4qs_0147_00,147,0,"{'x': 277, 'y': 76, 'w': 72, 'h': 101, 'left_eye': (327, 111), 'right_eye': (297, 113)}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0148,3vWycT9i4qs_0148_00,148,0,"{'x': 277, 'y': 76, 'w': 77, 'h': 101, 'left_eye': (331, 111), 'right_eye': (298, 113)}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0149,3vWycT9i4qs_0149_00,149,0,"{'x': 277, 'y': 76, 'w': 72, 'h': 101, 'left_eye': (330, 112), 'right_eye': (298, 114)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0150,3vWycT9i4qs_0150_00,150,0,"{'x': 277, 'y': 79, 'w': 72, 'h': 96, 'left_eye': (326, 113), 'right_eye': (295, 114)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0151,3vWycT9i4qs_0151_00,151,0,"{'x': 277, 'y': 79, 'w': 72, 'h': 96, 'left_eye': None, 'right_eye': None}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0152,3vWycT9i4qs_0152_00,152,0,"{'x': 256, 'y': 93, 'w': 106, 'h': 147, 'left_eye': (326, 145), 'right_eye': (281, 150)}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0153,3vWycT9i4qs_0153_00,153,0,"{'x': 256, 'y': 93, 'w': 106, 'h': 144, 'left_eye': (326, 145), 'right_eye': (282, 150)}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0157,3vWycT9i4qs_0157_00,157,0,"{'x': 226, 'y': 100, 'w': 102, 'h': 116, 'left_eye': (288, 144), 'right_eye': (248, 143)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0158,3vWycT9i4qs_0158_00,158,0,"{'x': 226, 'y': 81, 'w': 102, 'h': 115, 'left_eye': (287, 126), 'right_eye': (248, 124)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0161,3vWycT9i4qs_0161_00,161,0,"{'x': 273, 'y': 60, 'w': 72, 'h': 98, 'left_eye': None, 'right_eye': None}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0162,3vWycT9i4qs_0162_00,162,0,"{'x': 268, 'y': 62, 'w': 124, 'h': 166, 'left_eye': None, 'right_eye': None}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0166,3vWycT9i4qs_0166_00,166,0,"{'x': 256, 'y': 86, 'w': 102, 'h': 139, 'left_eye': None, 'right_eye': None}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0167,3vWycT9i4qs_0167_00,167,0,"{'x': 256, 'y': 86, 'w': 106, 'h': 142, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0213,3vWycT9i4qs_0213_00,213,0,"{'x': 273, 'y': 76, 'w': 81, 'h': 99, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0215,3vWycT9i4qs_0215_00,215,0,"{'x': 277, 'y': 103, 'w': 89, 'h': 115, 'left_eye': (345, 146), 'right_eye': (305, 146)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0226,3vWycT9i4qs_0226_00,226,0,"{'x': 268, 'y': 84, 'w': 98, 'h': 134, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0228,3vWycT9i4qs_0228_00,228,0,"{'x': 273, 'y': 88, 'w': 93, 'h': 137, 'left_eye': (346, 146), 'right_eye': (300, 145)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0231,3vWycT9i4qs_0231_00,231,0,"{'x': 234, 'y': 110, 'w': 86, 'h': 120, 'left_eye': (300, 146), 'right_eye': (267, 151)}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0232,3vWycT9i4qs_0232_00,232,0,"{'x': 294, 'y': 84, 'w': 94, 'h': 141, 'left_eye': (361, 142), 'right_eye': (317, 141)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0233,3vWycT9i4qs_0233_00,233,0,"{'x': 285, 'y': 88, 'w': 94, 'h': 144, 'left_eye': (354, 147), 'right_eye': (308, 145)}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0235,3vWycT9i4qs_0235_00,235,0,"{'x': 226, 'y': 108, 'w': 81, 'h': 115, 'left_eye': None, 'right_eye': None}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0236,3vWycT9i4qs_0236_00,236,0,"{'x': 234, 'y': 112, 'w': 81, 'h': 123, 'left_eye': None, 'right_eye': None}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0237,3vWycT9i4qs_0237_00,237,0,"{'x': 230, 'y': 108, 'w': 81, 'h': 122, 'left_eye': None, 'right_eye': None}",0.9
+3vWycT9i4qs,3vWycT9i4qs_0238,3vWycT9i4qs_0238_00,238,0,"{'x': 264, 'y': 93, 'w': 102, 'h': 142, 'left_eye': (337, 153), 'right_eye': (293, 149)}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0245,3vWycT9i4qs_0245_00,245,0,"{'x': 277, 'y': 84, 'w': 89, 'h': 139, 'left_eye': None, 'right_eye': None}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0246,3vWycT9i4qs_0246_00,246,0,"{'x': 273, 'y': 86, 'w': 89, 'h': 137, 'left_eye': None, 'right_eye': None}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0247,3vWycT9i4qs_0247_00,247,0,"{'x': 247, 'y': 110, 'w': 85, 'h': 120, 'left_eye': (316, 158), 'right_eye': (277, 156)}",0.9
+3vWycT9i4qs,3vWycT9i4qs_0248,3vWycT9i4qs_0248_00,248,0,"{'x': 251, 'y': 108, 'w': 90, 'h': 120, 'left_eye': (320, 160), 'right_eye': (281, 157)}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0249,3vWycT9i4qs_0249_00,249,0,"{'x': 268, 'y': 79, 'w': 90, 'h': 144, 'left_eye': (328, 134), 'right_eye': (288, 139)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0250,3vWycT9i4qs_0250_00,250,0,"{'x': 268, 'y': 79, 'w': 94, 'h': 144, 'left_eye': (332, 134), 'right_eye': (293, 138)}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0252,3vWycT9i4qs_0252_00,252,0,"{'x': 268, 'y': 105, 'w': 90, 'h': 113, 'left_eye': (337, 155), 'right_eye': (300, 148)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0253,3vWycT9i4qs_0253_00,253,0,"{'x': 273, 'y': 110, 'w': 81, 'h': 110, 'left_eye': (336, 154), 'right_eye': (299, 150)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0254,3vWycT9i4qs_0254_00,254,0,"{'x': 268, 'y': 110, 'w': 90, 'h': 115, 'left_eye': (338, 157), 'right_eye': (300, 152)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0255,3vWycT9i4qs_0255_00,255,0,"{'x': 273, 'y': 110, 'w': 89, 'h': 115, 'left_eye': (342, 158), 'right_eye': (307, 154)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0256,3vWycT9i4qs_0256_00,256,0,"{'x': 273, 'y': 110, 'w': 85, 'h': 113, 'left_eye': (340, 156), 'right_eye': (301, 151)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0257,3vWycT9i4qs_0257_00,257,0,"{'x': 268, 'y': 91, 'w': 94, 'h': 144, 'left_eye': None, 'right_eye': None}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0260,3vWycT9i4qs_0260_00,260,0,"{'x': 251, 'y': 110, 'w': 94, 'h': 122, 'left_eye': (319, 163), 'right_eye': (281, 159)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0261,3vWycT9i4qs_0261_00,261,0,"{'x': 234, 'y': 117, 'w': 94, 'h': 111, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0262,3vWycT9i4qs_0262_00,262,0,"{'x': 238, 'y': 117, 'w': 90, 'h': 113, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0263,3vWycT9i4qs_0263_00,263,0,"{'x': 247, 'y': 117, 'w': 85, 'h': 118, 'left_eye': (314, 165), 'right_eye': (274, 163)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0270,3vWycT9i4qs_0270_00,270,0,"{'x': 264, 'y': 98, 'w': 94, 'h': 137, 'left_eye': (335, 156), 'right_eye': (293, 153)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0271,3vWycT9i4qs_0271_00,271,0,"{'x': 268, 'y': 100, 'w': 90, 'h': 140, 'left_eye': (335, 160), 'right_eye': (292, 155)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0272,3vWycT9i4qs_0272_00,272,0,"{'x': 268, 'y': 115, 'w': 86, 'h': 105, 'left_eye': (328, 155), 'right_eye': (292, 154)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0273,3vWycT9i4qs_0273_00,273,0,"{'x': 277, 'y': 105, 'w': 85, 'h': 115, 'left_eye': (340, 153), 'right_eye': (304, 149)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0274,3vWycT9i4qs_0274_00,274,0,"{'x': 277, 'y': 112, 'w': 81, 'h': 108, 'left_eye': (339, 155), 'right_eye': (302, 152)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0275,3vWycT9i4qs_0275_00,275,0,"{'x': 285, 'y': 96, 'w': 94, 'h': 134, 'left_eye': (353, 152), 'right_eye': (315, 148)}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0277,3vWycT9i4qs_0277_00,277,0,"{'x': 260, 'y': 110, 'w': 85, 'h': 113, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0278,3vWycT9i4qs_0278_00,278,0,"{'x': 264, 'y': 110, 'w': 90, 'h': 113, 'left_eye': (334, 160), 'right_eye': (297, 153)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0279,3vWycT9i4qs_0279_00,279,0,"{'x': 268, 'y': 108, 'w': 90, 'h': 110, 'left_eye': (336, 157), 'right_eye': (300, 149)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0280,3vWycT9i4qs_0280_00,280,0,"{'x': 260, 'y': 98, 'w': 89, 'h': 122, 'left_eye': (331, 149), 'right_eye': (294, 144)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0281,3vWycT9i4qs_0281_00,281,0,"{'x': 264, 'y': 100, 'w': 85, 'h': 128, 'left_eye': (331, 152), 'right_eye': (294, 147)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0282,3vWycT9i4qs_0282_00,282,0,"{'x': 332, 'y': 88, 'w': 86, 'h': 140, 'left_eye': None, 'right_eye': None}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0285,3vWycT9i4qs_0285_00,285,0,"{'x': 264, 'y': 98, 'w': 90, 'h': 137, 'left_eye': (330, 153), 'right_eye': (288, 153)}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0287,3vWycT9i4qs_0287_00,287,0,"{'x': 268, 'y': 86, 'w': 86, 'h': 149, 'left_eye': (329, 139), 'right_eye': (288, 145)}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0290,3vWycT9i4qs_0290_00,290,0,"{'x': 264, 'y': 108, 'w': 81, 'h': 115, 'left_eye': (327, 155), 'right_eye': (289, 149)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0291,3vWycT9i4qs_0291_00,291,0,"{'x': 264, 'y': 110, 'w': 81, 'h': 110, 'left_eye': (327, 154), 'right_eye': (292, 150)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0297,3vWycT9i4qs_0297_00,297,0,"{'x': 260, 'y': 81, 'w': 85, 'h': 118, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0302,3vWycT9i4qs_0302_00,302,0,"{'x': 200, 'y': 129, 'w': 85, 'h': 135, 'left_eye': None, 'right_eye': None}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0304,3vWycT9i4qs_0304_00,304,0,"{'x': 196, 'y': 81, 'w': 77, 'h': 137, 'left_eye': None, 'right_eye': None}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0313,3vWycT9i4qs_0313_00,313,0,"{'x': 162, 'y': 86, 'w': 94, 'h': 127, 'left_eye': None, 'right_eye': None}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0314,3vWycT9i4qs_0314_00,314,0,"{'x': 324, 'y': 72, 'w': 81, 'h': 122, 'left_eye': (376, 118), 'right_eye': (340, 123)}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0315,3vWycT9i4qs_0315_00,315,0,"{'x': 332, 'y': 74, 'w': 77, 'h': 120, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0316,3vWycT9i4qs_0316_00,316,0,"{'x': 341, 'y': 79, 'w': 72, 'h': 115, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0317,3vWycT9i4qs_0317_00,317,0,"{'x': 298, 'y': 84, 'w': 94, 'h': 136, 'left_eye': (354, 138), 'right_eye': (320, 136)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0318,3vWycT9i4qs_0318_00,318,0,"{'x': 157, 'y': 132, 'w': 116, 'h': 124, 'left_eye': None, 'right_eye': None}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0319,3vWycT9i4qs_0319_00,319,0,"{'x': 157, 'y': 120, 'w': 116, 'h': 122, 'left_eye': None, 'right_eye': None}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0336,3vWycT9i4qs_0336_00,336,0,"{'x': 243, 'y': 84, 'w': 85, 'h': 108, 'left_eye': None, 'right_eye': None}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0343,3vWycT9i4qs_0343_00,343,0,"{'x': 294, 'y': 79, 'w': 175, 'h': 182, 'left_eye': None, 'right_eye': None}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0344,3vWycT9i4qs_0344_00,344,0,"{'x': 465, 'y': 93, 'w': 72, 'h': 96, 'left_eye': None, 'right_eye': None}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0355,3vWycT9i4qs_0355_00,355,0,"{'x': 247, 'y': 74, 'w': 94, 'h': 120, 'left_eye': None, 'right_eye': None}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0375,3vWycT9i4qs_0375_00,375,0,"{'x': 307, 'y': 120, 'w': 85, 'h': 122, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0376,3vWycT9i4qs_0376_00,376,0,"{'x': 256, 'y': 117, 'w': 89, 'h': 125, 'left_eye': None, 'right_eye': None}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0377,3vWycT9i4qs_0377_00,377,0,"{'x': 85, 'y': 115, 'w': 94, 'h': 139, 'left_eye': (154, 170), 'right_eye': (114, 167)}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0378,3vWycT9i4qs_0378_00,378,0,"{'x': 298, 'y': 91, 'w': 90, 'h': 122, 'left_eye': (364, 139), 'right_eye': (317, 143)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0379,3vWycT9i4qs_0379_00,379,0,"{'x': 281, 'y': 105, 'w': 94, 'h': 125, 'left_eye': None, 'right_eye': None}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0380,3vWycT9i4qs_0380_00,380,0,"{'x': 256, 'y': 98, 'w': 85, 'h': 113, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0385,3vWycT9i4qs_0385_00,385,0,"{'x': 328, 'y': 105, 'w': 98, 'h': 127, 'left_eye': (400, 157), 'right_eye': (359, 155)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0385,3vWycT9i4qs_0385_01,385,1,"{'x': 183, 'y': 134, 'w': 68, 'h': 84, 'left_eye': None, 'right_eye': None}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0388,3vWycT9i4qs_0388_00,388,0,"{'x': 307, 'y': 108, 'w': 98, 'h': 120, 'left_eye': None, 'right_eye': None}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0394,3vWycT9i4qs_0394_00,394,0,"{'x': 401, 'y': 103, 'w': 89, 'h': 125, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0395,3vWycT9i4qs_0395_00,395,0,"{'x': 388, 'y': 98, 'w': 94, 'h': 122, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0415,3vWycT9i4qs_0415_00,415,0,"{'x': 401, 'y': 79, 'w': 106, 'h': 122, 'left_eye': None, 'right_eye': None}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0435,3vWycT9i4qs_0435_00,435,0,"{'x': 243, 'y': 139, 'w': 81, 'h': 103, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0442,3vWycT9i4qs_0442_00,442,0,"{'x': 234, 'y': 96, 'w': 81, 'h': 110, 'left_eye': (290, 137), 'right_eye': (247, 139)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0443,3vWycT9i4qs_0443_00,443,0,"{'x': 238, 'y': 120, 'w': 86, 'h': 98, 'left_eye': (304, 148), 'right_eye': (259, 153)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0472,3vWycT9i4qs_0472_00,472,0,"{'x': 166, 'y': 124, 'w': 81, 'h': 116, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0473,3vWycT9i4qs_0473_00,473,0,"{'x': 260, 'y': 115, 'w': 85, 'h': 134, 'left_eye': None, 'right_eye': None}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0477,3vWycT9i4qs_0477_00,477,0,"{'x': 405, 'y': 108, 'w': 94, 'h': 112, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0490,3vWycT9i4qs_0490_00,490,0,"{'x': 256, 'y': 72, 'w': 98, 'h': 108, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0491,3vWycT9i4qs_0491_00,491,0,"{'x': 285, 'y': 76, 'w': 86, 'h': 123, 'left_eye': (353, 123), 'right_eye': (316, 127)}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0519,3vWycT9i4qs_0519_00,519,0,"{'x': 332, 'y': 55, 'w': 98, 'h': 132, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0520,3vWycT9i4qs_0520_00,520,0,"{'x': 311, 'y': 62, 'w': 94, 'h': 137, 'left_eye': None, 'right_eye': None}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0521,3vWycT9i4qs_0521_00,521,0,"{'x': 123, 'y': 153, 'w': 81, 'h': 118, 'left_eye': (179, 204), 'right_eye': (144, 199)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0521,3vWycT9i4qs_0521_01,521,1,"{'x': 409, 'y': 93, 'w': 85, 'h': 118, 'left_eye': None, 'right_eye': None}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0522,3vWycT9i4qs_0522_00,522,0,"{'x': 418, 'y': 96, 'w': 89, 'h': 122, 'left_eye': None, 'right_eye': None}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0523,3vWycT9i4qs_0523_00,523,0,"{'x': 285, 'y': 76, 'w': 103, 'h': 147, 'left_eye': None, 'right_eye': None}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0528,3vWycT9i4qs_0528_00,528,0,"{'x': 187, 'y': 139, 'w': 81, 'h': 108, 'left_eye': (236, 182), 'right_eye': (204, 181)}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0529,3vWycT9i4qs_0529_00,529,0,"{'x': 200, 'y': 151, 'w': 73, 'h': 108, 'left_eye': (249, 196), 'right_eye': (217, 193)}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0529,3vWycT9i4qs_0529_01,529,1,"{'x': 477, 'y': 93, 'w': 86, 'h': 127, 'left_eye': None, 'right_eye': None}",0.9
+3vWycT9i4qs,3vWycT9i4qs_0531,3vWycT9i4qs_0531_00,531,0,"{'x': 209, 'y': 136, 'w': 76, 'h': 99, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0532,3vWycT9i4qs_0532_00,532,0,"{'x': 226, 'y': 129, 'w': 72, 'h': 99, 'left_eye': None, 'right_eye': None}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0535,3vWycT9i4qs_0535_00,535,0,"{'x': 281, 'y': 91, 'w': 98, 'h': 127, 'left_eye': (334, 140), 'right_eye': (313, 166)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0576,3vWycT9i4qs_0576_00,576,0,"{'x': 298, 'y': 84, 'w': 90, 'h': 122, 'left_eye': (369, 139), 'right_eye': (335, 131)}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0577,3vWycT9i4qs_0577_00,577,0,"{'x': 298, 'y': 86, 'w': 90, 'h': 120, 'left_eye': (373, 137), 'right_eye': (334, 128)}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0578,3vWycT9i4qs_0578_00,578,0,"{'x': 268, 'y': 69, 'w': 90, 'h': 132, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0579,3vWycT9i4qs_0579_00,579,0,"{'x': 268, 'y': 79, 'w': 94, 'h': 127, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0587,3vWycT9i4qs_0587_00,587,0,"{'x': 268, 'y': 76, 'w': 94, 'h': 132, 'left_eye': None, 'right_eye': None}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0588,3vWycT9i4qs_0588_00,588,0,"{'x': 277, 'y': 96, 'w': 81, 'h': 103, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0589,3vWycT9i4qs_0589_00,589,0,"{'x': 260, 'y': 79, 'w': 94, 'h': 127, 'left_eye': (332, 140), 'right_eye': (291, 127)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0591,3vWycT9i4qs_0591_00,591,0,"{'x': 294, 'y': 79, 'w': 90, 'h': 134, 'left_eye': (359, 138), 'right_eye': (316, 133)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0597,3vWycT9i4qs_0597_00,597,0,"{'x': 294, 'y': 96, 'w': 81, 'h': 124, 'left_eye': (344, 150), 'right_eye': (309, 143)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0631,3vWycT9i4qs_0631_00,631,0,"{'x': 209, 'y': 67, 'w': 175, 'h': 230, 'left_eye': (305, 151), 'right_eye': (247, 154)}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0632,3vWycT9i4qs_0632_00,632,0,"{'x': 213, 'y': 64, 'w': 183, 'h': 233, 'left_eye': (316, 154), 'right_eye': (256, 154)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0633,3vWycT9i4qs_0633_00,633,0,"{'x': 298, 'y': 74, 'w': 94, 'h': 146, 'left_eye': None, 'right_eye': None}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0637,3vWycT9i4qs_0637_00,637,0,"{'x': 315, 'y': 110, 'w': 86, 'h': 113, 'left_eye': None, 'right_eye': None}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0638,3vWycT9i4qs_0638_00,638,0,"{'x': 320, 'y': 110, 'w': 85, 'h': 118, 'left_eye': None, 'right_eye': None}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0644,3vWycT9i4qs_0644_00,644,0,"{'x': 371, 'y': 98, 'w': 72, 'h': 86, 'left_eye': None, 'right_eye': None}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0648,3vWycT9i4qs_0648_00,648,0,"{'x': 302, 'y': 103, 'w': 86, 'h': 115, 'left_eye': (370, 154), 'right_eye': (333, 148)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0652,3vWycT9i4qs_0652_00,652,0,"{'x': 264, 'y': 88, 'w': 98, 'h': 144, 'left_eye': None, 'right_eye': None}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0665,3vWycT9i4qs_0665_00,665,0,"{'x': 174, 'y': 84, 'w': 77, 'h': 100, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0666,3vWycT9i4qs_0666_00,666,0,"{'x': 209, 'y': 62, 'w': 76, 'h': 103, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0666,3vWycT9i4qs_0666_01,666,1,"{'x': 384, 'y': 88, 'w': 85, 'h': 113, 'left_eye': None, 'right_eye': None}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0667,3vWycT9i4qs_0667_00,667,0,"{'x': 213, 'y': 76, 'w': 102, 'h': 123, 'left_eye': None, 'right_eye': None}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0670,3vWycT9i4qs_0670_00,670,0,"{'x': 371, 'y': 132, 'w': 94, 'h': 127, 'left_eye': None, 'right_eye': None}",0.91
+3vWycT9i4qs,3vWycT9i4qs_0700,3vWycT9i4qs_0700_00,700,0,"{'x': 226, 'y': 60, 'w': 128, 'h': 177, 'left_eye': (326, 119), 'right_eye': (269, 132)}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0707,3vWycT9i4qs_0707_00,707,0,"{'x': 183, 'y': 52, 'w': 256, 'h': 248, 'left_eye': (287, 175), 'right_eye': (301, 224)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0708,3vWycT9i4qs_0708_00,708,0,"{'x': 251, 'y': 55, 'w': 256, 'h': 245, 'left_eye': (366, 178), 'right_eye': (373, 229)}",0.91
+3vWycT9i4qs,3vWycT9i4qs_0709,3vWycT9i4qs_0709_00,709,0,"{'x': 234, 'y': 55, 'w': 260, 'h': 240, 'left_eye': (369, 224), 'right_eye': (306, 121)}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0710,3vWycT9i4qs_0710_00,710,0,"{'x': 217, 'y': 55, 'w': 231, 'h': 237, 'left_eye': (346, 220), 'right_eye': (322, 172)}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0713,3vWycT9i4qs_0713_00,713,0,"{'x': 174, 'y': 55, 'w': 261, 'h': 242, 'left_eye': (303, 234), 'right_eye': (282, 184)}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0714,3vWycT9i4qs_0714_00,714,0,"{'x': 238, 'y': 52, 'w': 256, 'h': 245, 'left_eye': (363, 234), 'right_eye': (300, 133)}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0718,3vWycT9i4qs_0718_00,718,0,"{'x': 311, 'y': 62, 'w': 132, 'h': 185, 'left_eye': (410, 131), 'right_eye': (351, 134)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0720,3vWycT9i4qs_0720_00,720,0,"{'x': 273, 'y': 88, 'w': 132, 'h': 176, 'left_eye': None, 'right_eye': None}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0721,3vWycT9i4qs_0721_00,721,0,"{'x': 268, 'y': 81, 'w': 141, 'h': 183, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0722,3vWycT9i4qs_0722_00,722,0,"{'x': 268, 'y': 74, 'w': 137, 'h': 168, 'left_eye': None, 'right_eye': None}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0729,3vWycT9i4qs_0729_00,729,0,"{'x': 162, 'y': 175, 'w': 98, 'h': 129, 'left_eye': None, 'right_eye': None}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0729,3vWycT9i4qs_0729_01,729,1,"{'x': 362, 'y': 52, 'w': 86, 'h': 118, 'left_eye': None, 'right_eye': None}",0.9
+3vWycT9i4qs,3vWycT9i4qs_0733,3vWycT9i4qs_0733_00,733,0,"{'x': 490, 'y': 96, 'w': 86, 'h': 103, 'left_eye': None, 'right_eye': None}",0.9
+3vWycT9i4qs,3vWycT9i4qs_0747,3vWycT9i4qs_0747_00,747,0,"{'x': 93, 'y': 168, 'w': 77, 'h': 112, 'left_eye': None, 'right_eye': None}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0752,3vWycT9i4qs_0752_00,752,0,"{'x': 307, 'y': 172, 'w': 72, 'h': 104, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0753,3vWycT9i4qs_0753_00,753,0,"{'x': 337, 'y': 64, 'w': 76, 'h': 87, 'left_eye': None, 'right_eye': None}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0756,3vWycT9i4qs_0756_00,756,0,"{'x': 285, 'y': 79, 'w': 214, 'h': 209, 'left_eye': (382, 197), 'right_eye': (332, 152)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0758,3vWycT9i4qs_0758_00,758,0,"{'x': 405, 'y': 129, 'w': 196, 'h': 168, 'left_eye': None, 'right_eye': None}",0.91
+3vWycT9i4qs,3vWycT9i4qs_0763,3vWycT9i4qs_0763_00,763,0,"{'x': 285, 'y': 62, 'w': 163, 'h': 230, 'left_eye': None, 'right_eye': None}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0767,3vWycT9i4qs_0767_00,767,0,"{'x': 251, 'y': 72, 'w': 197, 'h': 201, 'left_eye': None, 'right_eye': None}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0770,3vWycT9i4qs_0770_00,770,0,"{'x': 281, 'y': 57, 'w': 209, 'h': 197, 'left_eye': (448, 140), 'right_eye': (441, 186)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0771,3vWycT9i4qs_0771_00,771,0,"{'x': 328, 'y': 60, 'w': 209, 'h': 192, 'left_eye': (447, 133), 'right_eye': (453, 181)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0779,3vWycT9i4qs_0779_00,779,0,"{'x': 187, 'y': 57, 'w': 256, 'h': 240, 'left_eye': (306, 230), 'right_eye': (253, 121)}",0.91
+3vWycT9i4qs,3vWycT9i4qs_0782,3vWycT9i4qs_0782_00,782,0,"{'x': 238, 'y': 60, 'w': 235, 'h': 230, 'left_eye': (350, 171), 'right_eye': (354, 219)}",0.93
+3vWycT9i4qs,3vWycT9i4qs_0807,3vWycT9i4qs_0807_00,807,0,"{'x': 260, 'y': 91, 'w': 132, 'h': 187, 'left_eye': (348, 163), 'right_eye': (286, 170)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0808,3vWycT9i4qs_0808_00,808,0,"{'x': 290, 'y': 84, 'w': 136, 'h': 189, 'left_eye': (379, 161), 'right_eye': (319, 166)}",0.95
+3vWycT9i4qs,3vWycT9i4qs_0809,3vWycT9i4qs_0809_00,809,0,"{'x': 251, 'y': 72, 'w': 137, 'h': 175, 'left_eye': (366, 153), 'right_eye': (314, 141)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0810,3vWycT9i4qs_0810_00,810,0,"{'x': 256, 'y': 62, 'w': 132, 'h': 175, 'left_eye': (366, 137), 'right_eye': (312, 124)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0811,3vWycT9i4qs_0811_00,811,0,"{'x': 260, 'y': 74, 'w': 132, 'h': 175, 'left_eye': (321, 216), 'right_eye': (317, 140)}",0.97
+3vWycT9i4qs,3vWycT9i4qs_0812,3vWycT9i4qs_0812_00,812,0,"{'x': 311, 'y': 81, 'w': 128, 'h': 168, 'left_eye': (388, 154), 'right_eye': (335, 151)}",0.9
+3vWycT9i4qs,3vWycT9i4qs_0816,3vWycT9i4qs_0816_00,816,0,"{'x': 204, 'y': 62, 'w': 133, 'h': 158, 'left_eye': (304, 128), 'right_eye': (243, 116)}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0817,3vWycT9i4qs_0817_00,817,0,"{'x': 192, 'y': 74, 'w': 128, 'h': 163, 'left_eye': (288, 143), 'right_eye': (230, 131)}",0.92
+3vWycT9i4qs,3vWycT9i4qs_0824,3vWycT9i4qs_0824_00,824,0,"{'x': 277, 'y': 86, 'w': 124, 'h': 178, 'left_eye': (366, 159), 'right_eye': (307, 154)}",0.94
+3vWycT9i4qs,3vWycT9i4qs_0829,3vWycT9i4qs_0829_00,829,0,"{'x': 320, 'y': 76, 'w': 149, 'h': 190, 'left_eye': (422, 150), 'right_eye': (355, 149)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0830,3vWycT9i4qs_0830_00,830,0,"{'x': 315, 'y': 76, 'w': 145, 'h': 204, 'left_eye': (412, 161), 'right_eye': (349, 155)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0831,3vWycT9i4qs_0831_00,831,0,"{'x': 290, 'y': 84, 'w': 140, 'h': 199, 'left_eye': (374, 158), 'right_eye': (315, 169)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0832,3vWycT9i4qs_0832_00,832,0,"{'x': 281, 'y': 84, 'w': 141, 'h': 194, 'left_eye': (365, 161), 'right_eye': (303, 164)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0833,3vWycT9i4qs_0833_00,833,0,"{'x': 281, 'y': 88, 'w': 141, 'h': 204, 'left_eye': (366, 172), 'right_eye': (308, 174)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0834,3vWycT9i4qs_0834_00,834,0,"{'x': 273, 'y': 84, 'w': 136, 'h': 201, 'left_eye': (356, 167), 'right_eye': (294, 169)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0835,3vWycT9i4qs_0835_00,835,0,"{'x': 281, 'y': 79, 'w': 141, 'h': 192, 'left_eye': (366, 153), 'right_eye': (302, 155)}",1.0
+3vWycT9i4qs,3vWycT9i4qs_0840,3vWycT9i4qs_0840_00,840,0,"{'x': 221, 'y': 64, 'w': 133, 'h': 171, 'left_eye': (322, 136), 'right_eye': (260, 123)}",0.9
+3vWycT9i4qs,3vWycT9i4qs_0841,3vWycT9i4qs_0841_00,841,0,"{'x': 294, 'y': 69, 'w': 141, 'h': 190, 'left_eye': (391, 137), 'right_eye': (326, 141)}",0.98
+3vWycT9i4qs,3vWycT9i4qs_0842,3vWycT9i4qs_0842_00,842,0,"{'x': 418, 'y': 120, 'w': 162, 'h': 187, 'left_eye': (543, 212), 'right_eye': (477, 195)}",0.96
+3vWycT9i4qs,3vWycT9i4qs_0849,3vWycT9i4qs_0849_00,849,0,"{'x': 302, 'y': 60, 'w': 82, 'h': 100, 'left_eye': None, 'right_eye': None}",0.99
+3vWycT9i4qs,3vWycT9i4qs_0851,3vWycT9i4qs_0851_00,851,0,"{'x': 315, 'y': 117, 'w': 77, 'h': 96, 'left_eye': None, 'right_eye': None}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0033,mfkBDNu7jp4_0033_00,33,0,"{'x': 170, 'y': 91, 'w': 90, 'h': 122, 'left_eye': (234, 143), 'right_eye': (194, 144)}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0034,mfkBDNu7jp4_0034_00,34,0,"{'x': 170, 'y': 93, 'w': 90, 'h': 123, 'left_eye': (235, 145), 'right_eye': (193, 144)}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0048,mfkBDNu7jp4_0048_00,48,0,"{'x': 226, 'y': 110, 'w': 102, 'h': 137, 'left_eye': None, 'right_eye': None}",0.97
+mfkBDNu7jp4,mfkBDNu7jp4_0049,mfkBDNu7jp4_0049_00,49,0,"{'x': 217, 'y': 105, 'w': 98, 'h': 123, 'left_eye': None, 'right_eye': None}",0.95
+mfkBDNu7jp4,mfkBDNu7jp4_0055,mfkBDNu7jp4_0055_00,55,0,"{'x': 187, 'y': 88, 'w': 94, 'h': 125, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0058,mfkBDNu7jp4_0058_00,58,0,"{'x': 192, 'y': 115, 'w': 93, 'h': 108, 'left_eye': None, 'right_eye': None}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0059,mfkBDNu7jp4_0059_00,59,0,"{'x': 192, 'y': 115, 'w': 93, 'h': 110, 'left_eye': None, 'right_eye': None}",0.95
+mfkBDNu7jp4,mfkBDNu7jp4_0063,mfkBDNu7jp4_0063_00,63,0,"{'x': 64, 'y': 127, 'w': 85, 'h': 96, 'left_eye': None, 'right_eye': None}",0.94
+mfkBDNu7jp4,mfkBDNu7jp4_0066,mfkBDNu7jp4_0066_00,66,0,"{'x': 332, 'y': 74, 'w': 141, 'h': 192, 'left_eye': (390, 225), 'right_eye': (371, 150)}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0067,mfkBDNu7jp4_0067_00,67,0,"{'x': 315, 'y': 50, 'w': 137, 'h': 187, 'left_eye': None, 'right_eye': None}",0.97
+mfkBDNu7jp4,mfkBDNu7jp4_0068,mfkBDNu7jp4_0068_00,68,0,"{'x': 328, 'y': 57, 'w': 128, 'h': 199, 'left_eye': None, 'right_eye': None}",0.97
+mfkBDNu7jp4,mfkBDNu7jp4_0069,mfkBDNu7jp4_0069_00,69,0,"{'x': 290, 'y': 48, 'w': 123, 'h': 196, 'left_eye': None, 'right_eye': None}",0.93
+mfkBDNu7jp4,mfkBDNu7jp4_0070,mfkBDNu7jp4_0070_00,70,0,"{'x': 315, 'y': 52, 'w': 137, 'h': 202, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0071,mfkBDNu7jp4_0071_00,71,0,"{'x': 324, 'y': 57, 'w': 128, 'h': 207, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0072,mfkBDNu7jp4_0072_00,72,0,"{'x': 268, 'y': 74, 'w': 128, 'h': 204, 'left_eye': None, 'right_eye': None}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0076,mfkBDNu7jp4_0076_00,76,0,"{'x': 324, 'y': 79, 'w': 124, 'h': 189, 'left_eye': None, 'right_eye': None}",0.91
+mfkBDNu7jp4,mfkBDNu7jp4_0097,mfkBDNu7jp4_0097_00,97,0,"{'x': 98, 'y': 84, 'w': 76, 'h': 105, 'left_eye': None, 'right_eye': None}",0.97
+mfkBDNu7jp4,mfkBDNu7jp4_0103,mfkBDNu7jp4_0103_00,103,0,"{'x': 268, 'y': 100, 'w': 90, 'h': 130, 'left_eye': None, 'right_eye': None}",0.93
+mfkBDNu7jp4,mfkBDNu7jp4_0105,mfkBDNu7jp4_0105_00,105,0,"{'x': 256, 'y': 98, 'w': 85, 'h': 122, 'left_eye': None, 'right_eye': None}",0.92
+mfkBDNu7jp4,mfkBDNu7jp4_0106,mfkBDNu7jp4_0106_00,106,0,"{'x': 260, 'y': 105, 'w': 89, 'h': 123, 'left_eye': None, 'right_eye': None}",0.92
+mfkBDNu7jp4,mfkBDNu7jp4_0108,mfkBDNu7jp4_0108_00,108,0,"{'x': 554, 'y': 201, 'w': 86, 'h': 94, 'left_eye': None, 'right_eye': None}",0.94
+mfkBDNu7jp4,mfkBDNu7jp4_0121,mfkBDNu7jp4_0121_00,121,0,"{'x': 477, 'y': 196, 'w': 73, 'h': 89, 'left_eye': (534, 229), 'right_eye': (504, 236)}",0.95
+mfkBDNu7jp4,mfkBDNu7jp4_0122,mfkBDNu7jp4_0122_00,122,0,"{'x': 524, 'y': 189, 'w': 77, 'h': 99, 'left_eye': (581, 226), 'right_eye': (549, 230)}",0.94
+mfkBDNu7jp4,mfkBDNu7jp4_0138,mfkBDNu7jp4_0138_00,138,0,"{'x': 384, 'y': 88, 'w': 59, 'h': 89, 'left_eye': None, 'right_eye': None}",0.92
+mfkBDNu7jp4,mfkBDNu7jp4_0173,mfkBDNu7jp4_0173_00,173,0,"{'x': 354, 'y': 76, 'w': 64, 'h': 87, 'left_eye': None, 'right_eye': None}",0.91
+mfkBDNu7jp4,mfkBDNu7jp4_0175,mfkBDNu7jp4_0175_00,175,0,"{'x': 341, 'y': 81, 'w': 68, 'h': 96, 'left_eye': None, 'right_eye': None}",0.93
+mfkBDNu7jp4,mfkBDNu7jp4_0278,mfkBDNu7jp4_0278_00,278,0,"{'x': 170, 'y': 72, 'w': 141, 'h': 204, 'left_eye': (276, 205), 'right_eye': (221, 137)}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0300,mfkBDNu7jp4_0300_00,300,0,"{'x': 273, 'y': 93, 'w': 64, 'h': 89, 'left_eye': None, 'right_eye': None}",0.9
+mfkBDNu7jp4,mfkBDNu7jp4_0301,mfkBDNu7jp4_0301_00,301,0,"{'x': 268, 'y': 93, 'w': 69, 'h': 89, 'left_eye': None, 'right_eye': None}",0.91
+mfkBDNu7jp4,mfkBDNu7jp4_0315,mfkBDNu7jp4_0315_00,315,0,"{'x': 298, 'y': 98, 'w': 81, 'h': 120, 'left_eye': None, 'right_eye': None}",0.97
+mfkBDNu7jp4,mfkBDNu7jp4_0316,mfkBDNu7jp4_0316_00,316,0,"{'x': 307, 'y': 93, 'w': 94, 'h': 120, 'left_eye': (375, 143), 'right_eye': (339, 145)}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0319,mfkBDNu7jp4_0319_00,319,0,"{'x': 230, 'y': 91, 'w': 77, 'h': 98, 'left_eye': None, 'right_eye': None}",0.91
+mfkBDNu7jp4,mfkBDNu7jp4_0326,mfkBDNu7jp4_0326_00,326,0,"{'x': 277, 'y': 84, 'w': 68, 'h': 98, 'left_eye': None, 'right_eye': None}",0.92
+mfkBDNu7jp4,mfkBDNu7jp4_0327,mfkBDNu7jp4_0327_00,327,0,"{'x': 273, 'y': 81, 'w': 72, 'h': 103, 'left_eye': None, 'right_eye': None}",0.91
+mfkBDNu7jp4,mfkBDNu7jp4_0330,mfkBDNu7jp4_0330_00,330,0,"{'x': 174, 'y': 52, 'w': 188, 'h': 202, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0331,mfkBDNu7jp4_0331_00,331,0,"{'x': 183, 'y': 55, 'w': 166, 'h': 206, 'left_eye': (268, 101), 'right_eye': (205, 116)}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0332,mfkBDNu7jp4_0332_00,332,0,"{'x': 217, 'y': 50, 'w': 175, 'h': 221, 'left_eye': (319, 116), 'right_eye': (241, 125)}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0333,mfkBDNu7jp4_0333_00,333,0,"{'x': 192, 'y': 52, 'w': 170, 'h': 236, 'left_eye': (298, 121), 'right_eye': (218, 128)}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0334,mfkBDNu7jp4_0334_00,334,0,"{'x': 196, 'y': 55, 'w': 166, 'h': 218, 'left_eye': (291, 104), 'right_eye': (216, 116)}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0335,mfkBDNu7jp4_0335_00,335,0,"{'x': 149, 'y': 50, 'w': 183, 'h': 242, 'left_eye': (253, 115), 'right_eye': (173, 125)}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0336,mfkBDNu7jp4_0336_00,336,0,"{'x': 170, 'y': 57, 'w': 184, 'h': 226, 'left_eye': (271, 119), 'right_eye': (219, 233)}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0337,mfkBDNu7jp4_0337_00,337,0,"{'x': 170, 'y': 52, 'w': 184, 'h': 221, 'left_eye': (267, 111), 'right_eye': (199, 121)}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0343,mfkBDNu7jp4_0343_00,343,0,"{'x': 119, 'y': 72, 'w': 154, 'h': 206, 'left_eye': (149, 233), 'right_eye': (138, 149)}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0344,mfkBDNu7jp4_0344_00,344,0,"{'x': 119, 'y': 62, 'w': 158, 'h': 214, 'left_eye': (157, 225), 'right_eye': (145, 140)}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0345,mfkBDNu7jp4_0345_00,345,0,"{'x': 123, 'y': 62, 'w': 162, 'h': 209, 'left_eye': (162, 223), 'right_eye': (146, 134)}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0346,mfkBDNu7jp4_0346_00,346,0,"{'x': 123, 'y': 64, 'w': 167, 'h': 224, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0347,mfkBDNu7jp4_0347_00,347,0,"{'x': 102, 'y': 60, 'w': 183, 'h': 242, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0348,mfkBDNu7jp4_0348_00,348,0,"{'x': 110, 'y': 62, 'w': 167, 'h': 223, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0350,mfkBDNu7jp4_0350_00,350,0,"{'x': 256, 'y': 96, 'w': 81, 'h': 117, 'left_eye': None, 'right_eye': None}",0.92
+mfkBDNu7jp4,mfkBDNu7jp4_0368,mfkBDNu7jp4_0368_00,368,0,"{'x': 200, 'y': 62, 'w': 149, 'h': 214, 'left_eye': None, 'right_eye': None}",0.92
+mfkBDNu7jp4,mfkBDNu7jp4_0369,mfkBDNu7jp4_0369_00,369,0,"{'x': 192, 'y': 67, 'w': 153, 'h': 194, 'left_eye': None, 'right_eye': None}",0.97
+mfkBDNu7jp4,mfkBDNu7jp4_0370,mfkBDNu7jp4_0370_00,370,0,"{'x': 192, 'y': 64, 'w': 157, 'h': 207, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0372,mfkBDNu7jp4_0372_00,372,0,"{'x': 145, 'y': 79, 'w': 85, 'h': 105, 'left_eye': None, 'right_eye': None}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0376,mfkBDNu7jp4_0376_00,376,0,"{'x': 247, 'y': 98, 'w': 81, 'h': 115, 'left_eye': (313, 143), 'right_eye': (280, 141)}",0.97
+mfkBDNu7jp4,mfkBDNu7jp4_0377,mfkBDNu7jp4_0377_00,377,0,"{'x': 247, 'y': 115, 'w': 73, 'h': 98, 'left_eye': None, 'right_eye': None}",0.92
+mfkBDNu7jp4,mfkBDNu7jp4_0379,mfkBDNu7jp4_0379_00,379,0,"{'x': 234, 'y': 98, 'w': 86, 'h': 110, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0391,mfkBDNu7jp4_0391_00,391,0,"{'x': 187, 'y': 57, 'w': 145, 'h': 192, 'left_eye': None, 'right_eye': None}",0.95
+mfkBDNu7jp4,mfkBDNu7jp4_0393,mfkBDNu7jp4_0393_00,393,0,"{'x': 234, 'y': 67, 'w': 158, 'h': 204, 'left_eye': None, 'right_eye': None}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0394,mfkBDNu7jp4_0394_00,394,0,"{'x': 264, 'y': 50, 'w': 154, 'h': 202, 'left_eye': None, 'right_eye': None}",0.93
+mfkBDNu7jp4,mfkBDNu7jp4_0395,mfkBDNu7jp4_0395_00,395,0,"{'x': 243, 'y': 50, 'w': 149, 'h': 204, 'left_eye': None, 'right_eye': None}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0396,mfkBDNu7jp4_0396_00,396,0,"{'x': 230, 'y': 52, 'w': 179, 'h': 212, 'left_eye': None, 'right_eye': None}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0400,mfkBDNu7jp4_0400_00,400,0,"{'x': 179, 'y': 64, 'w': 200, 'h': 236, 'left_eye': None, 'right_eye': None}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0401,mfkBDNu7jp4_0401_00,401,0,"{'x': 162, 'y': 50, 'w': 213, 'h': 197, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0402,mfkBDNu7jp4_0402_00,402,0,"{'x': 140, 'y': 50, 'w': 205, 'h': 202, 'left_eye': None, 'right_eye': None}",0.94
+mfkBDNu7jp4,mfkBDNu7jp4_0404,mfkBDNu7jp4_0404_00,404,0,"{'x': 149, 'y': 50, 'w': 200, 'h': 228, 'left_eye': None, 'right_eye': None}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0413,mfkBDNu7jp4_0413_00,413,0,"{'x': 302, 'y': 88, 'w': 94, 'h': 120, 'left_eye': (377, 137), 'right_eye': (338, 138)}",0.97
+mfkBDNu7jp4,mfkBDNu7jp4_0414,mfkBDNu7jp4_0414_00,414,0,"{'x': 294, 'y': 84, 'w': 85, 'h': 127, 'left_eye': (363, 136), 'right_eye': (325, 136)}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0424,mfkBDNu7jp4_0424_00,424,0,"{'x': 123, 'y': 79, 'w': 145, 'h': 177, 'left_eye': None, 'right_eye': None}",0.91
+mfkBDNu7jp4,mfkBDNu7jp4_0425,mfkBDNu7jp4_0425_00,425,0,"{'x': 123, 'y': 60, 'w': 154, 'h': 184, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0426,mfkBDNu7jp4_0426_00,426,0,"{'x': 115, 'y': 57, 'w': 149, 'h': 190, 'left_eye': None, 'right_eye': None}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0427,mfkBDNu7jp4_0427_00,427,0,"{'x': 230, 'y': 79, 'w': 72, 'h': 113, 'left_eye': (287, 123), 'right_eye': (250, 123)}",0.91
+mfkBDNu7jp4,mfkBDNu7jp4_0428,mfkBDNu7jp4_0428_00,428,0,"{'x': 234, 'y': 86, 'w': 73, 'h': 113, 'left_eye': None, 'right_eye': None}",0.94
+mfkBDNu7jp4,mfkBDNu7jp4_0430,mfkBDNu7jp4_0430_00,430,0,"{'x': 251, 'y': 74, 'w': 154, 'h': 202, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0462,mfkBDNu7jp4_0462_00,462,0,"{'x': 260, 'y': 81, 'w': 77, 'h': 103, 'left_eye': None, 'right_eye': None}",0.9
+mfkBDNu7jp4,mfkBDNu7jp4_0463,mfkBDNu7jp4_0463_00,463,0,"{'x': 268, 'y': 88, 'w': 69, 'h': 99, 'left_eye': None, 'right_eye': None}",0.94
+mfkBDNu7jp4,mfkBDNu7jp4_0468,mfkBDNu7jp4_0468_00,468,0,"{'x': 307, 'y': 57, 'w': 149, 'h': 171, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0469,mfkBDNu7jp4_0469_00,469,0,"{'x': 302, 'y': 55, 'w': 146, 'h': 170, 'left_eye': (376, 108), 'right_eye': (367, 106)}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0492,mfkBDNu7jp4_0492_00,492,0,"{'x': 512, 'y': 120, 'w': 76, 'h': 84, 'left_eye': None, 'right_eye': None}",0.94
+mfkBDNu7jp4,mfkBDNu7jp4_0500,mfkBDNu7jp4_0500_00,500,0,"{'x': 302, 'y': 55, 'w': 154, 'h': 187, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0501,mfkBDNu7jp4_0501_00,501,0,"{'x': 324, 'y': 50, 'w': 145, 'h': 190, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0509,mfkBDNu7jp4_0509_00,509,0,"{'x': 106, 'y': 64, 'w': 179, 'h': 214, 'left_eye': None, 'right_eye': None}",0.95
+mfkBDNu7jp4,mfkBDNu7jp4_0510,mfkBDNu7jp4_0510_00,510,0,"{'x': 119, 'y': 50, 'w': 192, 'h': 223, 'left_eye': None, 'right_eye': None}",0.95
+mfkBDNu7jp4,mfkBDNu7jp4_0511,mfkBDNu7jp4_0511_00,511,0,"{'x': 192, 'y': 48, 'w': 196, 'h': 220, 'left_eye': None, 'right_eye': None}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0512,mfkBDNu7jp4_0512_00,512,0,"{'x': 170, 'y': 52, 'w': 184, 'h': 195, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0513,mfkBDNu7jp4_0513_00,513,0,"{'x': 89, 'y': 57, 'w': 196, 'h': 240, 'left_eye': (245, 136), 'right_eye': (156, 129)}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0514,mfkBDNu7jp4_0514_00,514,0,"{'x': 89, 'y': 57, 'w': 201, 'h': 233, 'left_eye': (246, 117), 'right_eye': (153, 117)}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0515,mfkBDNu7jp4_0515_00,515,0,"{'x': 38, 'y': 64, 'w': 205, 'h': 228, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0516,mfkBDNu7jp4_0516_00,516,0,"{'x': 115, 'y': 57, 'w': 196, 'h': 240, 'left_eye': None, 'right_eye': None}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0517,mfkBDNu7jp4_0517_00,517,0,"{'x': 162, 'y': 48, 'w': 187, 'h': 252, 'left_eye': (323, 131), 'right_eye': (235, 139)}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0518,mfkBDNu7jp4_0518_00,518,0,"{'x': 136, 'y': 60, 'w': 188, 'h': 235, 'left_eye': None, 'right_eye': None}",0.94
+mfkBDNu7jp4,mfkBDNu7jp4_0519,mfkBDNu7jp4_0519_00,519,0,"{'x': 145, 'y': 57, 'w': 192, 'h': 238, 'left_eye': None, 'right_eye': None}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0520,mfkBDNu7jp4_0520_00,520,0,"{'x': 106, 'y': 52, 'w': 188, 'h': 224, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0521,mfkBDNu7jp4_0521_00,521,0,"{'x': 110, 'y': 52, 'w': 201, 'h': 216, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0522,mfkBDNu7jp4_0522_00,522,0,"{'x': 106, 'y': 48, 'w': 192, 'h': 225, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0523,mfkBDNu7jp4_0523_00,523,0,"{'x': 145, 'y': 43, 'w': 192, 'h': 211, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0524,mfkBDNu7jp4_0524_00,524,0,"{'x': 102, 'y': 50, 'w': 192, 'h': 226, 'left_eye': (263, 104), 'right_eye': (164, 106)}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0540,mfkBDNu7jp4_0540_00,540,0,"{'x': 81, 'y': 45, 'w': 196, 'h': 214, 'left_eye': None, 'right_eye': None}",1.0
+mfkBDNu7jp4,mfkBDNu7jp4_0541,mfkBDNu7jp4_0541_00,541,0,"{'x': 76, 'y': 60, 'w': 205, 'h': 242, 'left_eye': None, 'right_eye': None}",0.99
+mfkBDNu7jp4,mfkBDNu7jp4_0542,mfkBDNu7jp4_0542_00,542,0,"{'x': 72, 'y': 43, 'w': 201, 'h': 230, 'left_eye': (224, 98), 'right_eye': (130, 90)}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0545,mfkBDNu7jp4_0545_00,545,0,"{'x': 170, 'y': 76, 'w': 145, 'h': 200, 'left_eye': None, 'right_eye': None}",0.91
+mfkBDNu7jp4,mfkBDNu7jp4_0579,mfkBDNu7jp4_0579_00,579,0,"{'x': 209, 'y': 76, 'w': 72, 'h': 111, 'left_eye': None, 'right_eye': None}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0592,mfkBDNu7jp4_0592_00,592,0,"{'x': 204, 'y': 86, 'w': 77, 'h': 108, 'left_eye': None, 'right_eye': None}",0.98
+mfkBDNu7jp4,mfkBDNu7jp4_0593,mfkBDNu7jp4_0593_00,593,0,"{'x': 209, 'y': 91, 'w': 72, 'h': 103, 'left_eye': None, 'right_eye': None}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0594,mfkBDNu7jp4_0594_00,594,0,"{'x': 196, 'y': 81, 'w': 77, 'h': 120, 'left_eye': None, 'right_eye': None}",0.94
+mfkBDNu7jp4,mfkBDNu7jp4_0595,mfkBDNu7jp4_0595_00,595,0,"{'x': 204, 'y': 93, 'w': 77, 'h': 106, 'left_eye': None, 'right_eye': None}",0.97
+mfkBDNu7jp4,mfkBDNu7jp4_0596,mfkBDNu7jp4_0596_00,596,0,"{'x': 213, 'y': 103, 'w': 72, 'h': 103, 'left_eye': None, 'right_eye': None}",0.96
+mfkBDNu7jp4,mfkBDNu7jp4_0621,mfkBDNu7jp4_0621_00,621,0,"{'x': 469, 'y': 76, 'w': 89, 'h': 128, 'left_eye': None, 'right_eye': None}",0.95
+mfkBDNu7jp4,mfkBDNu7jp4_0632,mfkBDNu7jp4_0632_00,632,0,"{'x': 409, 'y': 110, 'w': 73, 'h': 86, 'left_eye': (465, 138), 'right_eye': (430, 139)}",0.93
+mfkBDNu7jp4,mfkBDNu7jp4_0634,mfkBDNu7jp4_0634_00,634,0,"{'x': 452, 'y': 115, 'w': 77, 'h': 84, 'left_eye': (506, 144), 'right_eye': (473, 145)}",0.92
+mfkBDNu7jp4,mfkBDNu7jp4_0636,mfkBDNu7jp4_0636_00,636,0,"{'x': 413, 'y': 105, 'w': 73, 'h': 79, 'left_eye': (471, 128), 'right_eye': (439, 128)}",0.94
+mfkBDNu7jp4,mfkBDNu7jp4_0644,mfkBDNu7jp4_0644_00,644,0,"{'x': 469, 'y': 88, 'w': 77, 'h': 101, 'left_eye': None, 'right_eye': None}",0.95
+mfkBDNu7jp4,mfkBDNu7jp4_0645,mfkBDNu7jp4_0645_00,645,0,"{'x': 452, 'y': 105, 'w': 68, 'h': 84, 'left_eye': None, 'right_eye': None}",0.93
+mfkBDNu7jp4,mfkBDNu7jp4_0651,mfkBDNu7jp4_0651_00,651,0,"{'x': 482, 'y': 117, 'w': 64, 'h': 79, 'left_eye': None, 'right_eye': None}",0.91
+mfkBDNu7jp4,mfkBDNu7jp4_0672,mfkBDNu7jp4_0672_00,672,0,"{'x': 486, 'y': 88, 'w': 72, 'h': 84, 'left_eye': None, 'right_eye': None}",0.95
+mfkBDNu7jp4,mfkBDNu7jp4_0678,mfkBDNu7jp4_0678_00,678,0,"{'x': 507, 'y': 96, 'w': 69, 'h': 96, 'left_eye': None, 'right_eye': None}",0.95
+mfkBDNu7jp4,mfkBDNu7jp4_0679,mfkBDNu7jp4_0679_00,679,0,"{'x': 448, 'y': 93, 'w': 64, 'h': 89, 'left_eye': None, 'right_eye': None}",0.94
