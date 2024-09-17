@@ -11,8 +11,9 @@ import whisper
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_file", type=str, default='video_paths.csv', help="Path to the csv file with video paths")
-    parser.add_argument("--output_dir", type=str, default='../data/subtitles/', help="Path to the output directory")
+    parser.add_argument("--input_file", type=str, default='video_ids.csv', help="Path to the csv file with video ids")
+    parser.add_argument("--video_dir", type=str, default='../data/videos', help="Path to the video directory")
+    parser.add_argument("--output_dir", type=str, default='../data/subtitles', help="Path to the output directory")
     parser.add_argument("--model", type=str, default="large-v3", choices=["tiny", "small", "medium", "base", "large", "large-v2", "large-v3"], help="Name of the model to use for extracting subtitles")
     parser.add_argument("--task", type=str, default="translate", choices=["transcribe", "translate"], help="Diarize the audio before extracting subtitles")
     parser.add_argument("--n_subsample", type=int, default=-1, help="Number of videos to subsample")
@@ -47,6 +48,7 @@ def save_config(config, output_dir):
 def main(args):
     # Get parameters
     input_file = args.input_file
+    video_dir = args.video_dir
     output_dir = args.output_dir
     model = args.model
     task = args.task
@@ -65,7 +67,8 @@ def main(args):
     logging.info(f"Config: {config}")
 
     # Get video paths
-    video_paths = pd.read_csv(input_file).video_path.tolist()
+    video_ids = pd.read_csv(input_file).video_id.tolist()
+    video_paths = [os.path.join(video_dir, f"{video_id}.mkv") for video_id in video_ids]
     if n_subsample > 0:
         video_paths = np.random.choice(video_paths, n_subsample, replace=False)
     

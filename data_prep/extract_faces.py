@@ -11,7 +11,8 @@ from tqdm import tqdm
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_file", type=str, default='video_paths.csv', help="Path to the csv file with video paths")
+    parser.add_argument("--input_file", type=str, default='video_ids.csv', help="Path to the csv file with video ids")
+    parser.add_argument("--video_dir", type=str, default='../data/videos', help="Path to the video directory")
     parser.add_argument("--output_dir", type=str, default='../data/faces', help="Path to the output directory")
     parser.add_argument("--fps", type=float, default=3.0, help="Frames per second to extract from the video")
     parser.add_argument("--detector_backend", type=str, default="retinaface", choices=["retinaface", "ssd", "opencv", "mtcnn", "dlib"], help="Name of the face detector to use")
@@ -61,7 +62,7 @@ def read_video(video_path, fps=1.0):
             ret, frame = cap.retrieve()
             if not ret:
                 break
-            
+
             frames.append(frame)
         
         frame_count += 1
@@ -71,6 +72,7 @@ def read_video(video_path, fps=1.0):
 
 def main(args):
     input_file = args.input_file
+    video_dir = args.video_dir
     output_dir = args.output_dir
     fps = args.fps
     detector_backend = args.detector_backend
@@ -82,8 +84,6 @@ def main(args):
     
     # Save config
     config = {
-        #"input_file": input_file,
-        #"output_dir": output_dir,
         "fps": fps,
         "detector_backend": detector_backend,
         #"model_name": model_name,
@@ -93,7 +93,8 @@ def main(args):
     logging.info(f"Config: {config}")
 
     # Get video paths
-    video_paths = pd.read_csv(input_file).video_path.tolist()
+    video_ids = pd.read_csv(input_file).video_id.tolist()
+    video_paths = [os.path.join(video_dir, f"{video_id}.mkv") for video_id in video_ids]
     if n_subsample > 0:
         video_paths = np.random.choice(video_paths, n_subsample, replace=False)
     
