@@ -12,7 +12,7 @@ from tqdm import tqdm
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_file", type=str, default='video_paths.csv', help="Path to the csv file with video paths")
-    parser.add_argument("--output_dir", type=str, default='../data/faces/', help="Path to the output directory")
+    parser.add_argument("--output_dir", type=str, default='../data/faces', help="Path to the output directory")
     parser.add_argument("--fps", type=float, default=3.0, help="Frames per second to extract from the video")
     parser.add_argument("--detector_backend", type=str, default="retinaface", choices=["retinaface", "ssd", "opencv", "mtcnn", "dlib"], help="Name of the face detector to use")
     #parser.add_argument("--model_name", type=str, default="VGG-Face", choices=["ArcFace", "VGG-Face", "OpenFace", "Facenet", "DeepFace", "DeepID", "Dlib"], help="Name of the face recognition model to use")
@@ -102,7 +102,7 @@ def main(args):
         video_id = Path(video_path).stem
         output_path = f"{output_dir}/{video_id}.csv"
         if Path(output_path).exists():
-            logging.info(f"Faces already extracted for {video_id}")
+            #logging.info(f"Faces already extracted for {video_id}")
             continue
 
         frames = read_video(video_path, fps=fps)

@@ -134,7 +134,7 @@ def main(args):
         "diarize": diarize,
     }
     config = save_config(config, output_dir)
-    
+
     logging.info(f"Config: {config}")
 
     # Get video paths
@@ -148,7 +148,7 @@ def main(args):
         video_id = Path(video_path).stem
         output_path = f"{output_dir}/{video_id}.srt"
         if Path(output_path).exists():
-            logging.info(f"Faces already extracted for {video_id}")
+            #logging.info(f"Faces already extracted for {video_id}")
             continue
         
         if library == "whisper":

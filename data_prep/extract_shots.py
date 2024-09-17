@@ -29,7 +29,7 @@ def save_config(config, output_dir):
     :param config: Dictionary containing configuration settings.
     :param output_dir: Path to the output directory.
     """
-        config_path = os.path.join(output_dir, "config.json")
+    config_path = os.path.join(output_dir, "config.json")
     os.makedirs(output_dir, exist_ok=True)
     if os.path.exists(config_path):
         logging.warning(f"Config file already exists at {config_path}")
@@ -94,7 +94,7 @@ def main(args):
     
     logging.info(f"Found {len(video_paths)} video paths")
     
-    for _, video_path in tqdm(video_paths.iterrows(), total=video_paths.shape[0]):
+    for video_path in tqdm(video_paths, total=len(video_paths)):
         video_id = Path(video_path).stem
         output_path = os.path.join(output_dir, f"{video_id}")
         os.makedirs(output_path, exist_ok=True)
@@ -102,11 +102,11 @@ def main(args):
         # Check if the scenes file already exists
         scenes_file = os.path.join(output_path, f"{video_id}-Scenes.csv")
         if os.path.exists(scenes_file):
-            logging.info(f"Shots already detected for {video_path}")
+            #logging.info(f"Shots already detected for {video_path}")
             continue
 
         find_scenes(video_path, output_path, save_images, num_images)
 
-if __name__ == "__main__"
+if __name__ == "__main__":
     args = parse_args()
     main(args)
