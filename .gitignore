@@ -4,6 +4,13 @@ data/shots/*
 data/subtitles/*
 
 experiments/baselines/LongVA/*
+!experiments/baselines/LongVA/test_longva.py
 !experiments/baselines/LongVA/run_longva.py
 !experiments/baselines/LongVA/eval_longva.py
 !experiments/baselines/LongVA/INSTALL.md
+
+experiments/baselines/LLaVA-NeXT/*
+!experiments/baselines/LLaVA-NeXT/test_llava.py
+!experiments/baselines/LLaVA-NeXT/run_llava.py
+!experiments/baselines/LLaVA-NeXT/eval_llava.py
+!experiments/baselines/LLaVA-NeXT/INSTALL.md

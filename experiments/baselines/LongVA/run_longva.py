@@ -12,8 +12,6 @@ import logging
 import os
 import argparse
 import random
-import numpy as np
-import torch
 from datasets import load_dataset
 
 def parse_args():
