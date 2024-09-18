@@ -38,7 +38,7 @@ def main(args):
     # Get files
     video_ids = pd.read_csv(input_file).video_id.tolist()
 
-    files = list(Path(input_dir).glob("*.csv"))
+    files = list(Path(input_dir).glob("*.json"))
     files = [file for file in files if file.stem in video_ids]
 
     logging.info(f"Found {len(files)} files")
