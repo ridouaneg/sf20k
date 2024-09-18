@@ -5,18 +5,33 @@ import logging
 from tqdm import tqdm
 import pandas as pd
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_file", type=str, default='../data/sfd.csv', help="Path to the csv file")
-    parser.add_argument("--output_dir", type=str, default='../data/videos', help="Path to the output directory")
-    parser.add_argument("--config_location", type=str, default='yt-dlp.conf', help="Path to the yt-dlp configuration file")
+    parser.add_argument(
+        "--input_file", type=str, default="../data/sfd.csv", help="Path to the csv file"
+    )
+    parser.add_argument(
+        "--output_dir",
+        type=str,
+        default="../data/videos",
+        help="Path to the output directory",
+    )
+    parser.add_argument(
+        "--config_location",
+        type=str,
+        default="yt-dlp.conf",
+        help="Path to the yt-dlp configuration file",
+    )
     parser.add_argument("--no_download", action="store_true")
     return parser.parse_args()
+
 
 def setup_logging():
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
+
 
 def download_video(video_url, output_path, config_location):
     try:
@@ -33,10 +48,11 @@ def download_video(video_url, output_path, config_location):
     except subprocess.CalledProcessError as e:
         logging.error(f"Failed to download {video_url}")
 
+
 def main(args):
     # Load data
     df = pd.read_csv(args.input_file)
-    video_ids = df['video_id'].unique()
+    video_ids = df["video_id"].unique()
     logging.info(f"{len(video_ids)} videos to download.")
 
     # Download videos
@@ -54,9 +70,12 @@ def main(args):
     downloaded_videos = os.listdir(args.output_dir)
     downloaded_video_ids = [x.split(".")[0] for x in downloaded_videos]
     missing_videos = set(video_ids) - set(downloaded_video_ids)
-    
+
     logging.error(f"Failed to download {len(missing_videos)} videos.")
-    logging.info(f"Percentage of videos missing: {len(missing_videos) / len(video_ids) * 100:.2f}%")
+    logging.info(
+        f"Percentage of videos missing: {len(missing_videos) / len(video_ids) * 100:.2f}%"
+    )
+
 
 if __name__ == "__main__":
     setup_logging()

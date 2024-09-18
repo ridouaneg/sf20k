@@ -8,18 +8,64 @@ import numpy as np
 from pathlib import Path
 from tqdm import tqdm
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_file", type=str, default='video_ids.csv', help="Path to the csv file with video ids")
-    parser.add_argument("--video_dir", type=str, default='../data/videos', help="Path to the video directory")
-    parser.add_argument("--output_dir", type=str, default='../data/subtitles/', help="Path to the output directory")
-    parser.add_argument("--library", type=str, default="whisperx", choices=["whisper", "whisperx"], help="Library to use for extracting subtitles")
-    parser.add_argument("--model", type=str, default="large-v3", choices=["tiny", "small", "medium", "base", "large", "large-v2", "large-v3"], help="Name of the model to use for extracting subtitles")
-    parser.add_argument("--task", type=str, default="translate", choices=["transcribe", "translate"], help="Diarize the audio before extracting subtitles")
-    parser.add_argument("--diarize", action="store_true", help="Diarize the audio before extracting subtitles")
-    parser.add_argument("--access_token", type=str, default=None, help="HuggingFace token to access pyannote")
-    parser.add_argument("--n_subsample", type=int, default=-1, help="Number of videos to subsample")
+    parser.add_argument(
+        "--input_file",
+        type=str,
+        default="video_ids.csv",
+        help="Path to the csv file with video ids",
+    )
+    parser.add_argument(
+        "--video_dir",
+        type=str,
+        default="../data/videos",
+        help="Path to the video directory",
+    )
+    parser.add_argument(
+        "--output_dir",
+        type=str,
+        default="../data/subtitles/",
+        help="Path to the output directory",
+    )
+    parser.add_argument(
+        "--library",
+        type=str,
+        default="whisperx",
+        choices=["whisper", "whisperx"],
+        help="Library to use for extracting subtitles",
+    )
+    parser.add_argument(
+        "--model",
+        type=str,
+        default="large-v3",
+        choices=["tiny", "small", "medium", "base", "large", "large-v2", "large-v3"],
+        help="Name of the model to use for extracting subtitles",
+    )
+    parser.add_argument(
+        "--task",
+        type=str,
+        default="translate",
+        choices=["transcribe", "translate"],
+        help="Diarize the audio before extracting subtitles",
+    )
+    parser.add_argument(
+        "--diarize",
+        action="store_true",
+        help="Diarize the audio before extracting subtitles",
+    )
+    parser.add_argument(
+        "--access_token",
+        type=str,
+        default=None,
+        help="HuggingFace token to access pyannote",
+    )
+    parser.add_argument(
+        "--n_subsample", type=int, default=-1, help="Number of videos to subsample"
+    )
     return parser.parse_args()
+
 
 def setup_logging():
     """
@@ -28,6 +74,7 @@ def setup_logging():
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
+
 
 def save_config(config, output_dir):
     """
@@ -42,15 +89,16 @@ def save_config(config, output_dir):
         logging.warning(f"Config file already exists at {config_path}")
         config = json.load(open(config_path))
     else:
-        with open(config_path, 'w') as f:
+        with open(config_path, "w") as f:
             json.dump(config, f, indent=4)
-    
+
     return config
+
 
 def extract_subtitles_whisper(video_path, output_dir, model, task):
     """
     Extracts subtitles from a video using the Whisper CLI.
-    
+
     :param video_path: Path to the video file.
     :param output_dir: Directory to save the extracted subtitles.
     :param model: Whisper model to use.
@@ -76,7 +124,10 @@ def extract_subtitles_whisper(video_path, output_dir, model, task):
     except Exception as e:
         logging.error(f"Error occurred while extracting subtitles: {str(e)}")
 
-def extract_subtitles_whisperx(video_path, output_dir, model, task, diarize=False, access_token=None):
+
+def extract_subtitles_whisperx(
+    video_path, output_dir, model, task, diarize=False, access_token=None
+):
     """
     Extracts subtitles from a video using the WhisperX CLI with optional diarization.
 
@@ -102,15 +153,18 @@ def extract_subtitles_whisperx(video_path, output_dir, model, task, diarize=Fals
             "False",
         ]
         if diarize:
-            cmd.extend([
-                "--diarize",
-                "--hf_token",
-                access_token,
-            ])
+            cmd.extend(
+                [
+                    "--diarize",
+                    "--hf_token",
+                    access_token,
+                ]
+            )
         subprocess.run(cmd, check=True)
         logging.info(f"Processed: {video_path}")
     except Exception as e:
         logging.error(f"Error occurred while extracting subtitles: {str(e)}")
+
 
 def main(args):
     # Get parameters
@@ -143,21 +197,26 @@ def main(args):
     video_paths = [os.path.join(video_dir, f"{video_id}.mkv") for video_id in video_ids]
     if n_subsample > 0:
         video_paths = np.random.choice(video_paths, n_subsample, replace=False)
-    
+
     logging.info(f"Found {len(video_paths)} video paths")
-    
-    for _, video_path in tqdm(enumerate(video_paths), total=len(video_paths), desc="Processing videos"):
+
+    for _, video_path in tqdm(
+        enumerate(video_paths), total=len(video_paths), desc="Processing videos"
+    ):
         video_id = Path(video_path).stem
         output_path = f"{output_dir}/{video_id}.srt"
         if Path(output_path).exists():
-            #logging.info(f"Faces already extracted for {video_id}")
+            # logging.info(f"Faces already extracted for {video_id}")
             continue
-        
+
         if library == "whisper":
             extract_subtitles_whisper(video_path, f"{output_dir}", model, task)
         elif library == "whisperx":
-            extract_subtitles_whisperx(video_path, f"{output_dir}", model, task, diarize, access_token)
-    
+            extract_subtitles_whisperx(
+                video_path, f"{output_dir}", model, task, diarize, access_token
+            )
+
+
 if __name__ == "__main__":
     args = parse_args()
     main(args)
