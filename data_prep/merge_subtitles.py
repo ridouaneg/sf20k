@@ -36,7 +36,7 @@ def main(args):
     output_path = args.output_path
 
     # Get files
-    video_ids = pd.read_csv(input_file).video_path.tolist()
+    video_ids = pd.read_csv(input_file).video_id.tolist()
 
     files = list(Path(input_dir).glob("*.csv"))
     files = [file for file in files if file.stem in video_ids]
