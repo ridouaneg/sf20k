@@ -1,3 +1,3 @@
-# Short Film Dataset (SFD)
+# SF20K
 
-coming soon..
+wip
