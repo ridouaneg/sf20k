@@ -14,13 +14,13 @@ def parse_args():
     parser.add_argument(
         "--input_file",
         type=str,
-        default="video_ids.csv",
+        default="../data/test.csv",
         help="Path to the csv file with video ids",
     )
     parser.add_argument(
         "--video_dir",
         type=str,
-        default="../data/videos",
+        default="../data/videos/",
         help="Path to the video directory",
     )
     parser.add_argument(
@@ -32,7 +32,7 @@ def parse_args():
     parser.add_argument(
         "--library",
         type=str,
-        default="whisperx",
+        default="whisper",
         choices=["whisper", "whisperx"],
         help="Library to use for extracting subtitles",
     )
@@ -175,7 +175,7 @@ def main(args):
     model = args.model
     task = args.task
     diarize = args.diarize
-    access_token = args.access_token
+    #access_token = args.access_token
     n_subsample = args.n_subsample
 
     # Set up logging
@@ -209,12 +209,13 @@ def main(args):
             # logging.info(f"Faces already extracted for {video_id}")
             continue
 
-        if library == "whisper":
-            extract_subtitles_whisper(video_path, f"{output_dir}", model, task)
-        elif library == "whisperx":
-            extract_subtitles_whisperx(
-                video_path, f"{output_dir}", model, task, diarize, access_token
-            )
+        #if library == "whisper":
+        #    extract_subtitles_whisper(video_path, f"{output_dir}", model, task)
+        #elif library == "whisperx":
+        #    extract_subtitles_whisperx(
+        #        video_path, f"{output_dir}", model, task, diarize, access_token
+        #    )
+        extract_subtitles_whisper(video_path, f"{output_dir}", model, task)
 
 
 if __name__ == "__main__":

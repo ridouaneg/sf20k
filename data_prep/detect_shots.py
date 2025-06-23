@@ -14,13 +14,13 @@ def parse_args():
     parser.add_argument(
         "--input_file",
         type=str,
-        default="video_ids.csv",
+        default="../data/test.csv",
         help="Path to the csv file with video ids",
     )
     parser.add_argument(
         "--video_dir",
         type=str,
-        default="../data/videos",
+        default="../data/videos/",
         help="Path to the video directory",
     )
     parser.add_argument(
@@ -30,7 +30,9 @@ def parse_args():
         help="Path to the output directory",
     )
     parser.add_argument(
-        "--save_images", action="store_true", help="Save images for each shot"
+        "--save_images",
+        action="store_true",
+        help="Save images for each shot",
     )
     parser.add_argument(
         "--num_images",
@@ -39,7 +41,10 @@ def parse_args():
         help="Number of images to save for each shot (if --save_images)",
     )
     parser.add_argument(
-        "--n_subsample", type=int, default=-1, help="Number of videos to subsample"
+        "--n_subsample",
+        type=int,
+        default=-1,
+        help="Number of videos to subsample",
     )
     return parser.parse_args()
 
@@ -65,7 +70,6 @@ def save_config(config, output_dir):
     else:
         with open(config_path, "w") as f:
             json.dump(config, f, indent=4)
-
     return config
 
 

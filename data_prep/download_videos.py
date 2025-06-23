@@ -9,12 +9,12 @@ import pandas as pd
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--input_file", type=str, default="../data/sfd.csv", help="Path to the csv file"
+        "--input_file", type=str, default="../data/test.csv", help="Path to the csv file"
     )
     parser.add_argument(
         "--output_dir",
         type=str,
-        default="../data/videos",
+        default="../data/videos/",
         help="Path to the output directory",
     )
     parser.add_argument(
@@ -23,7 +23,11 @@ def parse_args():
         default="yt-dlp.conf",
         help="Path to the yt-dlp configuration file",
     )
-    parser.add_argument("--no_download", action="store_true")
+    parser.add_argument(
+        "--no_download",
+        action="store_true",
+        help="Don't download videos",
+    )
     return parser.parse_args()
 
 
@@ -51,7 +55,7 @@ def download_video(video_url, output_path, config_location):
 
 def main(args):
     # Load data
-    df = pd.read_csv(args.input_file)
+    df = pd.read_csv(args.input_file).sample(n=10)
     video_ids = df["video_id"].unique()
     logging.info(f"{len(video_ids)} videos to download.")
 
