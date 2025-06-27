@@ -18,7 +18,7 @@ SYSTEM_PROMPT = (
 )
 
 
-USER_PROMPT = (
+TEMPLATE_PROMPT = (
     "Please evaluate the following video-based question-answer pair:\n\n"
     "Question: {question}\n"
     "Correct Answer: {answer}\n"
@@ -44,14 +44,19 @@ def main(args):
     # Prepare model
     model_id = "meta-llama/Llama-3.1-8B-Instruct"
     model_path = os.path.join(args.model_dir, model_id)
-    model = pipeline("text-generation", model=model_path)
+    model = pipeline(
+        "text-generation",
+        model=model_path,
+        model_kwargs={"torch_dtype": "auto", "device_map": "auto"},
+    )
 
     # Evaluate
     outputs = []
     for i, sample in tqdm(df.iterrows(), total=len(df)):
-        prompt = USER_PROMPT.format(question=sample['question'], answer=sample['answer'], prediction=sample['prediction'])
+        USER_PROMPT = TEMPLATE_PROMPT.format(question=sample['question'], answer=sample['answer'], prediction=sample['prediction'])
+        prompt = f"<<SYS>>\n{SYSTEM_PROMPT}\n<</SYS>>\n\n[INST] {USER_PROMPT} [/INST]"
         output = model(prompt, max_new_tokens=16, do_sample=False)
-        output = output[0]["generated_text"].removeprefix(prompt).strip()
+        output = output[0]["generated_text"].removeprefix(prompt).removesuffix('[/INST]').strip()
         outputs.append(output)
 
     scores = []
