@@ -1,11 +1,9 @@
 import ast
-import os
 import numpy as np
 import pandas as pd
 import openai
 import argparse
 from tqdm import tqdm
-from datasets import load_dataset
 
 
 SYSTEM_PROMPT = (
@@ -33,32 +31,35 @@ PROMPT_TEMPLATE = (
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--pred_path", type=str, required=True)
+    parser.add_argument("--pred_path", type=str, default="submission.csv")
+    parser.add_argument("--openai_api_key", type=str)
+    parser.add_argument("--openai_org_id", type=str, default=None)
     return parser.parse_args()
 
 
 def main(args):
     # Prepare client
-    client = openai.OpenAI(
-        api_key=os.environ.get("OPENAI_API_KEY"),
-        organization=os.environ.get("OPENAI_ORG_ID"),
-    )
+    if args.openai_org_id is None:
+        client = openai.OpenAI(
+            api_key=args.openai_api_key,
+        )
+    else:
+        client = openai.OpenAI(
+            api_key=args.openai_api_key,
+            organization=args.openai_org_id,
+        )
 
     # Prepare data
     submission_df = pd.read_csv(args.pred_path)
 
     # Prepare labels
-    dataset = load_dataset(
-        "rghermi/sf20k-private",
-        token=os.environ.get("HF_TOKEN"),
-        split="test",
-    )
-    df = dataset.to_pandas()
-    df = pd.merge(df[['question_id', 'question', 'answer']], submission_df[['question_id', 'prediction']], on='question_id', how='inner')
+    #df = load_dataset("rghermi/sf20k-private", split="test_expert", token=os.environ.get("HF_TOKEN")).to_pandas()
+    df = pd.read_csv("../data/gt_samples.csv")
+    df = pd.merge(df[['question_id', 'video_id', 'question', 'answer']], submission_df[['question_id', 'prediction']], on='question_id', how='inner')
     
     # Evaluate
     outputs = []
-    for i, sample in tqdm(df.iterrows(), total=len(df)):
+    for _, sample in tqdm(df.iterrows(), total=len(df)):
         question = sample['question']
         answer = sample['answer']
         prediction = sample['prediction']
@@ -75,7 +76,8 @@ def main(args):
         
         try:
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo-0125",
+                #model="gpt-3.5-turbo-0125",
+                model="gpt-4.1-nano-2025-04-14",
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": USER_PROMPT}
@@ -101,7 +103,9 @@ def main(args):
             score = 0
         scores.append(score)
 
-    score = np.sum(scores) / 538. if scores else 0
+    score = np.sum(scores) / 538. if scores else 0.
+
+    print(scores)
     print(f"Score: {score}")
 
 
