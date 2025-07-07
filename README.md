@@ -85,10 +85,9 @@ The dataset is designed for evaluating models on their ability to perform long-f
 If you use the SF20K dataset in your research, please cite our paper:
 
 ```bibtex
-@article{ghermi2024long,
-  title={Long Story Short: Story-level Video Understanding from 20K Short Films},
-  author={Ghermi, Ridouane and Laptev, Ivan and Kalogeiton, Vicky and Wang, Xi},
-  journal={arXiv preprint arXiv:2406.10221},
-  year={2024}
+@article{ghermi2025longstoryshortstorylevel,
+      title={Long Story Short: Story-level Video Understanding from 20K Short Films}, 
+      author={Ridouane Ghermi and Xi Wang and Vicky Kalogeiton and Ivan Laptev},
+      year={2025},
 }
 ```
