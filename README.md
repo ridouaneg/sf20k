@@ -8,7 +8,7 @@
 
 <br>
 
-<img src="https://github.com/ridouaneg/sf20k/blob/main/notebooks/competition_sample.png?raw=true" alt="Competition sample image" width="50%">
+<img src="https://github.com/ridouaneg/sf20k/blob/main/notebooks/competition_sample.png?raw=true" alt="Competition sample image" width="66%">
 
 </div>
 
