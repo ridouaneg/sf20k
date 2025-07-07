@@ -1,14 +1,16 @@
-# SF20K: A Large-Scale Dataset for Story-Level Video Understanding
+<div align="center">
+
+<h1><strong>🎬 Short-Films 20K (SF20K)</br>Story-level Video Understanding from 20K Short Films</strong></h1>
 
 [![Paper](https://img.shields.io/badge/arXiv-2406.10221-b31b1b.svg)](https://arxiv.org/abs/2406.10221)
-[![Hugging Face Datasets](httpss://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-datasets-yellow)](https://huggingface.co/datasets/rghermi/sf20k)
+[![Dataset](https://img.shields.io/badge/Hugging%20Face-Datasets-yellow?logo=huggingface)](https://huggingface.co/datasets/rghermi/sf20k)
 [![Project Website](https://img.shields.io/badge/Project-Website-blue)](https://ridouaneg.github.io/sf20k.html)
 
-<img src="https://github.com/ridouaneg/sf20k/blob/main/notebooks/competition_sample_extended.png?raw=true" alt="Competition sample image">
+<br>
 
-This is the official repository of the **SF20K** dataset, a large-scale collection of 20,143 short films designed for advancing research in long-form video understanding.
+<img src="https://github.com/ridouaneg/sf20k/blob/main/notebooks/competition_sample.png?raw=true" alt="Competition sample image" width="50%">
 
----
+</div>
 
 ## 🎬 About the Dataset
 
