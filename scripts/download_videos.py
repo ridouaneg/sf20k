@@ -46,6 +46,8 @@ def main(args):
             "-o", video_path,
             "--merge-output-format", "mp4",
             #"--quiet",
+            #"--simulate",
+            #"--no-download",
             "--no-warnings",
             "--ignore-errors",
             video_url
