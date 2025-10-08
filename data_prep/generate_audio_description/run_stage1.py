@@ -285,7 +285,7 @@ def main(args):
         accelerator.print(f"Resuming inference. Found {len(processed_shot_ids)} completed samples. Remaining: {len(dataset.all_clips)}/{original_size}")
     
     # Prepare model
-    model = QwenVLModel(
+    model_wrapper = QwenVLModel(
         weights_dir=args.weights_dir,
         model_id=args.model_id,
         num_frames=args.num_frames,
@@ -293,7 +293,7 @@ def main(args):
     
     # Use accelerator to prepare model and dataloader for distributed training/inference
     model, dataloader = accelerator.prepare(model_wrapper.model, dataloader)
-    model_wrapper.model = model # Update the model reference in the wrapper
+    model_wrapper.model = model
 
     # Resume inference
     #os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
@@ -306,7 +306,7 @@ def main(args):
 
         try:
             # Get response
-            prediction = model.generate(
+            prediction = model_wrapper.generate(
                 video_path=sample['video_path'],
                 query=sample['query'],
                 start_time=sample['start_time'],
