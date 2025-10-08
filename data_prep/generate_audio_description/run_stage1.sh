@@ -36,7 +36,7 @@ python run_stage1.py \
 accelerate launch \
     --config_file default_config.yaml \
     --num_processes 2 \
-    run_stage1_accelerate.py \
+    run_stage1.py \
     --output_path ./results/stage1_qwen2vl-7b-$START_IDX-$END_IDX.json \
     --data_path /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/questions/train.csv \
     --shots_path /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/shots.parquet \
@@ -44,6 +44,5 @@ accelerate launch \
     --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/ \
     --model_id Qwen/Qwen2.5-VL-7B-Instruct \
     --num_frames 8 \
-    --batch_size 8 \
     --start_idx $START_IDX \
     --end_idx $END_IDX
