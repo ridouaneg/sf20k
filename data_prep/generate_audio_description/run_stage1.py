@@ -292,15 +292,19 @@ def main(args):
     )
     
     # Use accelerator to prepare model and dataloader for distributed training/inference
-    model, dataloader = accelerator.prepare(model_wrapper.model, dataloader)
+    model, dataset = accelerator.prepare(model_wrapper.model, dataset)
     model_wrapper.model = model
 
     # Resume inference
     #os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
     #results_dict = json.load(open(args.output_path, 'r')) if os.path.exists(args.output_path) and not args.force_rerun  else {}
 
+    local_results = []
+    progress_bar = tqdm(total=len(dataset), disable=not accelerator.is_local_main_process, desc=f"Process {accelerator.process_index}")
+
     # Run inference
-    for i, sample in tqdm(enumerate(dataset), total=len(dataset), disable=not accelerator.is_local_main_process):
+    #for i, sample in tqdm(enumerate(dataset), total=len(dataset), disable=not accelerator.is_local_main_process):
+    for sample in dataset:
         if sample['shot_id'] in results_dict and not args.force_rerun:
             continue
 
@@ -321,25 +325,34 @@ def main(args):
 
         # Store the prediction
         sample['prediction'] = prediction
-        results_dict[sample['shot_id']] = sample
+        local_results.append(sample)
+        #results_dict[sample['shot_id']] = sample
 
         if args.print_prediction and accelerator.is_local_main_process:
-            print(f"\n--- Shot ID: {shot_id} ---")
+            print(f"\n--- Shot ID: {sample['shot_id']} ---")
             print(f"Query: {sample['query']}")
             print('-' * 50)
             print(f"Prediction: {sample['prediction']}")
             print('-' * 100)
+        
+        progress_bar.update(1)
 
         # Save intermediate results
-        if i % 100 == 0 and accelerator.is_local_main_process:
-            with open(args.output_path, 'w') as f:
-                json.dump(results_dict, f, indent=4)
+        #if i % 100 == 0 and accelerator.is_local_main_process:
+        #    with open(args.output_path, 'w') as f:
+        #        json.dump(results_dict, f, indent=4)
+
+    # Gather results from all processes
+    all_process_results = accelerator.gather_object(local_results)
 
     # Save results
     if accelerator.is_main_process:
+        for sample in all_process_results:
+            results_dict[sample['shot_id']] = sample
+
         with open(args.output_path, 'w') as f:
             json.dump(results_dict, f, indent=4)
-        accelerator.print(f"Results saved to {args.output_path}")
+        accelerator.print(f"All results gathered and saved to {args.output_path}")
 
 
 if __name__ == "__main__":
