@@ -140,7 +140,7 @@ class QwenVLModel:
         model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
             model_path,
             dtype="auto",
-            device_map="auto",
+            #device_map="auto",
             quantization_config=bnb_config,
         )
 
@@ -254,6 +254,9 @@ def parse_args():
 
 
 def main(args):
+    # Initialize Accelerator
+    accelerator = Accelerator()
+
     # Prepare dataset
     dataset = SF20KDataset(
         data_path=args.data_path,
@@ -265,19 +268,38 @@ def main(args):
         end_idx=args.end_idx,
     )
 
+    # Resume inference: Only main process handles file I/O
+    results_dict = {}
+    if accelerator.is_main_process:
+        os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
+        if os.path.exists(args.output_path) and not args.force_rerun:
+            with open(args.output_path, 'r') as f:
+                results_dict = json.load(f)
+    
+    # Filter out already processed samples
+    processed_shot_ids = set(results_dict.keys())
+    if not args.force_rerun and len(processed_shot_ids) > 0:
+        original_size = len(dataset.all_clips)
+        dataset.all_clips = [sample for sample in dataset.all_clips if sample['shot_id'] not in processed_shot_ids]
+        accelerator.print(f"Resuming inference. Found {len(processed_shot_ids)} completed samples. Remaining: {len(dataset.all_clips)}/{original_size}")
+    
     # Prepare model
     model = QwenVLModel(
         weights_dir=args.weights_dir,
         model_id=args.model_id,
         num_frames=args.num_frames,
     )
+    
+    # Use accelerator to prepare model and dataloader for distributed training/inference
+    model, dataloader = accelerator.prepare(model_wrapper.model, dataloader)
+    model_wrapper.model = model # Update the model reference in the wrapper
 
     # Resume inference
-    os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
-    results_dict = json.load(open(args.output_path, 'r')) if os.path.exists(args.output_path) and not args.force_rerun  else {}
+    #os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
+    #results_dict = json.load(open(args.output_path, 'r')) if os.path.exists(args.output_path) and not args.force_rerun  else {}
 
     # Run inference
-    for i, sample in tqdm(enumerate(dataset), total=len(dataset)):
+    for i, sample in tqdm(enumerate(dataset), total=len(dataset), disable=not accelerator.is_local_main_process):
         if sample['shot_id'] in results_dict and not args.force_rerun:
             continue
 
@@ -300,21 +322,23 @@ def main(args):
         sample['prediction'] = prediction
         results_dict[sample['shot_id']] = sample
 
-        if args.print_prediction:
-            print(sample['query'])
-            print('-' * 100)
-            print(sample['prediction'])
-            print('-' * 100)
+        if args.print_prediction and accelerator.is_local_main_process:
+            print(f"\n--- Shot ID: {shot_id} ---")
+            print(f"Query: {sample['query']}")
+            print('-' * 50)
+            print(f"Prediction: {sample['prediction']}")
             print('-' * 100)
 
         # Save intermediate results
-        if i % 100 == 0:
+        if i % 100 == 0 and accelerator.is_local_main_process:
             with open(args.output_path, 'w') as f:
                 json.dump(results_dict, f, indent=4)
 
     # Save results
-    with open(args.output_path, 'w') as f:
-        json.dump(results_dict, f, indent=4)
+    if accelerator.is_main_process:
+        with open(args.output_path, 'w') as f:
+            json.dump(results_dict, f, indent=4)
+        accelerator.print(f"Results saved to {args.output_path}")
 
 
 if __name__ == "__main__":
