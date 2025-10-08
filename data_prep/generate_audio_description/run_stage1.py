@@ -11,6 +11,7 @@ from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor, Bits
 import cv2
 from PIL import Image
 import decord
+from accelerate import Accelerator
 
 # 'pip install qwen-vl-utils'
 from qwen_vl_utils import process_vision_info
