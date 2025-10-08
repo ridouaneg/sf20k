@@ -118,6 +118,7 @@ class QwenVLModel:
         model_id: str,
         num_frames: int = 8,
         load_in_4bit: bool = False,
+        target_size: tuple = (640, 360),
     ):
         assert model_id in [
             "Qwen/Qwen2.5-VL-3B-Instruct",
@@ -131,7 +132,8 @@ class QwenVLModel:
         self.model = model
         self.processor = processor
         self.num_frames = num_frames
-
+        self.target_size = target_size
+    
     def load_model(self, model_path: str, load_in_4bit: bool = False):
         bnb_config = None
         if load_in_4bit:
@@ -159,10 +161,11 @@ class QwenVLModel:
         num_frames: int,
         start_time: float,
         end_time: float,
+        target_size: tuple = (640, 360),
     ):
         messages = []
         content = []
-        content.append({"type": "video", "video": video_path, "nframes": num_frames, "video_start": start_time, "video_end": end_time})
+        content.append({"type": "video", "video": video_path, "nframes": num_frames, "video_start": start_time, "video_end": end_time, "resized_width": target_size[0], "resized_height": target_size[1]})
         content.append({"type": "text", "text": query})
         messages.append({"role": "user", "content": content})
         return messages
@@ -183,6 +186,7 @@ class QwenVLModel:
             start_time=start_time,
             end_time=end_time,
             num_frames=self.num_frames,
+            target_size=self.target_size,
         )
 
         text = self.processor.apply_chat_template(
@@ -238,6 +242,7 @@ def parse_args():
         "Qwen/Qwen2.5-VL-7B-Instruct",
     ])
     parser.add_argument("--num_frames", type=int, default=8)
+    parser.add_argument("--target_size", type=tuple, default=(640, 360))
     # Generation config
     parser.add_argument("--max_new_tokens", type=int, default=256)
     parser.add_argument("--do_sample", action='store_true')
@@ -269,6 +274,7 @@ def main(args):
         weights_dir=args.weights_dir,
         model_id=args.model_id,
         num_frames=args.num_frames,
+        target_size=args.target_size,
     )
 
     # Resume inference
