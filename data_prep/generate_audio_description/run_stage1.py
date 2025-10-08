@@ -11,7 +11,6 @@ from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor, Bits
 import cv2
 from PIL import Image
 import decord
-from accelerate import Accelerator
 
 # 'pip install qwen-vl-utils'
 from qwen_vl_utils import process_vision_info
@@ -141,7 +140,7 @@ class QwenVLModel:
         model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
             model_path,
             dtype="auto",
-            #device_map="auto",
+            device_map="auto",
             quantization_config=bnb_config,
         )
 
@@ -164,7 +163,6 @@ class QwenVLModel:
         messages = []
         content = []
         content.append({"type": "video", "video": video_path, "nframes": num_frames, "video_start": start_time, "video_end": end_time})
-        #content.append({"type": "video"})
         content.append({"type": "text", "text": query})
         messages.append({"role": "user", "content": content})
         return messages
@@ -255,9 +253,6 @@ def parse_args():
 
 
 def main(args):
-    # Initialize Accelerator
-    accelerator = Accelerator()
-
     # Prepare dataset
     dataset = SF20KDataset(
         data_path=args.data_path,
@@ -269,47 +264,25 @@ def main(args):
         end_idx=args.end_idx,
     )
 
-    # Resume inference: Only main process handles file I/O
-    results_dict = {}
-    if accelerator.is_main_process:
-        os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
-        if os.path.exists(args.output_path) and not args.force_rerun:
-            with open(args.output_path, 'r') as f:
-                results_dict = json.load(f)
-    
-    # Filter out already processed samples
-    processed_shot_ids = set(results_dict.keys())
-    if not args.force_rerun and len(processed_shot_ids) > 0:
-        original_size = len(dataset.all_clips)
-        dataset.all_clips = [sample for sample in dataset.all_clips if sample['shot_id'] not in processed_shot_ids]
-        accelerator.print(f"Resuming inference. Found {len(processed_shot_ids)} completed samples. Remaining: {len(dataset.all_clips)}/{original_size}")
-    
     # Prepare model
     model_wrapper = QwenVLModel(
         weights_dir=args.weights_dir,
         model_id=args.model_id,
         num_frames=args.num_frames,
     )
-    
-    # Use accelerator to prepare model and dataloader for distributed training/inference
-    model, dataset = accelerator.prepare(model_wrapper.model, dataset)
-    model_wrapper.model = model
 
     # Resume inference
-    #os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
-    #results_dict = json.load(open(args.output_path, 'r')) if os.path.exists(args.output_path) and not args.force_rerun  else {}
-
-    local_results = []
-    progress_bar = tqdm(total=len(dataset), disable=not accelerator.is_local_main_process, desc=f"Process {accelerator.process_index}")
+    os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
+    results_dict = json.load(open(args.output_path, 'r')) if os.path.exists(args.output_path) and not args.force_rerun  else {}
 
     # Run inference
-    #for i, sample in tqdm(enumerate(dataset), total=len(dataset), disable=not accelerator.is_local_main_process):
-    for sample in dataset:
+    for i, sample in tqdm(enumerate(dataset), total=len(dataset)):
+        # Skip if already processed
         if sample['shot_id'] in results_dict and not args.force_rerun:
             continue
 
+        # Get response
         try:
-            # Get response
             prediction = model_wrapper.generate(
                 video_path=sample['video_path'],
                 query=sample['query'],
@@ -325,34 +298,24 @@ def main(args):
 
         # Store the prediction
         sample['prediction'] = prediction
-        local_results.append(sample)
-        #results_dict[sample['shot_id']] = sample
+        results_dict[sample['shot_id']] = sample
 
-        if args.print_prediction and accelerator.is_local_main_process:
+        if args.print_prediction:
             print(f"\n--- Shot ID: {sample['shot_id']} ---")
             print(f"Query: {sample['query']}")
             print('-' * 50)
             print(f"Prediction: {sample['prediction']}")
             print('-' * 100)
-        
-        progress_bar.update(1)
 
         # Save intermediate results
-        #if i % 100 == 0 and accelerator.is_local_main_process:
-        #    with open(args.output_path, 'w') as f:
-        #        json.dump(results_dict, f, indent=4)
-
-    # Gather results from all processes
-    all_process_results = accelerator.gather_object(local_results)
+        if i % 100 == 0:
+            with open(args.output_path, 'w') as f:
+                json.dump(results_dict, f, indent=4)
 
     # Save results
-    if accelerator.is_main_process:
-        for sample in all_process_results:
-            results_dict[sample['shot_id']] = sample
-
-        with open(args.output_path, 'w') as f:
-            json.dump(results_dict, f, indent=4)
-        accelerator.print(f"All results gathered and saved to {args.output_path}")
+    with open(args.output_path, 'w') as f:
+        json.dump(results_dict, f, indent=4)
+    print(f"Results saved to {args.output_path}")
 
 
 if __name__ == "__main__":
