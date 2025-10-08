@@ -11,9 +11,6 @@ from accelerate import Accelerator
 # 'pip install qwen-vl-utils'
 from qwen_vl_utils import process_vision_info
 
-# Example usage with 'accelerate' for multi-GPU inference.
-# The '--num_processes' flag specifies the number of GPUs to use.
-# The new '--batch_size' argument sets the per-GPU batch size.
 cmd_lines = """
 # Run on 2 GPUs with a per-GPU batch size of 4 (total batch size = 2 * 4 = 8)
 accelerate launch --num_processes 2 run_stage1_accelerate.py \
@@ -119,7 +116,6 @@ class QwenVLModel:
     def load_model(self, model_path: str, load_in_4bit: bool = False):
         bnb_config = BitsAndBytesConfig(load_in_4bit=True) if load_in_4bit else None
         
-        # NOTE: Removed device_map="auto". 'accelerate' will handle device placement.
         model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
             model_path,
             dtype="auto",
@@ -178,20 +174,16 @@ class QwenVLModel:
         texts = [self.processor.apply_chat_template(msg, tokenize=False, add_generation_prompt=True) for msg in batch_messages]
         
         all_video_inputs = []
-        all_video_kwargs = {}
         for msg in batch_messages:
             _, video_inputs, video_kwargs = process_vision_info(msg, return_video_kwargs=True)
             all_video_inputs.extend(video_inputs)
-            # Assuming video_kwargs are the same for all videos in the batch
-            if not all_video_kwargs:
-                all_video_kwargs = video_kwargs
 
         inputs = self.processor(
             text=texts,
             videos=all_video_inputs,
             padding=True,
             return_tensors="pt",
-            **all_video_kwargs,
+            **video_kwargs,
         ).to(self.model.device)
 
         with torch.no_grad():
