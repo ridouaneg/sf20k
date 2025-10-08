@@ -277,20 +277,24 @@ def main(args):
     results_dict = json.load(open(args.output_path, 'r')) if os.path.exists(args.output_path) and not args.force_rerun  else {}
 
     # Run inference
-    for sample in tqdm(dataset, total=len(dataset)):
+    for i, sample in tqdm(enumerate(dataset), total=len(dataset)):
         if sample['shot_id'] in results_dict and not args.force_rerun:
             continue
 
-        # Get response
-        prediction = model.generate(
-            video_path=sample['video_path'],
-            query=sample['query'],
-            start_time=sample['start_time'],
-            end_time=sample['end_time'],
-            max_new_tokens=args.max_new_tokens,
-            do_sample=args.do_sample,
-            temperature=args.temperature,
-        )
+        try:
+            # Get response
+            prediction = model.generate(
+                video_path=sample['video_path'],
+                query=sample['query'],
+                start_time=sample['start_time'],
+                end_time=sample['end_time'],
+                max_new_tokens=args.max_new_tokens,
+                do_sample=args.do_sample,
+                temperature=args.temperature,
+            )
+        except Exception as e:
+            print(f"Error generating prediction for sample {sample['shot_id']}: {e}")
+            continue
 
         # Store the prediction
         sample['prediction'] = prediction
@@ -302,6 +306,11 @@ def main(args):
             print(sample['prediction'])
             print('-' * 100)
             print('-' * 100)
+
+        # Save intermediate results
+        if i % 100 == 0:
+            with open(args.output_path, 'w') as f:
+                json.dump(results_dict, f, indent=4)
 
     # Save results
     with open(args.output_path, 'w') as f:
