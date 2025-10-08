@@ -174,16 +174,23 @@ class QwenVLModel:
         texts = [self.processor.apply_chat_template(msg, tokenize=False, add_generation_prompt=True) for msg in batch_messages]
         
         all_video_inputs = []
+        all_video_kwargs = {}
         for msg in batch_messages:
             _, video_inputs, video_kwargs = process_vision_info(msg, return_video_kwargs=True)
             all_video_inputs.extend(video_inputs)
+            if all_video_kwargs == {}:
+                for k in video_kwargs.keys():
+                    all_video_kwargs[k] = [video_kwargs[k]]
+            else:
+                for k in all_video_kwargs.keys():
+                    all_video_kwargs[k].append(video_kwargs[k])
 
         inputs = self.processor(
             text=texts,
             videos=all_video_inputs,
             padding=True,
             return_tensors="pt",
-            **video_kwargs,
+            **all_video_kwargs,
         ).to(self.model.device)
 
         with torch.no_grad():
