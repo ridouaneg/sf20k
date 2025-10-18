@@ -1,67 +1,59 @@
 import os
 import torch
 from transformers import (
-    Qwen2_5_VLForConditionalGeneration,
-    Qwen3VLMoeForConditionalGeneration,
+    Qwen2_5OmniForConditionalGeneration,
     AutoProcessor,
     BitsAndBytesConfig,
 )
 
-# 'pip install qwen-vl-utils'
-from qwen_vl_utils import process_vision_info
+# 'pip install qwen-omni-utils''
+from qwen_omni_utils import process_mm_info
 
 
-class QwenVLModel:
+class QwenOmniModel:
 
     def __init__(
         self,
         model_name: str,
-        weights_dir: str,
+        weights_dir: str = ".",
         modality: str = "vision_language",
         num_frames: int = 8,
         fps: float = None,
         max_frames: int = None,
         load_in_4bit: bool = False,
-        target_size: tuple = None,
     ):
-        assert modality in ["vision", "language", "vision_language"]
+        assert modality in [
+            "vision",
+            "language",
+            "vision_language",
+            "audio_vision",
+            "audio_vision_language",
+        ]
 
         assert model_name in [
-            "qwen2.5-vl-3b",
-            "qwen2.5-vl-7b",
-            "qwen2.5-vl-72b",
-            "qwen3-vl-30b-a3b",
-            "qwen3-vl-235b-a22b",
+            "qwen2.5-omni-3b",
+            "qwen2.5-omni-7b",
         ]
 
         dict_model_name_to_model_id = {
-            "qwen2.5-vl-3b": "Qwen/Qwen2.5-VL-3B-Instruct",
-            "qwen2.5-vl-7b": "Qwen/Qwen2.5-VL-7B-Instruct",
-            "qwen2.5-vl-72b": "Qwen/Qwen2.5-VL-72B-Instruct",
-            "qwen3-vl-30b-a3b": "Qwen/Qwen3-VL-30B-A3B-Instruct",
-            "qwen3-vl-235b-a22b": "Qwen/Qwen3-VL-235B-A22B-Instruct",
+            "qwen2.5-omni-3b": "Qwen/Qwen2.5-Omni-3B",
+            "qwen2.5-omni-7b": "Qwen/Qwen2.5-Omni-7B",
         }
 
         model_id = dict_model_name_to_model_id[model_name]
 
         if model_id in [
-            "Qwen/Qwen2.5-VL-3B-Instruct",
-            "Qwen/Qwen2.5-VL-7B-Instruct",
-            "Qwen/Qwen2.5-VL-72B-Instruct",
+            "Qwen/Qwen2.5-Omni-3B",
+            "Qwen/Qwen2.5-Omni-7B",
         ]:
-            self.model_class_ = Qwen2_5_VLForConditionalGeneration
-            self.processor_class_ = AutoProcessor
-        elif model_id in [
-            "Qwen/Qwen3-VL-30B-A3B-Instruct",
-            "Qwen/Qwen3-VL-235B-A22B-Instruct",
-        ]:
-            self.model_class_ = Qwen3VLMoeForConditionalGeneration
-            self.processor_class_ = AutoProcessor
+            self.model_class_ = Qwen2_5OmniForConditionalGeneration
+            self.processor_class_ = Qwen2_5OmniProcessor
         else:
             raise ValueError(f"Model {model_id} not supported")
 
         model_path = os.path.join(weights_dir, model_id)
         model, processor = self.load_model(model_path=model_path, load_in_4bit=load_in_4bit)
+        model.disable_talker()
 
         self.model_id = model_id
         self.model = model
@@ -69,9 +61,9 @@ class QwenVLModel:
         self.num_frames = num_frames
         self.fps = fps
         self.max_frames = max_frames
-        self.target_size = target_size
         self.modality = modality
-        
+        self.use_audio_in_video = modality in ["audio_vision", "audio_vision_language"]
+
     def load_model(self, model_path: str, load_in_4bit: bool = False):
         bnb_config = BitsAndBytesConfig(load_in_4bit=load_in_4bit) if load_in_4bit else None
         model = self.model_class_.from_pretrained(
@@ -99,7 +91,6 @@ class QwenVLModel:
         num_frames: int = 8,
         fps: float = None,
         max_frames: int = None,
-        target_size: tuple = None,
     ):
         messages = []
         if system_prompt is not None:
@@ -107,7 +98,7 @@ class QwenVLModel:
 
         content = []
 
-        if modality in ["vision", "vision_language"]:
+        if modality in ["vision", "vision_language", "audio_vision", "audio_vision_language"]:
             video_content = {
                 "type": "video",
                 "video": video_path,
@@ -123,9 +114,6 @@ class QwenVLModel:
             if start_time is not None and end_time is not None:
                 video_content["start_time"] = start_time
                 video_content["end_time"] = end_time
-            if target_size is not None:
-                video_content["resized_height"] = target_size[0]
-                video_content["resized_width"] = target_size[1]
             content.append(video_content)
 
         content.append({"type": "text", "text": query})
@@ -156,7 +144,6 @@ class QwenVLModel:
             num_frames=self.num_frames,
             fps=self.fps,
             max_frames=self.max_frames,
-            target_size=self.target_size,
         )
 
         text_inputs = [self.processor.apply_chat_template(
@@ -165,15 +152,15 @@ class QwenVLModel:
             add_generation_prompt=True
         )]
 
-        if modality in ["vision", "vision_language"]:
-            image_inputs, video_inputs, video_kwargs = process_vision_info(
-                messages, 
-                return_video_kwargs=True,
+        if modality in ["vision", "vision_language", "audio_vision", "audio_vision_language"]:
+            audio_inputs, image_inputs, video_inputs = process_mm_info(
+                messages,
+                use_audio_in_video=self.use_audio_in_video,
             )
         else:
+            audio_inputs = None
             image_inputs = None
             video_inputs = None
-            video_kwargs = {}
 
         inputs = self.processor(
             text=text_inputs,
@@ -181,7 +168,7 @@ class QwenVLModel:
             videos=video_inputs,
             padding=True,
             return_tensors="pt",
-            **video_kwargs,
+            use_audio_in_video=self.use_audio_in_video,
         )
 
         with torch.no_grad():
@@ -190,6 +177,8 @@ class QwenVLModel:
                 max_new_tokens=max_new_tokens,
                 do_sample=do_sample,
                 temperature=temperature,
+                use_audio_in_video=self.use_audio_in_video,
+                return_audio=False,
             )
 
         generated_ids_trimmed = [
