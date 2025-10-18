@@ -6,9 +6,6 @@ from openai import OpenAI
 
 from sf20k.constants import OPENAI_API_KEY, OPENAI_ORG_ID
 
-#OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-#OPENAI_ORG_ID = os.getenv("OPENAI_ORG_ID")
-
 
 class GPT:
     
