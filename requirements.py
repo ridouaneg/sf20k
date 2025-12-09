@@ -1,0 +1,10 @@
+tqdm
+openai
+google-genai
+opencv-python
+decord
+Pillow
+torchvision
+transformers
+pandas
+accelerate

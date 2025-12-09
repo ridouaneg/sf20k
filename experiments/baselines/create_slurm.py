@@ -14,16 +14,16 @@ TEMPLATE = """#!/bin/bash
 #SBATCH --error=/lustre/fsn1/projects/rech/kcn/ucm72yx/slurm/sf20k/%j.err
 
 module load arch/h100
-module load ffmpeg/6.1.1
-module load pytorch-gpu/py3/2.6.0
-source /lustre/fsn1/projects/rech/kcn/ucm72yx/virtual_envs/movie_star/bin/activate
-cd /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/experiments/
+module load ffmpeg/6.1.1-cuda
+module load pytorch-gpu/py3/2.8.0
+source /lustre/fsn1/projects/rech/kcn/ucm72yx/virtual_envs/sf20k/bin/activate
+cd /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/scripts/
 
 python run_inference.py \\
     --output_dir ./results/ijcv_rebuttal/ \\
     --data_path ../data/test_expert.csv \\
     --subtitles_path ../data/test_subtitles.csv \\
-    --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/ \\
+    --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
     --model_name {model_name} \\
     --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/ \\
     --modality {modality} \\

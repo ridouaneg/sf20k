@@ -79,34 +79,34 @@ def main(args):
         if question_id in existing_ids and not args.force_rerun:
             continue
 
-        try:
-            response = model.generate(
-                query=sample["query"],
-                video_path=sample["video_path"],
-                system_prompt=None,
-            )
-            
-            prediction = prompt.postprocess_response(response)
+        #try:
+        response = model.generate(
+            query=sample["query"],
+            video_path=sample["video_path"],
+            system_prompt=None,
+        )
+        
+        prediction = prompt.postprocess_response(response)
 
-            results[question_id] = {
-                "question_id": question_id,
-                "video_id": sample["video_id"],
-                "question": sample["question"],
-                "answer": sample["answer"], # Ground truth
-                "answer_id": int(sample["answer_id"]) if pd.notna(sample["answer_id"]) else None, # Ground truth ID
-                "response": response,
-                "prediction": prediction,
-                "model": args.model_name,
-                "modality": args.modality,
-                "num_frames": args.num_frames,
-            }
+        results[question_id] = {
+            "question_id": question_id,
+            "video_id": sample["video_id"],
+            "question": sample["question"],
+            "answer": sample["answer"], # Ground truth
+            "answer_id": int(sample["answer_id"]) if pd.notna(sample["answer_id"]) else None, # Ground truth ID
+            "response": response,
+            "prediction": prediction,
+            "model": args.model_name,
+            "modality": args.modality,
+            "num_frames": args.num_frames,
+        }
                         
-            with open(output_path, "w") as f:
-                json.dump(results, f, indent=4)
+        with open(output_path, "w") as f:
+            json.dump(results, f, indent=4)
             
-        except Exception as e:
-            print(f"Error processing sample {question_id}: {e}")
-            continue
+        #except Exception as e:
+        #    print(f"Error processing sample {question_id}: {e}")
+        #    continue
 
     print(f"Saved results to {output_path}")
     with open(output_path, "w") as f:
