@@ -8,3 +8,4 @@ torchvision
 transformers
 pandas
 accelerate
+qwen-vl-utils
