@@ -8,7 +8,6 @@ from torchvision.transforms.functional import InterpolationMode
 from transformers import AutoModel, AutoTokenizer
 
 from sf20k.prompts import OEQAPrompt
-from sf20k.constants import WEIGHTS_DIR
 from sf20k.datasets import SF20KDataset
 
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
@@ -120,7 +119,7 @@ class InternVLModel:
     def __init__(
         self,
         model_name: str,
-        weights_dir: str = WEIGHTS_DIR,
+        weights_dir: str = None,
         modality: str = "vision_language",
         num_frames: int = 8,
         fps: float = None,
@@ -137,7 +136,7 @@ class InternVLModel:
             "internvl3.5-14b": "OpenGVLab/InternVL3_5-14B",
         }
         model_id = dict_model_name_to_model_id[model_name]
-        model_path = os.path.join(WEIGHTS_DIR, model_id)
+        model_path = os.path.join(weights_dir, model_id) if weights_dir is not None else model_id
 
         model = AutoModel.from_pretrained(
             model_path,

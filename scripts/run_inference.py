@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 from sf20k.models import get_model
 from sf20k.datasets.sf20k import SF20KDataset
-from sf20k.prompts import MCQAPrompt, OEQAPrompt
+from sf20k.prompts import OEQAPrompt
 
 
 def parse_args():
@@ -29,9 +29,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def main():
-    args = parse_args()
-
+def main(args):
     # Setup output directory
     os.makedirs(args.output_dir, exist_ok=True)
     output_filename = f"model_{args.model_name}_modality_{args.modality}_num_frames_{args.num_frames}.json"
@@ -90,7 +88,7 @@ def main():
             
             prediction = prompt.postprocess_response(response)
 
-            result = {
+            results[question_id] = {
                 "question_id": question_id,
                 "video_id": sample["video_id"],
                 "question": sample["question"],
@@ -102,9 +100,7 @@ def main():
                 "modality": args.modality,
                 "num_frames": args.num_frames,
             }
-            
-            results[question_id] = result
-            
+                        
             with open(output_path, "w") as f:
                 json.dump(results, f, indent=4)
             
@@ -112,8 +108,12 @@ def main():
             print(f"Error processing sample {question_id}: {e}")
             continue
 
+    print(f"Saved results to {output_path}")
+    with open(output_path, "w") as f:
+        json.dump(results, f, indent=4)
     print("Done!")
 
 
 if __name__ == "__main__":
-    main()
+    args = parse_args()
+    main(args)

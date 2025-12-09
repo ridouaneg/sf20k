@@ -31,15 +31,13 @@ except:
     process_images = None
     tokenizer_image_token = None
 
-from ..constants import WEIGHTS_DIR
-
 
 class LongVUModel:
 
     def __init__(
         self,
         model_name: str,
-        weights_dir: str = WEIGHTS_DIR,
+        weights_dir: str = None,
         fps: float = 1.0,
         max_frames: int = 8,
         **kwargs,
@@ -52,7 +50,7 @@ class LongVUModel:
         self.model_name = model_name
         self.model_id = dict_model_name_to_model_id.get(model_name, model_name)
         
-        model_path = os.path.join(weights_dir, self.model_id)
+        model_path = os.path.join(weights_dir, self.model_id) if weights_dir is not None else self.model_id
         tokenizer, model, image_processor, context_len = load_pretrained_model(
             model_path,
             None,

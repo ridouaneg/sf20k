@@ -22,15 +22,13 @@ try:
 except:
     process_vision_info = None
 
-from ..constants import WEIGHTS_DIR
-
 
 class QwenVLModel:
 
     def __init__(
         self,
         model_name: str,
-        weights_dir: str = WEIGHTS_DIR,
+        weights_dir: str = None,
         modality: str = "vision_language",
         fps: float = 1.0,
         max_frames: int = 8,
@@ -102,7 +100,7 @@ class QwenVLModel:
         else:
             raise ValueError(f"Model {model_id} not supported")
 
-        model_path = os.path.join(weights_dir, model_id)
+        model_path = os.path.join(weights_dir, model_id) if weights_dir is not None else model_id
         model, processor = self.load_model(model_path=model_path, load_in_4bit=load_in_4bit)
 
         self.model_id = model_id

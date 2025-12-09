@@ -1,13 +1,15 @@
 import base64
 import numpy as np
 import cv2
+import os
 
 try:
     from openai import OpenAI
 except:
     OpenAI = None
 
-from ..constants import OPENAI_API_KEY, OPENAI_ORG_ID
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", None)
+OPENAI_ORG_ID = os.getenv("OPENAI_ORG_ID", None)
 
 
 class GPTModel:

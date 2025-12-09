@@ -22,15 +22,13 @@ try:
 except:
     process_visionprocess_mm_info_info = None
 
-from ..constants import WEIGHTS_DIR
-
 
 class QwenOmniModel:
 
     def __init__(
         self,
         model_name: str,
-        weights_dir: str = WEIGHTS_DIR,
+        weights_dir: str = None,
         modality: str = "vision_language",
         fps: float = 1.0,
         max_frames: int = 8,
@@ -57,7 +55,7 @@ class QwenOmniModel:
             "qwen2.5-omni-7b": "Qwen/Qwen2.5-Omni-7B",
         }
         model_id = dict_model_name_to_model_id[model_name]
-        model_path = os.path.join(weights_dir, model_id)
+        model_path = os.path.join(weights_dir, model_id) if weights_dir is not None else model_id
         model, processor = self.load_model(
             model_path=model_path,
             load_in_4bit=load_in_4bit,
