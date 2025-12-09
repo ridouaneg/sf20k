@@ -1,26 +1,45 @@
-import cv2
 import base64
 import numpy as np
-from openai import OpenAI
-#import os
+import cv2
 
-from sf20k.constants import OPENAI_API_KEY, OPENAI_ORG_ID
+try:
+    from openai import OpenAI
+except:
+    OpenAI = None
+
+from ..constants import OPENAI_API_KEY, OPENAI_ORG_ID
 
 
-class GPT:
+class GPTModel:
     
     def __init__(
         self,
-        model_id: str,
-        weights_dir: str,
-        num_frames: int = 8,
-        fps: float = None,
-        max_frames: int = None,
+        model_name: str,
+        modality: str = "vision_language",
+        fps: float = 1.0,
+        max_frames: int = 8,
         target_size: tuple = None,
+        **kwargs,
     ):
-        self.model_id = model_id
+        assert model_name in [
+            "gpt-4.1-nano",
+            "gpt-4.1-mini",
+            "gpt-4.1",
+            "gpt-5-nano",
+            "gpt-5-mini",
+            "gpt-5",
+            "gpt-5.1",
+        ]
+
+        assert modality in [
+            "vision",
+            "language",
+            "vision_language",
+        ]
+        
+        self.model_name = model_name
         self.client = OpenAI(api_key=OPENAI_API_KEY, organization=OPENAI_ORG_ID)
-        self.num_frames = num_frames
+        self.modality = modality
         self.fps = fps
         self.max_frames = max_frames
         self.target_size = target_size
@@ -28,7 +47,6 @@ class GPT:
     def load_video(
         self,
         video_path: str,
-        num_frames: int = None,
         fps: float = None,
         max_frames: int = None,
         target_size: tuple = None,
@@ -74,11 +92,12 @@ class GPT:
         query: str,
         video_path: str, 
         system_prompt: str = None,
-        start_time: float = None,
-        end_time: float = None,
         max_new_tokens: int = 256,
         do_sample: bool = False,
         temperature: float = 1.0,
+        start_time: float = None,
+        end_time: float = None,
+        **kwargs,
     ):
         if start_time is not None or end_time is not None:
             raise NotImplementedError("Start time and end time are not supported for GPT")
@@ -87,33 +106,38 @@ class GPT:
         if system_prompt is not None:
             raise NotImplementedError("System prompt is not supported for GPT")
 
-        video = self.load_video(
-            video_path,
-            num_frames=self.num_frames,
-            fps=self.fps,
-            max_frames=self.max_frames,
-            target_size=self.target_size,
-        )
+        content = [
+            {
+                "type": "input_text",
+                "text": query,
+            }
+        ]
+        
+        if "vision" in self.modality:
+            video = self.load_video(
+                video_path,
+                fps=self.fps,
+                max_frames=self.max_frames,
+                target_size=self.target_size,
+            )
+
+            content.extend([
+                {
+                    "type": "input_image",
+                    "image_url": f"data:image/jpeg;base64,{frame}"
+                }
+                for frame in video
+            ])
+        
+        messages = [{
+            "role": "user",
+            "content": content
+        }]
 
         try:
             response = self.client.responses.create(
-                model=self.model_id,
-                input=[{
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "input_text",
-                            "text": query,
-                        },
-                        *[
-                            {
-                                "type": "input_image",
-                                "image_url": f"data:image/jpeg;base64,{frame}"
-                            }
-                            for frame in video
-                        ]
-                    ]
-                }],
+                model=self.model_name,
+                input=messages
             )
             return response.output_text
         except Exception as e:

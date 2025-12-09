@@ -1,13 +1,28 @@
 import os
 import torch
 from transformers import (
-    Qwen2_5OmniForConditionalGeneration,
     AutoProcessor,
     BitsAndBytesConfig,
 )
 
-# 'pip install qwen-omni-utils''
-from qwen_omni_utils import process_mm_info
+try:
+    import soundfile as sf
+    from transformers import (
+        Qwen2_5OmniForConditionalGeneration,
+        Qwen2_5OmniProcessor,
+    )
+except:
+    sf = None
+    Qwen2_5OmniForConditionalGeneration = None
+    Qwen2_5OmniProcessor = None
+
+# 'pip install qwen-vl-utils'
+try:
+    from qwen_omni_utils import process_mm_info
+except:
+    process_visionprocess_mm_info_info = None
+
+from ..constants import WEIGHTS_DIR
 
 
 class QwenOmniModel:
@@ -15,21 +30,23 @@ class QwenOmniModel:
     def __init__(
         self,
         model_name: str,
-        weights_dir: str = ".",
+        weights_dir: str = WEIGHTS_DIR,
         modality: str = "vision_language",
-        num_frames: int = 8,
-        fps: float = None,
-        max_frames: int = None,
+        fps: float = 1.0,
+        max_frames: int = 8,
         load_in_4bit: bool = False,
+        **kwargs,
     ):
         assert modality in [
-            "vision",
-            "language",
+            "vision", 
+            "language", 
+            "audio",
             "vision_language",
             "audio_vision",
+            "audio_language",
             "audio_vision_language",
         ]
-
+        
         assert model_name in [
             "qwen2.5-omni-3b",
             "qwen2.5-omni-7b",
@@ -39,156 +56,123 @@ class QwenOmniModel:
             "qwen2.5-omni-3b": "Qwen/Qwen2.5-Omni-3B",
             "qwen2.5-omni-7b": "Qwen/Qwen2.5-Omni-7B",
         }
-
         model_id = dict_model_name_to_model_id[model_name]
-
-        if model_id in [
-            "Qwen/Qwen2.5-Omni-3B",
-            "Qwen/Qwen2.5-Omni-7B",
-        ]:
-            self.model_class_ = Qwen2_5OmniForConditionalGeneration
-            self.processor_class_ = Qwen2_5OmniProcessor
-        else:
-            raise ValueError(f"Model {model_id} not supported")
-
         model_path = os.path.join(weights_dir, model_id)
-        model, processor = self.load_model(model_path=model_path, load_in_4bit=load_in_4bit)
-        model.disable_talker()
+        model, processor = self.load_model(
+            model_path=model_path,
+            load_in_4bit=load_in_4bit,
+        )
 
         self.model_id = model_id
         self.model = model
         self.processor = processor
-        self.num_frames = num_frames
         self.fps = fps
         self.max_frames = max_frames
         self.modality = modality
-        self.use_audio_in_video = modality in ["audio_vision", "audio_vision_language"]
-
-    def load_model(self, model_path: str, load_in_4bit: bool = False):
-        bnb_config = BitsAndBytesConfig(load_in_4bit=load_in_4bit) if load_in_4bit else None
-        model = self.model_class_.from_pretrained(
-            model_path,
-            dtype="auto",
-            device_map="auto",
-            quantization_config=bnb_config,
-        )
-        processor = self.processor_class_.from_pretrained(
-            model_path,
-            padding_side="left",
-            use_fast=True,
-        )
-        return model, processor
-
-    @staticmethod
-    def format_chat_template(
-        query: str,
-        video_path: str,
-        modality: str = "vision_language",
-        start_time: float = None,
-        end_time: float = None,
-        ground_truth: str = None,
-        system_prompt: str = None,
-        num_frames: int = 8,
-        fps: float = None,
-        max_frames: int = None,
+        self.use_audio_in_video = "audio" in self.modality
+        
+    def load_model(
+        self, 
+        model_path: str, 
+        load_in_4bit: bool = False,
     ):
-        messages = []
-        if system_prompt is not None:
-            messages.append({"role": "system", "content": system_prompt})
+        #bnb_config = BitsAndBytesConfig(load_in_4bit=load_in_4bit) if load_in_4bit else None
 
-        content = []
+        model = Qwen2_5OmniForConditionalGeneration.from_pretrained(
+            model_path,
+            torch_dtype="auto",
+            device_map="auto",
+            #quantization_config=bnb_config,
+        )
+        model.disable_talker()
 
-        if modality in ["vision", "vision_language", "audio_vision", "audio_vision_language"]:
-            video_content = {
-                "type": "video",
-                "video": video_path,
-            }
-            if num_frames is not None:
-                video_content["nframes"] = num_frames
-            elif fps is not None:
-                if max_frames is not None:
-                    video_content["fps"] = fps
-                    video_content["max_frames"] = max_frames
-                else:
-                    video_content["fps"] = fps
-            if start_time is not None and end_time is not None:
-                video_content["start_time"] = start_time
-                video_content["end_time"] = end_time
-            content.append(video_content)
+        processor = Qwen2_5OmniProcessor.from_pretrained(
+            #model_path,
+            "/geovic/ghermi/weights/Qwen/Qwen2.5-Omni-7B",
+            #padding_side="left",
+            #use_fast=True,
+        )
 
-        content.append({"type": "text", "text": query})
-        messages.append({"role": "user", "content": content})
-        if ground_truth is not None:
-            messages.append({"role": "assistant", "content": [{"type": "text", "text": ground_truth}]})
-
-        return messages
+        return model, processor
 
     def generate(
         self,
         query: str,
         video_path: str, 
-        system_prompt: str = None,
-        start_time: float = None,
-        end_time: float = None,
+        system_prompt: str = "You are Qwen, a virtual human developed by the Qwen Team, Alibaba Group, capable of perceiving auditory and visual inputs, as well as generating text and speech.",
         max_new_tokens: int = 256,
-        do_sample: bool = False,
-        temperature: float = 1.0,
+        do_sample: bool = True,
+        top_p: float = 0.8,
+        top_k: int = 20,
+        temperature: float = 0.7,
+        repetition_penalty: float = 1.0,
+        presence_penalty: float = 1.5,
+        out_seq_length: int = 16384,
+        total_pixels: int = 20480 * 32 * 32,
+        min_pixels: int = 64 * 32 * 32,
+        **kwargs,
     ):
-        messages = self.format_chat_template(
-            query=query,
-            video_path=video_path,
-            modality=self.modality,
-            start_time=start_time,
-            end_time=end_time,
-            system_prompt=system_prompt,
-            num_frames=self.num_frames,
-            fps=self.fps,
-            max_frames=self.max_frames,
-        )
+        messages = []
+        messages.append({
+            "role": "system",
+            "content": [{"type": "text", "text": system_prompt}]
+        })
 
-        text_inputs = [self.processor.apply_chat_template(
+        content = []
+        if "vision" in self.modality:
+            content.append({"type": "video", "video": video_path})
+        content.append({"type": "text", "text": query})
+
+        messages.append({"role": "user", "content": content})
+
+        text = self.processor.apply_chat_template(
             messages,
             tokenize=False,
-            add_generation_prompt=True
-        )]
+            add_generation_prompt=True,
+        )
 
-        if modality in ["vision", "vision_language", "audio_vision", "audio_vision_language"]:
-            audio_inputs, image_inputs, video_inputs = process_mm_info(
-                messages,
-                use_audio_in_video=self.use_audio_in_video,
-            )
-        else:
-            audio_inputs = None
-            image_inputs = None
-            video_inputs = None
+        audios, images, videos = process_mm_info(
+            messages,
+            use_audio_in_video=self.use_audio_in_video
+        )
 
         inputs = self.processor(
-            text=text_inputs,
-            images=image_inputs,
-            videos=video_inputs,
-            padding=True,
+            text=[text],
+            audio=audios,
+            images=images,
+            videos=videos,
             return_tensors="pt",
-            use_audio_in_video=self.use_audio_in_video,
+            padding=True,
+            use_audio_in_video=self.use_audio_in_video
+        ).to(
+            self.model.device, 
+            self.model.dtype
         )
 
         with torch.no_grad():
-            generated_ids = self.model.generate(
-                **inputs,
+            output_ids = self.model.generate(
+                **inputs, 
                 max_new_tokens=max_new_tokens,
                 do_sample=do_sample,
+                top_p=top_p,
+                top_k=top_k,
                 temperature=temperature,
+                repetition_penalty=repetition_penalty,
+                #presence_penalty=presence_penalty,
+                #out_seq_length=out_seq_length,
                 use_audio_in_video=self.use_audio_in_video,
-                return_audio=False,
+                return_audio=False
             )
 
-        generated_ids_trimmed = [
-            out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
+        generated_ids = [
+            output_ids[len(input_ids):]
+            for input_ids, output_ids in zip(inputs.input_ids, output_ids)
         ]
 
-        prediction = self.processor.batch_decode(
-            generated_ids_trimmed,
-            skip_special_tokens=True,
-            clean_up_tokenization_spaces=False,
+        response = self.processor.batch_decode(
+            generated_ids, 
+            skip_special_tokens=True, 
+            clean_up_tokenization_spaces=False
         )[0]
-
-        return prediction
+        
+        return response

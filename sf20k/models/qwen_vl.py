@@ -1,14 +1,28 @@
 import os
 import torch
 from transformers import (
-    Qwen2_5_VLForConditionalGeneration,
-    Qwen3VLMoeForConditionalGeneration,
     AutoProcessor,
     BitsAndBytesConfig,
 )
 
+try:
+    from transformers import (
+        Qwen2_5_VLForConditionalGeneration,
+        Qwen3VLForConditionalGeneration,
+        Qwen3VLMoeForConditionalGeneration,
+    )
+except:
+    Qwen2_5_VLForConditionalGeneration = None
+    Qwen3VLForConditionalGeneration = None
+    Qwen3VLMoeForConditionalGeneration = None
+
 # 'pip install qwen-vl-utils'
-from qwen_vl_utils import process_vision_info
+try:
+    from qwen_vl_utils import process_vision_info
+except:
+    process_vision_info = None
+
+from ..constants import WEIGHTS_DIR
 
 
 class QwenVLModel:
@@ -16,20 +30,29 @@ class QwenVLModel:
     def __init__(
         self,
         model_name: str,
-        weights_dir: str,
+        weights_dir: str = WEIGHTS_DIR,
         modality: str = "vision_language",
-        num_frames: int = 8,
-        fps: float = None,
-        max_frames: int = None,
+        fps: float = 1.0,
+        max_frames: int = 8,
         load_in_4bit: bool = False,
-        target_size: tuple = None,
+        **kwargs,
     ):
         assert modality in ["vision", "language", "vision_language"]
 
         assert model_name in [
+            # Qwen2.5-VL
             "qwen2.5-vl-3b",
             "qwen2.5-vl-7b",
             "qwen2.5-vl-72b",
+            # Qwen3-VL - Dense
+            "qwen3-vl-2b",
+            "qwen3-vl-4b",
+            "qwen3-vl-8b",
+            # Qwen3-VL - Dense - Thinking
+            "qwen3-vl-2b-think",
+            "qwen3-vl-4b-think",
+            "qwen3-vl-8b-think",
+            # Qwen3-VL - MoE
             "qwen3-vl-30b-a3b",
             "qwen3-vl-235b-a22b",
         ]
@@ -38,10 +61,17 @@ class QwenVLModel:
             "qwen2.5-vl-3b": "Qwen/Qwen2.5-VL-3B-Instruct",
             "qwen2.5-vl-7b": "Qwen/Qwen2.5-VL-7B-Instruct",
             "qwen2.5-vl-72b": "Qwen/Qwen2.5-VL-72B-Instruct",
+            "qwen3-vl-2b": "Qwen/Qwen3-VL-2B-Instruct",
+            "qwen3-vl-4b": "Qwen/Qwen3-VL-4B-Instruct",
+            "qwen3-vl-8b": "Qwen/Qwen3-VL-8B-Instruct",
+            "qwen3-vl-32b": "Qwen/Qwen3-VL-32B-Instruct",
+            "qwen3-vl-2b-think": "Qwen/Qwen3-VL-2B-Thinking",
+            "qwen3-vl-4b-think": "Qwen/Qwen3-VL-4B-Thinking",
+            "qwen3-vl-8b-think": "Qwen/Qwen3-VL-8B-Thinking",
+            "qwen3-vl-32b-think": "Qwen/Qwen3-VL-32B-Thinking",
             "qwen3-vl-30b-a3b": "Qwen/Qwen3-VL-30B-A3B-Instruct",
             "qwen3-vl-235b-a22b": "Qwen/Qwen3-VL-235B-A22B-Instruct",
         }
-
         model_id = dict_model_name_to_model_id[model_name]
 
         if model_id in [
@@ -50,6 +80,18 @@ class QwenVLModel:
             "Qwen/Qwen2.5-VL-72B-Instruct",
         ]:
             self.model_class_ = Qwen2_5_VLForConditionalGeneration
+            self.processor_class_ = AutoProcessor
+        elif model_id in [
+            "Qwen/Qwen3-VL-2B-Instruct",
+            "Qwen/Qwen3-VL-4B-Instruct",
+            "Qwen/Qwen3-VL-8B-Instruct",
+            "Qwen/Qwen3-VL-32B-Instruct",
+            "Qwen/Qwen3-VL-2B-Thinking",
+            "Qwen/Qwen3-VL-4B-Thinking",
+            "Qwen/Qwen3-VL-8B-Thinking",
+            "Qwen/Qwen3-VL-32B-Thinking",
+        ]:
+            self.model_class_ = Qwen3VLForConditionalGeneration
             self.processor_class_ = AutoProcessor
         elif model_id in [
             "Qwen/Qwen3-VL-30B-A3B-Instruct",
@@ -66,17 +108,15 @@ class QwenVLModel:
         self.model_id = model_id
         self.model = model
         self.processor = processor
-        self.num_frames = num_frames
         self.fps = fps
         self.max_frames = max_frames
-        self.target_size = target_size
         self.modality = modality
         
     def load_model(self, model_path: str, load_in_4bit: bool = False):
         bnb_config = BitsAndBytesConfig(load_in_4bit=load_in_4bit) if load_in_4bit else None
         model = self.model_class_.from_pretrained(
             model_path,
-            dtype="auto",
+            dtype=torch.bfloat16,
             device_map="auto",
             quantization_config=bnb_config,
         )
@@ -92,43 +132,29 @@ class QwenVLModel:
         query: str,
         video_path: str,
         modality: str = "vision_language",
-        start_time: float = None,
-        end_time: float = None,
-        ground_truth: str = None,
         system_prompt: str = None,
-        num_frames: int = 8,
-        fps: float = None,
-        max_frames: int = None,
-        target_size: tuple = None,
+        ground_truth: str = None,
+        sample_fps: float = 1.0,
+        max_frames: int = 8,
+        total_pixels: int = 20480 * 32 * 32,
+        min_pixels: int = 64 * 32 * 32,
     ):
         messages = []
         if system_prompt is not None:
             messages.append({"role": "system", "content": system_prompt})
-
+        
         content = []
-
         if modality in ["vision", "vision_language"]:
-            video_content = {
+            content.append({
                 "type": "video",
                 "video": video_path,
-            }
-            if num_frames is not None:
-                video_content["nframes"] = num_frames
-            elif fps is not None:
-                if max_frames is not None:
-                    video_content["fps"] = fps
-                    video_content["max_frames"] = max_frames
-                else:
-                    video_content["fps"] = fps
-            if start_time is not None and end_time is not None:
-                video_content["start_time"] = start_time
-                video_content["end_time"] = end_time
-            if target_size is not None:
-                video_content["resized_height"] = target_size[0]
-                video_content["resized_width"] = target_size[1]
-            content.append(video_content)
-
+                "total_pixels": total_pixels, 
+                "min_pixels": min_pixels, 
+                "max_frames": max_frames,
+                "sample_fps":sample_fps
+            })
         content.append({"type": "text", "text": query})
+
         messages.append({"role": "user", "content": content})
         if ground_truth is not None:
             messages.append({"role": "assistant", "content": [{"type": "text", "text": ground_truth}]})
@@ -140,66 +166,85 @@ class QwenVLModel:
         query: str,
         video_path: str, 
         system_prompt: str = None,
-        start_time: float = None,
-        end_time: float = None,
         max_new_tokens: int = 256,
-        do_sample: bool = False,
-        temperature: float = 1.0,
+        do_sample: bool = True,
+        top_p: float = 0.8,
+        top_k: int = 20,
+        temperature: float = 0.7,
+        repetition_penalty: float = 1.0,
+        #presence_penalty: float = 1.5,
+        #out_seq_length: int = 16384,
+        total_pixels: int = 20480 * 32 * 32,
+        min_pixels: int = 64 * 32 * 32,
+        **kwargs,
     ):
         messages = self.format_chat_template(
             query=query,
             video_path=video_path,
             modality=self.modality,
-            start_time=start_time,
-            end_time=end_time,
             system_prompt=system_prompt,
-            num_frames=self.num_frames,
-            fps=self.fps,
+            sample_fps=self.fps,
             max_frames=self.max_frames,
-            target_size=self.target_size,
+            total_pixels=total_pixels,
+            min_pixels=min_pixels,
         )
 
-        text_inputs = [self.processor.apply_chat_template(
+        text = self.processor.apply_chat_template(
             messages,
             tokenize=False,
-            add_generation_prompt=True
-        )]
+            add_generation_prompt=True,
+        )
 
-        if modality in ["vision", "vision_language"]:
+        if self.modality in ["vision", "vision_language"]:
             image_inputs, video_inputs, video_kwargs = process_vision_info(
-                messages, 
-                return_video_kwargs=True,
+                [messages],
+                return_video_kwargs=True, 
+                image_patch_size= 16,
+                return_video_metadata=True
             )
         else:
             image_inputs = None
             video_inputs = None
             video_kwargs = {}
 
+        if video_inputs is not None:
+            video_inputs, video_metadatas = zip(*video_inputs)
+            video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
+        else:
+            video_metadatas = None
+        
         inputs = self.processor(
-            text=text_inputs,
+            text=[text],
             images=image_inputs,
             videos=video_inputs,
-            padding=True,
-            return_tensors="pt",
+            video_metadata=video_metadatas,
             **video_kwargs,
-        )
+            do_resize=False,
+            return_tensors="pt"
+        ).to(self.model.device)
 
         with torch.no_grad():
-            generated_ids = self.model.generate(
+            output_ids = self.model.generate(
                 **inputs,
                 max_new_tokens=max_new_tokens,
                 do_sample=do_sample,
+                top_p=top_p,
+                top_k=top_k,
                 temperature=temperature,
+                repetition_penalty=repetition_penalty,
+                #presence_penalty=presence_penalty,
+                #out_seq_length=out_seq_length,
             )
 
-        generated_ids_trimmed = [
-            out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
+        generated_ids = [
+            output_ids[len(input_ids):]
+            for input_ids, output_ids in zip(inputs.input_ids, output_ids)
         ]
 
-        prediction = self.processor.batch_decode(
-            generated_ids_trimmed,
+        response = self.processor.batch_decode(
+            generated_ids,
             skip_special_tokens=True,
-            clean_up_tokenization_spaces=False,
+            clean_up_tokenization_spaces=True
         )[0]
 
-        return prediction
+        return response

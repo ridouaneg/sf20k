@@ -1,6 +1,11 @@
-data/
-notebooks/
 *.egg-info/
 __pycache__/
-sf20k/constants.py
+
+data/
+notebooks/
 results/
+sf20k/vendor/
+
+# NEVER REMOVE
+sf20k/constants.py
+data/test_expert.csv

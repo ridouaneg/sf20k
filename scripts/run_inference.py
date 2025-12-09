@@ -1,117 +1,119 @@
-import os
 import argparse
+import os
+import json
+import torch
 import pandas as pd
+import numpy as np
 from tqdm import tqdm
-from datasets import load_dataset
-from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
 
-# 'pip install qwen-vl-utils'
-from qwen_vl_utils import process_vision_info
-
-
-#WIDTHS = {144: 256, 240: 426, 360: 640, 480: 854, 720: 1280, 1080: 1920}
-
-
-TEMPLATE = (
-    "You will be given a question about a movie. Try to answer it based on the subtitles and the frames from the movie.\n\n"
-    "Subtitles:\n{subtitles}\n\n"
-    "Question: {question}\n\n"
-    "Answer it shortly and directly without repeating the question."
-)
+from sf20k.models import get_model
+from sf20k.datasets.sf20k import SF20KDataset
+from sf20k.prompts import MCQAPrompt, OEQAPrompt
 
 
 def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--split", type=str, default="test_expert")
-    parser.add_argument("--subtitles_path", type=str, default="../data/test_subtitles.csv")
-    parser.add_argument("--output_path", type=str, default="submission.csv")
-    parser.add_argument("--video_dir", type=str, default="../data/videos/")
-    parser.add_argument("--model_dir", type=str, default="")
-    parser.add_argument("--num_frames", type=int, default=8)
-    #parser.add_argument("--resolution", type=int, default=360, choices=[144, 240, 360, 480, 720, 1080], help="Resolution for video download (e.g., 360, 720, 1080)")    parser.add_argument("--input_modality", type=str, default="vl", choices=["v", "l", "vl"])
-    parser.add_argument("--model_id", type=str, default="Qwen/Qwen2.5-VL-3B-Instruct")
+    parser = argparse.ArgumentParser(description="Run baselines on SF20K dataset")
+    parser.add_argument("--output_dir", type=str, default="results", help="Directory to save results")
+    parser.add_argument("--data_path", type=str, required=True, help="Path to the dataset CSV file")
+    parser.add_argument("--subtitles_path", type=str, required=True, help="Path to the subtitles CSV file")
+    parser.add_argument("--video_dir", type=str, required=True, help="Directory containing video files")
+    parser.add_argument("--model_name", type=str, required=True, help="Name of the model to run")
+    parser.add_argument("--weights_dir", type=str, required=True, help="Directory containing model weights")
+    parser.add_argument("--modality", type=str, default="vision_language", choices=["vision", "language", "vision_language"], help="Modality to use")
+    parser.add_argument("--num_frames", type=int, default=8, help="Number of frames to sample")
+    parser.add_argument("--fps", type=float, default=1.0, help="Frames per second for sampling")
+    parser.add_argument("--n_subsample", type=int, default=-1, help="Number of samples to run (for debugging)")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed")
+    parser.add_argument("--load_in_4bit", action="store_true", help="Load model in 4-bit quantization")
+    parser.add_argument("--force_rerun", action="store_true", help="Force rerunning all samples")
     return parser.parse_args()
 
 
-def main(args):
-    # Prepare data
-    #video_dir = os.path.join(args.video_dir, f"{args.resolution}p")
-    df = load_dataset("rghermi/sf20k", split=args.split).to_pandas()
-    df = df[['question_id', 'video_id', 'video_url', 'question']]
-    df = df.sample(n=32, random_state=42)
-    df_subs = pd.read_csv(args.subtitles_path)
+def main():
+    args = parse_args()
 
-    # Prepare model
-    model_path = os.path.join(args.model_dir, args.model_id)
-    model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
-        model_path,
-        torch_dtype="auto",
-        device_map="auto"
+    # Setup output directory
+    os.makedirs(args.output_dir, exist_ok=True)
+    output_filename = f"model_{args.model_name}_modality_{args.modality}_num_frames_{args.num_frames}.json"
+    output_path = os.path.join(args.output_dir, output_filename)
+    print(f"Results will be saved to {output_path}")
+
+    # Initialize prompt
+    prompt = OEQAPrompt(modality=args.modality)
+
+    # Initialize dataset
+    dataset = SF20KDataset(
+        prompt=prompt,
+        data_path=args.data_path,
+        video_dir=args.video_dir,
+        subtitles_path=args.subtitles_path,
+        n_subsample=args.n_subsample,
+        seed=args.seed
     )
-    processor = AutoProcessor.from_pretrained(model_path)
+    print(f"Loaded dataset with {len(dataset)} samples")
 
-    predictions = []
-    for i, sample in tqdm(df.iterrows(), total=len(df)):
-        # Create the prompt
-        #video_path = os.path.join(video_dir, f"{sample['video_id']}.mp4")
-        #video_path = os.path.join(args.video_dir, f"{sample['video_id']}.mp4")
-        video_path = os.path.join(args.video_dir, f"{sample['video_id']}.mkv")
-        subtitles = '\n'.join(df_subs[(df_subs.video_id == sample['video_id'])].text.tolist())
-        prompt = TEMPLATE.format(subtitles=subtitles, question=sample['question'])
+    # Initialize model
+    print(f"Loading model {args.model_name}...")
+    model = get_model(
+        model_name=args.model_name,
+        weights_dir=args.weights_dir,
+        modality=args.modality,
+        fps=args.fps,
+        max_frames=args.num_frames,
+        load_in_4bit=args.load_in_4bit
+    )
+    print("Model loaded successfully")
 
-        messages = [{"role": "user", "content": [
-            {
-                "type": "video",
-                "video": video_path,
-                "nframes": args.num_frames,
-                #"resized_height": args.resolution,
-                #"resized_width": WIDTHS[args.resolution],
-            },
-            {"type": "text", "text": prompt}
-        ]}]
+    # Generation loop
+    results = {}
+    # Check if output file exists and load existing results to resume
+    if os.path.exists(output_path):
+        with open(output_path, "r") as f:
+            results = json.load(f)
+        print(f"Resuming from {len(results)} existing results")
+    
+    existing_ids = set(results.keys())
 
-        text = processor.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True
-        )
+    for i in tqdm(range(len(dataset))):
+        sample = dataset[i]
+        question_id = sample["question_id"]
+        
+        if question_id in existing_ids and not args.force_rerun:
+            continue
 
-        # Process the visual information
-        image_inputs, video_inputs, video_kwargs = process_vision_info(messages, return_video_kwargs=True)
+        try:
+            response = model.generate(
+                query=sample["query"],
+                video_path=sample["video_path"],
+                system_prompt=None,
+            )
+            
+            prediction = prompt.postprocess_response(response)
 
-        # Prepare the inputs
-        inputs = processor(
-            text=[text],
-            images=image_inputs,
-            videos=video_inputs,
-            padding=True,
-            return_tensors="pt",
-            **video_kwargs,
-        )
+            result = {
+                "question_id": question_id,
+                "video_id": sample["video_id"],
+                "question": sample["question"],
+                "answer": sample["answer"], # Ground truth
+                "answer_id": int(sample["answer_id"]) if pd.notna(sample["answer_id"]) else None, # Ground truth ID
+                "response": response,
+                "prediction": prediction,
+                "model": args.model_name,
+                "modality": args.modality,
+                "num_frames": args.num_frames,
+            }
+            
+            results[question_id] = result
+            
+            with open(output_path, "w") as f:
+                json.dump(results, f, indent=4)
+            
+        except Exception as e:
+            print(f"Error processing sample {question_id}: {e}")
+            continue
 
-        # Generate the output
-        generated_ids = model.generate(**inputs, max_new_tokens=128)
-        generated_ids_trimmed = [
-            out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
-        ]
-        prediction = processor.batch_decode(
-            generated_ids_trimmed,
-            skip_special_tokens=True,
-            clean_up_tokenization_spaces=False,
-        )[0]
-
-        predictions.append(prediction)
-
-        # Save intermediate results
-        #if i % 50:
-        #    df['prediction'] = predictions
-        #    df.to_csv(args.output_path, index=False)
-
-    # Save results
-    df['prediction'] = predictions
-    df.to_csv(args.output_path, index=False)
+    print("Done!")
 
 
 if __name__ == "__main__":
-    args = parse_args()
-    main(args)
+    main()

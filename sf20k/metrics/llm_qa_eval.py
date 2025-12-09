@@ -1,9 +1,7 @@
 import ast
-import numpy as np
-import pandas as pd
 import openai
-import argparse
-from tqdm import tqdm
+
+from sf20k.constants import OPENAI_API_KEY, OPENAI_ORG_ID
 
 
 SYSTEM_PROMPT = (
@@ -29,43 +27,18 @@ PROMPT_TEMPLATE = (
 )
 
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--pred_path", type=str, default="submission.csv")
-    parser.add_argument("--openai_api_key", type=str)
-    parser.add_argument("--openai_org_id", type=str, default=None)
-    return parser.parse_args()
+class LLMQAEval:
 
-
-def main(args):
-    # Prepare client
-    if args.openai_org_id is None:
+    def __init__(self):
+        self.model_name = "gpt-4.1-nano-2025-04-14"
         client = openai.OpenAI(
-            api_key=args.openai_api_key,
-        )
-    else:
-        client = openai.OpenAI(
-            api_key=args.openai_api_key,
-            organization=args.openai_org_id,
+            api_key=OPENAI_API_KEY,
+            organization=OPENAI_ORG_ID,
         )
 
-    # Prepare data
-    submission_df = pd.read_csv(args.pred_path)
-
-    # Prepare labels
-    df = pd.read_csv("../data/gt_samples.csv")
-    df = pd.merge(df[['question_id', 'video_id', 'question', 'answer']], submission_df[['question_id', 'prediction']], on='question_id', how='inner')
-    
-    # Evaluate
-    outputs = []
-    for _, sample in tqdm(df.iterrows(), total=len(df)):
-        question = sample['question']
-        answer = sample['answer']
-        prediction = sample['prediction']
-
+    def compute(self, question: str, answer: str, prediction: str):
         if prediction is None:
-            outputs.append(None)
-            continue
+            return None, None
         
         USER_PROMPT = PROMPT_TEMPLATE.format(
             question=question,
@@ -75,7 +48,7 @@ def main(args):
         
         try:
             response = client.chat.completions.create(
-                model="gpt-4.1-nano-2025-04-14",
+                model=self.model_name,
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": USER_PROMPT}
@@ -84,29 +57,20 @@ def main(args):
                 temperature=0.0, # Set to 0 for deterministic output
             )
             output = response.choices[0].message.content
-            outputs.append(output)
         except Exception as e:
             print(f"An error occurred with the OpenAI API call: {e}")
-            outputs.append(None) # Append None or a default error indicator
+            output = None
 
-    scores = []
-    for output in outputs:
         if output is None:
-            scores.append(0)
-            continue
+            score = 0.
+            pred = 0
+            
         try:
-            score = ast.literal_eval(output)["score"]
+            score = int(ast.literal_eval(output)["score"])
+            pred = 1 * (str(ast.literal_eval(output)["pred"]).lower() == 'yes')
         except (ValueError, SyntaxError, KeyError) as e:
             print(f"Error parsing the output: {e}\nOutput was: {output}")
-            score = 0
-        scores.append(score)
-
-    score = np.sum(scores) / 538. if scores else 0.
-
-    print(scores)
-    print(f"Score: {score}")
-
-
-if __name__ == "__main__":
-    args = parse_args()
-    main(args)
+            score = 0.
+            pred = 0
+        
+        return score, pred
