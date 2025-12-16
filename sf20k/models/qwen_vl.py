@@ -17,12 +17,12 @@ except:
     Qwen3VLMoeForConditionalGeneration = None
 
 # 'pip install qwen-vl-utils'
-#try:
-#    from qwen_vl_utils import process_vision_info
-#except:
-#    process_vision_info = None
+try:
+    from qwen_vl_utils import process_vision_info
+except:
+    process_vision_info = None
 
-from ..utils import load_video
+#from ..utils import load_video
 
 
 class QwenVLModel:
@@ -198,38 +198,38 @@ class QwenVLModel:
             add_generation_prompt=True,
         )
 
-        #if self.modality in ["vision", "vision_language"]:
-        #    image_inputs, video_inputs, video_kwargs = process_vision_info(
-        #        [messages],
-        #        return_video_kwargs=True, 
-        #        image_patch_size=16,
-        #        return_video_metadata=True
-        #    )
-        #else:
-        #    image_inputs = None
-        #    video_inputs = None
-        #    video_kwargs = {}
+        if self.modality in ["vision", "vision_language"]:
+            image_inputs, video_inputs, video_kwargs = process_vision_info(
+                [messages],
+                return_video_kwargs=True, 
+                image_patch_size=16,
+                return_video_metadata=True
+            )
+        else:
+            image_inputs = None
+            video_inputs = None
+            video_kwargs = {}
 
-        #if video_inputs is not None:
-        #    video_inputs, video_metadatas = zip(*video_inputs)
-        #    video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
-        #else:
-        #    video_metadatas = None
+        if video_inputs is not None:
+            video_inputs, video_metadatas = zip(*video_inputs)
+            video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
+        else:
+            video_metadatas = None
 
         image_inputs = None
-        video_inputs = load_video(
-            video_path=video_path,
-            desired_fps=self.fps,
-            max_frames=self.max_frames,
-        )
+        #video_inputs = load_video(
+        #    video_path=video_path,
+        #    desired_fps=self.fps,
+        #    max_frames=self.max_frames,
+        #)
         
         inputs = self.processor(
             text=[text],
-            images=None,
+            images=image_inputs,
             videos=video_inputs,
-            #video_metadata=video_metadatas,
-            video_metadata=None,
-            #**video_kwargs,
+            video_metadata=video_metadatas,
+            #video_metadata=None,
+            **video_kwargs,
             do_resize=False,
             return_tensors="pt"
         ).to(self.model.device)
