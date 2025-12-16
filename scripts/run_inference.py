@@ -18,9 +18,9 @@ def parse_args():
     parser.add_argument("--subtitles_path", type=str, required=True, help="Path to the subtitles CSV file")
     parser.add_argument("--video_dir", type=str, required=True, help="Directory containing video files")
     parser.add_argument("--model_name", type=str, required=True, help="Name of the model to run")
-    parser.add_argument("--weights_dir", type=str, required=True, help="Directory containing model weights")
+    parser.add_argument("--weights_dir", type=str, default=None, help="Directory containing model weights")
     parser.add_argument("--modality", type=str, default="vision_language", choices=["vision", "language", "vision_language"], help="Modality to use")
-    parser.add_argument("--num_frames", type=int, default=8, help="Number of frames to sample")
+    parser.add_argument("--num_frames", type=int, default=None, help="Number of frames to sample")
     parser.add_argument("--fps", type=float, default=1.0, help="Frames per second for sampling")
     parser.add_argument("--n_subsample", type=int, default=-1, help="Number of samples to run (for debugging)")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
@@ -93,7 +93,6 @@ def main(args):
                 "video_id": sample["video_id"],
                 "question": sample["question"],
                 "answer": sample["answer"], # Ground truth
-                #"answer_id": int(sample["answer_id"]) if pd.notna(sample["answer_id"]) else None, # Ground truth ID
                 "response": response,
                 "prediction": prediction,
                 "model": args.model_name,

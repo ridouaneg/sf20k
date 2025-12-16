@@ -1,8 +1,9 @@
 import ast
 import openai
+import os
 
-from sf20k.constants import OPENAI_API_KEY, OPENAI_ORG_ID
-
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENAI_ORG_ID = os.getenv("OPENAI_ORG_ID", "")
 
 SYSTEM_PROMPT = (
     "You are an intelligent chatbot designed for evaluating the correctness of generative outputs for question-answer pairs. "
@@ -31,7 +32,7 @@ class LLMQAEval:
 
     def __init__(self):
         self.model_name = "gpt-4.1-nano-2025-04-14"
-        client = openai.OpenAI(
+        self.client = openai.OpenAI(
             api_key=OPENAI_API_KEY,
             organization=OPENAI_ORG_ID,
         )
@@ -47,7 +48,7 @@ class LLMQAEval:
         )
         
         try:
-            response = client.chat.completions.create(
+            response = self.client.chat.completions.create(
                 model=self.model_name,
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},

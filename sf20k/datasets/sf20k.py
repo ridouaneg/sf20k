@@ -30,6 +30,7 @@ class SF20KDataset(Dataset):
         # Prepare video paths
         video_files = {}
         for video_id in df.video_id.unique():
+            #video_path = os.path.join(video_dir, f"{video_id}.mp4")
             video_path = os.path.join(video_dir, f"{video_id}.mkv")
             if os.path.exists(video_path):
                 video_files[video_id] = video_path

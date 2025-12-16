@@ -17,10 +17,12 @@ except:
     Qwen3VLMoeForConditionalGeneration = None
 
 # 'pip install qwen-vl-utils'
-try:
-    from qwen_vl_utils import process_vision_info
-except:
-    process_vision_info = None
+#try:
+#    from qwen_vl_utils import process_vision_info
+#except:
+#    process_vision_info = None
+
+from ..utils import load_video
 
 
 class QwenVLModel:
@@ -41,11 +43,13 @@ class QwenVLModel:
             # Qwen2.5-VL
             "qwen2.5-vl-3b",
             "qwen2.5-vl-7b",
+            "qwen2.5-vl-32b",
             "qwen2.5-vl-72b",
             # Qwen3-VL - Dense
             "qwen3-vl-2b",
             "qwen3-vl-4b",
             "qwen3-vl-8b",
+            "qwen3-vl-32b",
             # Qwen3-VL - Dense - Thinking
             "qwen3-vl-2b-think",
             "qwen3-vl-4b-think",
@@ -58,6 +62,7 @@ class QwenVLModel:
         dict_model_name_to_model_id = {
             "qwen2.5-vl-3b": "Qwen/Qwen2.5-VL-3B-Instruct",
             "qwen2.5-vl-7b": "Qwen/Qwen2.5-VL-7B-Instruct",
+            "qwen2.5-vl-32b": "Qwen/Qwen2.5-VL-32B-Instruct",
             "qwen2.5-vl-72b": "Qwen/Qwen2.5-VL-72B-Instruct",
             "qwen3-vl-2b": "Qwen/Qwen3-VL-2B-Instruct",
             "qwen3-vl-4b": "Qwen/Qwen3-VL-4B-Instruct",
@@ -193,30 +198,38 @@ class QwenVLModel:
             add_generation_prompt=True,
         )
 
-        if self.modality in ["vision", "vision_language"]:
-            image_inputs, video_inputs, video_kwargs = process_vision_info(
-                [messages],
-                return_video_kwargs=True, 
-                image_patch_size= 16,
-                return_video_metadata=True
-            )
-        else:
-            image_inputs = None
-            video_inputs = None
-            video_kwargs = {}
+        #if self.modality in ["vision", "vision_language"]:
+        #    image_inputs, video_inputs, video_kwargs = process_vision_info(
+        #        [messages],
+        #        return_video_kwargs=True, 
+        #        image_patch_size=16,
+        #        return_video_metadata=True
+        #    )
+        #else:
+        #    image_inputs = None
+        #    video_inputs = None
+        #    video_kwargs = {}
 
-        if video_inputs is not None:
-            video_inputs, video_metadatas = zip(*video_inputs)
-            video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
-        else:
-            video_metadatas = None
+        #if video_inputs is not None:
+        #    video_inputs, video_metadatas = zip(*video_inputs)
+        #    video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
+        #else:
+        #    video_metadatas = None
+
+        image_inputs = None
+        video_inputs = load_video(
+            video_path=video_path,
+            desired_fps=self.fps,
+            max_frames=self.max_frames,
+        )
         
         inputs = self.processor(
             text=[text],
-            images=image_inputs,
+            images=None,
             videos=video_inputs,
-            video_metadata=video_metadatas,
-            **video_kwargs,
+            #video_metadata=video_metadatas,
+            video_metadata=None,
+            #**video_kwargs,
             do_resize=False,
             return_tensors="pt"
         ).to(self.model.device)

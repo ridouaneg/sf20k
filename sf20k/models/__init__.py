@@ -9,10 +9,10 @@ from .longvu import LongVUModel
 
 def get_model(model_name: str, **kwargs):
     if model_name in [
-        #"qwen2.5-vl-3b",
-        #"qwen2.5-vl-7b",
-        #"qwen2.5-vl-32b",
-        #"qwen2.5-vl-72b",
+        "qwen2.5-vl-3b",
+        "qwen2.5-vl-7b",
+        "qwen2.5-vl-32b",
+        "qwen2.5-vl-72b",
         "qwen3-vl-2b",
         "qwen3-vl-4b",
         "qwen3-vl-8b",
@@ -41,10 +41,11 @@ def get_model(model_name: str, **kwargs):
         "gpt-4.1-nano",
         "gpt-4.1-mini",
         "gpt-4.1",
-        #"gpt-5-nano",
-        #"gpt-5-mini",
-        #"gpt-5",
-        #"gpt-5.1",
+        "gpt-5-nano",
+        "gpt-5-mini",
+        "gpt-5",
+        "gpt-5.1",
+        "gpt-5.2",
     ]:
         return GPTModel(model_name=model_name, **kwargs)
     elif model_name in [

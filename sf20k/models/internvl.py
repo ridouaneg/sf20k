@@ -96,7 +96,7 @@ def get_index(bound, fps, max_frame, first_idx=0, num_segments=32):
 
 
 def load_video(video_path, bound=None, input_size=448, max_num=1, num_segments=32):
-    vr = VideoReader(video_path, ctx=cpu(0), num_threads=1)
+    vr = VideoReader(video_path, num_threads=1) #ctx=cpu(0), num_threads=1)
     max_frame = len(vr) - 1
     fps = float(vr.get_avg_fps())
 
