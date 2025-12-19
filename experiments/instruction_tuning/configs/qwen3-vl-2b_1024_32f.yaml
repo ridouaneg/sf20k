@@ -7,7 +7,7 @@ train_data_path: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/questions/t
 test_data_path: /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv
 video_dir: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/
 train_subtitles_path: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/subtitles.parquet
-test_subtitles_path: ../../test_subtitles.csv
+test_subtitles_path: /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/data//test_subtitles.csv
 
 # Dataset Parameters
 n_subsample_train: 1024
