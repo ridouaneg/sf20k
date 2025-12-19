@@ -1,7 +1,7 @@
 # File and Directory Paths
 project_name: sf20k
-run_name: full
-output_dir: ./results/full/
+run_name: qwen3-vl-2b_2048_32f
+output_dir: ./results/
 weights_dir: /geovic/ghermi/weights/
 train_data_path: /users/ghermi/code/sf20k/data/train.csv
 test_data_path: /users/ghermi/code/sf20k/data/test_expert.csv
