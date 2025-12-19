@@ -309,7 +309,7 @@ def _read_video_decord(
     video_path = ele["video"]
     st = time.time()
     #vr = decord.VideoReader(video_path)
-    vr = decord.VideoReader(video_path, num_threads=1) # NEW
+    vr = decord.VideoReader(video_path, num_threads=4) # NEW
     #vr = decord.VideoReader(video_path, num_threads=0) # NEW
     #vr = decord.VideoReader(video_path, ctx=cpu(0), num_threads=0) # NEW
     total_frames, video_fps = len(vr), vr.get_avg_fps()
