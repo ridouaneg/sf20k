@@ -2,12 +2,12 @@
 project_name: sf20k
 run_name: qwen3-vl-2b_8192_32f
 output_dir: ./results/
-weights_dir: /geovic/ghermi/weights/
-train_data_path: /users/ghermi/code/sf20k/data/train.csv
-test_data_path: /users/ghermi/code/sf20k/data/test_expert.csv
-video_dir: /geovic/geovic/SF20K/videos/
-train_subtitles_path: /geovic/geovic/SF20K/subtitles.parquet
-test_subtitles_path: /users/ghermi/code/sf20k/data/test_subtitles.csv
+weights_dir: /lustre/fswork/projects/rech/kcn/ucm72yx/weights/
+train_data_path: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/questions/train.csv
+test_data_path: /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv
+video_dir: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/
+train_subtitles_path: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/subtitles.parquet
+test_subtitles_path: ../../test_subtitles.csv
 
 # Dataset Parameters
 n_subsample_train: 8192
