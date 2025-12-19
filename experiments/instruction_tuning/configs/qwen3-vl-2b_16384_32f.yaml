@@ -2,7 +2,7 @@
 project_name: sf20k
 run_name: qwen3-vl-2b_16384_32f
 output_dir: ./results/
-weights_dir: /lustre/fswork/projects/rech/kcn/ucm72yx/weights/
+weights_dir: /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/
 train_data_path: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/questions/train.csv
 test_data_path: /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv
 video_dir: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/
