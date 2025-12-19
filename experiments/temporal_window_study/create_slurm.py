@@ -1,7 +1,6 @@
 import itertools
 
-TEMPLATE = """
-#!/bin/bash
+TEMPLATE = """#!/bin/bash
 #SBATCH --job-name=sf20k
 #SBATCH -A kcn@h100
 #SBATCH -C h100
@@ -31,7 +30,6 @@ python run_inference.py \\
     --num_frames {num_frames} \\
     --num_segments {num_segments} \\
     --num_generations {num_generations}
-
 """
 
 def create_slurm(model_name, num_frames, num_segments, num_generations):
