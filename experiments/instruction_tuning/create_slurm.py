@@ -1,7 +1,6 @@
 import itertools
 
-TEMPLATE = """
-#!/bin/bash
+TEMPLATE = """#!/bin/bash
 #SBATCH --job-name=sf20k
 #SBATCH -A kcn@h100
 #SBATCH -C h100
@@ -26,7 +25,6 @@ accelerate launch \\
     --config_file default_config.yaml \\
     train.py \\
     --config configs/{config}.yaml
-
 """
 
 for config in [
