@@ -10,7 +10,7 @@ train_subtitles_path: /geovic/geovic/SF20K/subtitles.parquet
 test_subtitles_path: /users/ghermi/code/sf20k/data/test_subtitles.csv
 
 # Dataset Parameters
-n_subsample_train: 16384
+n_subsample_train: 4096
 n_subsample_test: 256
 
 # Model Parameters
