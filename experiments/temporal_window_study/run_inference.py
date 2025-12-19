@@ -69,7 +69,7 @@ class SF20KSceneDataset(Dataset):
         data_path: str = None,
         video_dir: str = None,
         subtitles_path: str = None,
-        n_segments: int = 10,
+        num_segments: int = 10,
         n_subsample: int = -1,
         seed: int = 42,
     ):
@@ -80,7 +80,7 @@ class SF20KSceneDataset(Dataset):
         self.df = df
         self.df_subs = pd.read_csv(subtitles_path)
         self.video_dir = video_dir
-        self.n_segments = n_segments
+        self.num_segments = num_segments
         self.prompt = prompt
 
     def get_video_duration(self, path):
@@ -90,18 +90,18 @@ class SF20KSceneDataset(Dataset):
         return frame_count / fps if fps > 0 else 0
         
     def __len__(self):
-        return len(self.df) * self.n_segments
+        return len(self.df) * self.num_segments
 
     def __getitem__(self, idx):
-        q_idx = idx // self.n_segments
-        seg_idx = idx % self.n_segments
+        q_idx = idx // self.num_segments
+        seg_idx = idx % self.num_segments
         
         sample = self.df.iloc[q_idx].copy()
         video_id = sample['video_id']
         video_path = os.path.join(self.video_dir, f"{video_id}.mkv")
 
         duration = self.get_video_duration(video_path)
-        seg_duration = duration / self.n_segments
+        seg_duration = duration / self.num_segments
         start_t = seg_idx * seg_duration
         end_t = (seg_idx + 1) * seg_duration
 
@@ -440,7 +440,8 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     parser.add_argument("--load_in_4bit", action="store_true", help="Load model in 4-bit quantization")
     parser.add_argument("--force_rerun", action="store_true", help="Force rerunning all samples")
-    parser.add_argument("--n_segments", type=int, default=1, help="Number of segments to sample")
+    parser.add_argument("--num_segments", type=int, default=1, help="Number of segments to sample")
+    parser.add_argument("--num_generations", type=int, default=1, help="Number of generations to sample")
     return parser.parse_args()
 
 
@@ -465,7 +466,7 @@ def main(args):
         subtitles_path=args.subtitles_path,
         n_subsample=args.n_subsample,
         seed=args.seed,
-        n_segments=args.n_segments,
+        num_segments=args.num_segments,
     )
     print(f"Loaded dataset with {len(dataset)} samples")
 
@@ -496,7 +497,8 @@ def main(args):
         if question_id in existing_ids and not args.force_rerun:
             continue
 
-        try:
+        responses, predictions = [], []
+        for gen_nb in range(args.num_generations):
             response = model.generate(
                 query=sample["query"],
                 video_path=sample["video_path"],
@@ -504,30 +506,27 @@ def main(args):
                 start_time=sample["start_time"],
                 end_time=sample["end_time"],
                 fps=args.fps,
-                max_frames=int(args.num_frames / args.n_segments),
+                max_frames=int(args.num_frames / args.num_segments),
             )
-            
             prediction = prompt.postprocess_response(response)
+            responses.append(response)
+            predictions.append(prediction)
 
-            results[question_id] = {
-                "question_id": question_id,
-                "video_id": sample["video_id"],
-                "question": sample["question"],
-                "answer": sample["answer"], # Ground truth
-                "response": response,
-                "prediction": prediction,
-                "model": args.model_name,
-                "modality": args.modality,
-                "num_frames": args.num_frames,
-                "n_segments": args.n_segments,
-            }
-                            
-            with open(output_path, "w") as f:
-                json.dump(results, f, indent=4)
-            
-        except Exception as e:
-            print(f"Error processing sample {question_id}: {e}")
-            continue
+        results[question_id] = {
+            "question_id": question_id,
+            "video_id": sample["video_id"],
+            "question": sample["question"],
+            "answer": sample["answer"], # Ground truth
+            "responses": responses,
+            "predictions": predictions,
+            "model": args.model_name,
+            "modality": args.modality,
+            "num_frames": args.num_frames,
+            "num_segments": args.num_segments,
+            "num_generations": args.num_generations,
+        }
+        with open(output_path, "w") as f:
+            json.dump(results, f, indent=4)
 
     print(f"Saved results to {output_path}")
     with open(output_path, "w") as f:
