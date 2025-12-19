@@ -443,9 +443,9 @@ def main(args):
     # Setup output directory
     os.makedirs(args.output_dir, exist_ok=True)
     if args.modality in ['vision', 'vision_language']:
-        output_filename = f"model_{args.model_name}_modality_{args.modality}_num_frames_{args.num_frames}.json"
+        output_filename = f"model_{args.model_name}_modality_{args.modality}_num_frames_{args.num_frames}_num_segments_{args.num_segments}_num_generations_{args.num_generations}.json"
     else:
-        output_filename = f"model_{args.model_name}_modality_{args.modality}.json"
+        output_filename = f"model_{args.model_name}_modality_{args.modality}_num_generations_{args.num_generations}.json"
     output_path = os.path.join(args.output_dir, output_filename)
     print(f"Results will be saved to {output_path}")
 
