@@ -20,8 +20,8 @@ cd /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/scripts/
 
 python run_inference.py \
     --output_dir ./results/ijcv_rebuttal/ \
-    --data_path ../data/test_expert.csv \
-    --subtitles_path ../data/test_subtitles.csv \
+    --data_path ../../data/test_expert.csv \
+    --subtitles_path ../../data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
