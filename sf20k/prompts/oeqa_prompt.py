@@ -1,5 +1,5 @@
-
 class OEQAPrompt:
+
     TEMPLATE_VL = (
         "You will be given a question about a movie. Try to answer it based on the subtitles and the frames from the movie.\n\n"
         "Subtitles:\n{subtitles}\n\n"
@@ -37,7 +37,7 @@ class OEQAPrompt:
             raise ValueError(f"Invalid modality: {self.modality}")
 
     def get_response(self, sample):
-        return sample['answer']
+        return f"{sample['answer']}"
 
     def postprocess_response(self, response):
         return response.strip() if response is not None else None

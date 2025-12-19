@@ -4,6 +4,12 @@ import torch
 from PIL import Image
 import decord
 import cv2
+from tqdm import tqdm
+from datasets import Dataset
+import yaml
+from accelerate import Accelerator
+
+from .config_classes import TrainingConfig
 
 
 def set_seed(seed: int = 42):
@@ -16,6 +22,31 @@ def set_seed(seed: int = 42):
         torch.cuda.manual_seed_all(seed)
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
+
+
+def convert_to_hf_dataset(dataset):
+    """Converts a dataset to a Hugging Face dataset."""
+    data = {k: [] for k in dataset[0].keys()}
+    for item in tqdm(dataset, total=len(dataset)):
+        for k in data.keys():
+            data[k].append(item[k])
+    return Dataset.from_dict(data)
+
+
+def load_config(config_path: str) -> TrainingConfig:
+    """Loads a TrainingConfig from a YAML file."""
+    with open(config_path, 'r') as f:
+        config_dict = yaml.safe_load(f)
+    return TrainingConfig(**config_dict)
+
+
+def get_num_gpus():
+    """Gets the number of GPUs available."""
+    accelerator = Accelerator()
+    if accelerator.num_processes == 0:
+        print("Warning: No GPUs available. Using CPU.")
+        return 1
+    return accelerator.num_processes
 
 
 def load_video_cv2(

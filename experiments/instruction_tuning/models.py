@@ -1,10 +1,11 @@
 import os
+import numpy as np
 import torch
 from transformers import (
     AutoProcessor,
     BitsAndBytesConfig,
 )
-from peft import PeftModel
+from qwen_vl_utils import process_vision_info
 
 try:
     from transformers import (
@@ -17,14 +18,6 @@ except:
     Qwen3VLForConditionalGeneration = None
     Qwen3VLMoeForConditionalGeneration = None
 
-# 'pip install qwen-vl-utils'
-try:
-    from qwen_vl_utils import process_vision_info
-except:
-    process_vision_info = None
-
-#from ..utils import load_video
-
 
 class QwenVLModel:
 
@@ -33,79 +26,31 @@ class QwenVLModel:
         model_name: str,
         weights_dir: str = None,
         adapter_path: str = None,
+        load_in_4bit: bool = False,
         modality: str = "vision_language",
         fps: float = 1.0,
         max_frames: int = 8,
-        load_in_4bit: bool = False,
+        total_pixels: int = 20480 * 32 * 32,
+        min_pixels: int = 64 * 32 * 32,
         **kwargs,
     ):
-        assert modality in ["vision", "language", "vision_language"]
-
         assert model_name in [
-            # Qwen2.5-VL
-            "qwen2.5-vl-3b",
-            "qwen2.5-vl-7b",
-            "qwen2.5-vl-32b",
-            "qwen2.5-vl-72b",
-            # Qwen3-VL - Dense
             "qwen3-vl-2b",
             "qwen3-vl-4b",
             "qwen3-vl-8b",
             "qwen3-vl-32b",
-            # Qwen3-VL - Dense - Thinking
-            "qwen3-vl-2b-think",
-            "qwen3-vl-4b-think",
-            "qwen3-vl-8b-think",
-            # Qwen3-VL - MoE
-            "qwen3-vl-30b-a3b",
-            "qwen3-vl-235b-a22b",
         ]
 
         dict_model_name_to_model_id = {
-            "qwen2.5-vl-3b": "Qwen/Qwen2.5-VL-3B-Instruct",
-            "qwen2.5-vl-7b": "Qwen/Qwen2.5-VL-7B-Instruct",
-            "qwen2.5-vl-32b": "Qwen/Qwen2.5-VL-32B-Instruct",
-            "qwen2.5-vl-72b": "Qwen/Qwen2.5-VL-72B-Instruct",
             "qwen3-vl-2b": "Qwen/Qwen3-VL-2B-Instruct",
             "qwen3-vl-4b": "Qwen/Qwen3-VL-4B-Instruct",
             "qwen3-vl-8b": "Qwen/Qwen3-VL-8B-Instruct",
             "qwen3-vl-32b": "Qwen/Qwen3-VL-32B-Instruct",
-            "qwen3-vl-2b-think": "Qwen/Qwen3-VL-2B-Thinking",
-            "qwen3-vl-4b-think": "Qwen/Qwen3-VL-4B-Thinking",
-            "qwen3-vl-8b-think": "Qwen/Qwen3-VL-8B-Thinking",
-            "qwen3-vl-32b-think": "Qwen/Qwen3-VL-32B-Thinking",
-            "qwen3-vl-30b-a3b": "Qwen/Qwen3-VL-30B-A3B-Instruct",
-            "qwen3-vl-235b-a22b": "Qwen/Qwen3-VL-235B-A22B-Instruct",
         }
         model_id = dict_model_name_to_model_id[model_name]
 
-        if model_id in [
-            "Qwen/Qwen2.5-VL-3B-Instruct",
-            "Qwen/Qwen2.5-VL-7B-Instruct",
-            "Qwen/Qwen2.5-VL-72B-Instruct",
-        ]:
-            self.model_class_ = Qwen2_5_VLForConditionalGeneration
-            self.processor_class_ = AutoProcessor
-        elif model_id in [
-            "Qwen/Qwen3-VL-2B-Instruct",
-            "Qwen/Qwen3-VL-4B-Instruct",
-            "Qwen/Qwen3-VL-8B-Instruct",
-            "Qwen/Qwen3-VL-32B-Instruct",
-            "Qwen/Qwen3-VL-2B-Thinking",
-            "Qwen/Qwen3-VL-4B-Thinking",
-            "Qwen/Qwen3-VL-8B-Thinking",
-            "Qwen/Qwen3-VL-32B-Thinking",
-        ]:
-            self.model_class_ = Qwen3VLForConditionalGeneration
-            self.processor_class_ = AutoProcessor
-        elif model_id in [
-            "Qwen/Qwen3-VL-30B-A3B-Instruct",
-            "Qwen/Qwen3-VL-235B-A22B-Instruct",
-        ]:
-            self.model_class_ = Qwen3VLMoeForConditionalGeneration
-            self.processor_class_ = AutoProcessor
-        else:
-            raise ValueError(f"Model {model_id} not supported")
+        self.model_class_ = Qwen3VLForConditionalGeneration
+        self.processor_class_ = AutoProcessor
 
         model_path = os.path.join(weights_dir, model_id) if weights_dir is not None else model_id
         model, processor = self.load_model(
@@ -114,12 +59,18 @@ class QwenVLModel:
             adapter_path=adapter_path,
         )
 
+        self.model_name = model_name
         self.model_id = model_id
         self.model = model
         self.processor = processor
         self.fps = fps
         self.max_frames = max_frames
         self.modality = modality
+        self.total_pixels = total_pixels
+        self.min_pixels = min_pixels
+        self.response_template = "<|im_start|>assistant\n"
+        self.response_token_ids = self.processor.tokenizer.encode(self.response_template, add_special_tokens=False)
+        self.ignore_index = -100
         
     def load_model(
         self, 
@@ -143,11 +94,10 @@ class QwenVLModel:
         else:
             bnb_config = None
 
-
         model = self.model_class_.from_pretrained(
             model_path,
             dtype=torch.bfloat16,
-            device_map="auto",
+            #device_map="auto",
             quantization_config=bnb_config,
         )
 
@@ -160,21 +110,23 @@ class QwenVLModel:
             if adapter_path is not None:
                 peft_model = PeftModel.from_pretrained(model, adapter_path)
                 model = peft_model.merge_and_unload()
-        
+
         return model, processor
 
     @staticmethod
     def format_chat_template(
-        query: str,
-        video_path: str,
+        sample: dict,
         modality: str = "vision_language",
-        system_prompt: str = None,
-        ground_truth: str = None,
         sample_fps: float = 1.0,
         max_frames: int = 8,
         total_pixels: int = 20480 * 32 * 32,
         min_pixels: int = 64 * 32 * 32,
     ):
+        video_path = sample['video_path']
+        system_prompt = sample['system_prompt']
+        query = sample['query']
+        response = sample['response']
+        
         messages = []
         if system_prompt is not None:
             messages.append({"role": "system", "content": system_prompt})
@@ -192,35 +144,29 @@ class QwenVLModel:
         content.append({"type": "text", "text": query})
 
         messages.append({"role": "user", "content": content})
-        if ground_truth is not None:
-            messages.append({"role": "assistant", "content": [{"type": "text", "text": ground_truth}]})
+        if response is not None:
+            messages.append({"role": "assistant", "content": [{"type": "text", "text": response}]})
 
         return messages
 
     def generate(
         self,
-        query: str,
-        video_path: str, 
-        system_prompt: str = None,
+        sample: dict,
         max_new_tokens: int = 256,
         do_sample: bool = True,
         top_p: float = 0.8,
         top_k: int = 20,
         temperature: float = 0.7,
         repetition_penalty: float = 1.0,
-        total_pixels: int = 20480 * 32 * 32,
-        min_pixels: int = 64 * 32 * 32,
         **kwargs,
     ):
         messages = self.format_chat_template(
-            query=query,
-            video_path=video_path,
+            sample=sample,
             modality=self.modality,
-            system_prompt=system_prompt,
             sample_fps=self.fps,
             max_frames=self.max_frames,
-            total_pixels=total_pixels,
-            min_pixels=min_pixels,
+            total_pixels=self.total_pixels,
+            min_pixels=self.min_pixels,
         )
 
         text = self.processor.apply_chat_template(
@@ -228,7 +174,6 @@ class QwenVLModel:
             tokenize=False,
             add_generation_prompt=True,
         )
-        text_inputs = [text]
 
         if self.modality in ["vision", "vision_language"]:
             image_inputs, video_inputs, video_kwargs = process_vision_info(
@@ -249,14 +194,17 @@ class QwenVLModel:
             video_metadatas = None
         
         inputs = self.processor(
-            text=text_inputs,
+            text=[text],
             images=image_inputs,
             videos=video_inputs,
             video_metadata=video_metadatas,
             **video_kwargs,
             do_resize=False,
             return_tensors="pt"
-        ).to(self.model.device)
+        ).to(
+            self.model.device,
+            self.model.dtype,
+        )
 
         with torch.no_grad():
             output_ids = self.model.generate(
@@ -269,15 +217,87 @@ class QwenVLModel:
                 repetition_penalty=repetition_penalty,
             )
 
-        generated_ids = [
+        trimmed_ids = [
             output_ids[len(input_ids):]
             for input_ids, output_ids in zip(inputs.input_ids, output_ids)
         ]
 
         response = self.processor.batch_decode(
-            generated_ids,
+            trimmed_ids,
             skip_special_tokens=True,
             clean_up_tokenization_spaces=True
         )[0]
 
         return response
+
+    def collate_fn(self, samples):
+        messages_list = []
+        text_inputs = []
+        
+        for sample in samples:
+            messages = self.format_chat_template(
+                sample=sample,
+                modality=self.modality,
+                sample_fps=self.fps,
+                max_frames=self.max_frames,
+                total_pixels=self.total_pixels,
+                min_pixels=self.min_pixels,
+            )
+
+            text = self.processor.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=False,
+            )
+
+            messages_list.append(messages)
+            text_inputs.append(text)
+
+        if self.modality in ["vision", "vision_language"]:
+            image_inputs, video_inputs, video_kwargs = process_vision_info(
+                messages_list,
+                return_video_kwargs=True, 
+                image_patch_size=16,
+                return_video_metadata=True
+            )
+        else:
+            image_inputs = None
+            video_inputs = None
+            video_kwargs = {}
+
+        if video_inputs is not None:
+            video_inputs, video_metadatas = zip(*video_inputs)
+            video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
+        else:
+            video_metadatas = None
+
+        batch = self.processor(
+            text=text_inputs,
+            images=image_inputs,
+            videos=video_inputs,
+            #video_metadata=video_metadatas,
+            **video_kwargs,
+            return_tensors="pt",
+            padding=True,
+        )
+
+        labels = batch['input_ids'].clone()
+        labels[labels == self.processor.tokenizer.pad_token_id] = self.ignore_index
+        labels[labels == self.processor.tokenizer.convert_tokens_to_ids(self.processor.image_token)] = self.ignore_index
+        labels[labels == self.processor.tokenizer.convert_tokens_to_ids(self.processor.video_token)] = self.ignore_index
+
+        for i in range(len(labels)):
+            response_start_idx = -1
+            for idx in np.where(labels[i].cpu() == self.response_token_ids[0])[0]:
+                if labels[i, idx : idx + len(self.response_token_ids)].tolist() == self.response_token_ids:
+                    response_start_idx = idx
+                    break
+            
+            if response_start_idx == -1:
+                labels[i, :] = self.ignore_index
+            else:
+                response_end_idx = response_start_idx + len(self.response_token_ids)
+                labels[i, :response_end_idx] = self.ignore_index
+
+        batch["labels"] = labels
+        return batch

@@ -4,6 +4,7 @@ import json
 import torch
 import pandas as pd
 import numpy as np
+from pathlib import Path
 from tqdm import tqdm
 
 from sf20k.models import get_model
@@ -19,6 +20,7 @@ def parse_args():
     parser.add_argument("--video_dir", type=str, required=True, help="Directory containing video files")
     parser.add_argument("--model_name", type=str, required=True, help="Name of the model to run")
     parser.add_argument("--weights_dir", type=str, default=None, help="Directory containing model weights")
+    parser.add_argument("--adapter_path", type=str, default=None, help="Path to the adapter")
     parser.add_argument("--modality", type=str, default="vision_language", choices=["vision", "language", "vision_language"], help="Modality to use")
     parser.add_argument("--num_frames", type=int, default=None, help="Number of frames to sample")
     parser.add_argument("--fps", type=float, default=1.0, help="Frames per second for sampling")
@@ -33,9 +35,15 @@ def main(args):
     # Setup output directory
     os.makedirs(args.output_dir, exist_ok=True)
     if args.modality in ['vision', 'vision_language']:
-        output_filename = f"model_{args.model_name}_modality_{args.modality}_num_frames_{args.num_frames}.json"
+        if args.adapter_path is not None:
+            output_filename = f"model_{args.model_name}_modality_{args.modality}_num_frames_{args.num_frames}_adapter_path_{Path(args.adapter_path).stem}.json"
+        else:
+            output_filename = f"model_{args.model_name}_modality_{args.modality}_num_frames_{args.num_frames}.json"
     else:
-        output_filename = f"model_{args.model_name}_modality_{args.modality}.json"
+        if args.adapter_path is not None:
+            output_filename = f"model_{args.model_name}_modality_{args.modality}_adapter_path_{Path(args.adapter_path).stem}.json"
+        else:
+            output_filename = f"model_{args.model_name}_modality_{args.modality}.json"
     output_path = os.path.join(args.output_dir, output_filename)
     print(f"Results will be saved to {output_path}")
 
@@ -58,6 +66,7 @@ def main(args):
     model = get_model(
         model_name=args.model_name,
         weights_dir=args.weights_dir,
+        adapter_path=args.adapter_path,
         modality=args.modality,
         fps=args.fps,
         max_frames=args.num_frames,

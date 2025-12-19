@@ -56,9 +56,15 @@ def get_model(model_name: str, **kwargs):
         "internvl3.5-14b",
     ]:
         return InternVLModel(model_name=model_name, **kwargs)
-    elif model_name in ["longva-7b", "longva-7b-dpo"]:
+    elif model_name in [
+        "longva-7b", 
+        "longva-7b-dpo",
+    ]:
         return LongVAModel(model_name=model_name, **kwargs)
-    elif model_name in ["longvu-3b", "longvu-7b"]:
+    elif model_name in [
+        "longvu-3b", 
+        "longvu-7b",
+    ]:
         return LongVUModel(model_name=model_name, **kwargs)
     # baselines: video-llava, llava-video
     # reasoning: longvt, video-r1

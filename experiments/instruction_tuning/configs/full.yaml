@@ -1,0 +1,47 @@
+# File and Directory Paths
+project_name: sf20k
+run_name: full
+output_dir: ./results/full/
+weights_dir: /geovic/ghermi/weights/
+train_data_path: /users/ghermi/code/sf20k/data/train.csv
+test_data_path: /users/ghermi/code/sf20k/data/test_expert.csv
+video_dir: /geovic/geovic/SF20K/videos/
+train_subtitles_path: /geovic/geovic/SF20K/subtitles.parquet
+test_subtitles_path: /users/ghermi/code/sf20k/data/test_subtitles.csv
+
+# Dataset Parameters
+n_subsample_train: 16384
+n_subsample_test: 256
+
+# Model Parameters
+model_name: qwen3-vl-2b
+adapter_path: null
+load_in_4bit: false
+modality: vision_language
+fps: 1.0
+max_frames: 32
+
+# LoRA Configuration
+lora_r: 8
+lora_alpha: 16
+lora_dropout: 0.05
+
+# Training Arguments
+num_train_epochs: 1
+batch_size: 8
+per_device_train_batch_size: 1
+per_device_eval_batch_size: 4
+optim: adamw_torch_fused
+learning_rate: 0.0001
+lr_scheduler_type: cosine
+max_grad_norm: 0.3
+warmup_ratio: 0.
+max_length: null
+
+# Miscellaneous
+logging_steps: 1
+eval_steps: 20000
+save_steps: 128
+generation_log_steps: 256
+num_gens_to_log: 5
+seed: 42
