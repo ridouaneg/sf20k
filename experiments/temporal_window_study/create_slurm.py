@@ -48,7 +48,11 @@ if __name__ == "__main__":
         #"qwen3-vl-4b", 
         #"qwen3-vl-8b",
     ]
-    ng_x_ns = [(4, 1), (2, 2), (1, 4)]
+    ng_x_ns = [
+        (4, 1), 
+        (2, 2), 
+        (1, 4),
+    ]
 
     all_combinations = list(itertools.product(model_names, ng_x_ns))
     for model_name, ng_x_ns in all_combinations:
