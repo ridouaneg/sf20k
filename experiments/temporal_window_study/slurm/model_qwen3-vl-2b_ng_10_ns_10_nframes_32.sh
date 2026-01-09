@@ -16,6 +16,7 @@ module load ffmpeg/6.1.1
 module load pytorch-gpu/py3/2.6.0
 source /lustre/fsn1/projects/rech/kcn/ucm72yx/virtual_envs/sf20k/bin/activate
 cd /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/experiments/temporal_window_study/
+git checkout rig-dev
 
 python run_inference.py \
     --output_dir results \
