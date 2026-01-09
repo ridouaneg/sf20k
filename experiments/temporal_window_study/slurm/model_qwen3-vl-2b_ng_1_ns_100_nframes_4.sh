@@ -26,6 +26,6 @@ python run_inference.py \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
     --fps 1.0 \
-    --max_frames 2048 \
+    --max_frames 4 \
     --n_generations 1 \
-    --n_scenes 4
+    --n_scenes 100

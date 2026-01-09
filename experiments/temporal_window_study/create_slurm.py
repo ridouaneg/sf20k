@@ -28,17 +28,18 @@ python run_inference.py \\
     --weights_dir {weights_dir} \\
     --modality vision_language \\
     --fps 1.0 \\
-    --max_frames 2048 \\
+    --max_frames {n_frames} \\
     --n_generations {num_generations} \\
     --n_scenes {num_scenes}
 """
 
-def create_slurm(model_name, weights_dir, num_generations, num_scenes):
+def create_slurm(model_name, weights_dir, num_generations, num_scenes, n_frames):
     return TEMPLATE.format(
         model_name=model_name,
         weights_dir=weights_dir,
         num_generations=num_generations,
-        num_scenes=num_scenes
+        num_scenes=num_scenes,
+        n_frames=n_frames,
     )
 
 if __name__ == "__main__":
@@ -48,26 +49,27 @@ if __name__ == "__main__":
         #"qwen3-vl-4b", 
         #"qwen3-vl-8b",
     ]
-    ng_x_ns = [
-        (4, 1), 
-        (2, 2), 
-        (1, 4),
+    ng_x_ns_x_nframes = [
+        (100, 1, 256),
+        (10, 10, 32),
+        (1, 100, 4),
     ]
 
-    all_combinations = list(itertools.product(model_names, ng_x_ns))
-    for model_name, ng_x_ns in all_combinations:
+    all_combinations = list(itertools.product(model_names, ng_x_ns_x_nframes))
+    for model_name, ng_x_ns_x_nframes in all_combinations:
         if model_name in ["qwen3-vl-2b", "qwen3-vl-32b"]:
             weights_dir = "/lustre/fsn1/projects/rech/kcn/ucm72yx/weights/"
         else:
             weights_dir = "/lustre/fsmisc/dataset/HuggingFace_Models/"
-        num_generations, num_scenes = ng_x_ns
+        num_generations, num_scenes, n_frames = ng_x_ns_x_nframes
         slurm_script = create_slurm(
             model_name=model_name,
             weights_dir=weights_dir,
             num_generations=num_generations,
-            num_scenes=num_scenes
+            num_scenes=num_scenes,
+            n_frames=n_frames
         )
-        with open(f"./slurm/model_{model_name}_ng_{num_generations}_ns_{num_scenes}.sh", "w") as f:
+        with open(f"./slurm/model_{model_name}_ng_{num_generations}_ns_{num_scenes}_nframes_{n_frames}.sh", "w") as f:
             f.write(slurm_script)
         
     print(f"Created {len(all_combinations)} slurm scripts")
