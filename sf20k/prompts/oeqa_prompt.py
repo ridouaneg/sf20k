@@ -23,9 +23,9 @@ class OEQAPrompt:
     def __init__(self, modality="vision_language"):
         self.modality = modality
 
-    def get_query(self, sample):
+    def get_query(self, sample, subtitles=None):
         question = sample['question']
-        subtitles = sample['subtitles']
+        subtitles = subtitles if subtitles is not None else sample['subtitles']
         
         if self.modality == "vision_language":
             return self.TEMPLATE_VL.format(question=question, subtitles=subtitles)
