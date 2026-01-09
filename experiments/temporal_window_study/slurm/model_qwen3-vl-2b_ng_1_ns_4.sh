@@ -7,7 +7,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=10
 #SBATCH --hint=nomultithread
-#SBATCH --time=8:00:00
+#SBATCH --time=20:00:00
 #SBATCH --output=/lustre/fsn1/projects/rech/kcn/ucm72yx/slurm/sf20k/%j.out
 #SBATCH --error=/lustre/fsn1/projects/rech/kcn/ucm72yx/slurm/sf20k/%j.err
 
@@ -18,13 +18,14 @@ source /lustre/fsn1/projects/rech/kcn/ucm72yx/virtual_envs/sf20k/bin/activate
 cd /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/experiments/temporal_window_study/
 
 python run_inference.py \
-    --output_dir ./results/ijcv_rebuttal/ \
+    --output_dir results \
     --data_path ../../data/test_expert.csv \
     --subtitles_path ../../data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
+    --model_name qwen3-vl-2b \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
-    --model_name qwen3-vl-4b \
-    --num_frames 256 \
-    --num_segments 1 \
-    --num_generations 100
+    --fps 1.0 \
+    --max_frames 2048 \
+    --n_generations 1 \
+    --n_scenes 4

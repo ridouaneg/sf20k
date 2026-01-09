@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 from models import get_model
 from datasets import SF20KSceneDataset
-from prompts import OEQAPrompt
+from sf20k.prompts import OEQAPrompt
 
 cmd_lines = """
 
@@ -19,15 +19,28 @@ modality: vision, language, vision_language
 CUDA_VISIBLE_DEVICES=1 python run_inference.py \
     --output_dir ./results/ \
     --data_path ../../data/test_expert.csv \
-    --subtitles_path /geovic/geovic/SF20K/subtitles_test.csv \
+    --subtitles_path ../../data/test_subtitles.csv \
     --video_dir /geovic/geovic/SF20K/videos/ \
     --model_name qwen3-vl-2b \
     --weights_dir /geovic/ghermi/weights/ \
     --modality vision_language \
     --fps 1.0 \
     --max_frames 2048 \
-    --n_generations 10 \
-    --n_scenes 10
+    --n_generations 1 \
+    --n_scenes 2
+
+python run_inference.py \
+    --output_dir results \
+    --data_path ../../data/test_expert.csv \
+    --subtitles_path ../../data/test_subtitles.csv \
+    --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
+    --model_name qwen3-vl-2b \
+    --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
+    --modality vision_language \
+    --fps 1.0 \
+    --max_frames 2048 \
+    --n_generations 1 \
+    --n_scenes 2
 
 """
 
@@ -108,9 +121,6 @@ def main(args):
             continue
 
         for n_gen in range(args.n_generations):
-            #print(f"{question_id}_{n_gen}", n_gen, sample["video_path"], sample["video_start"], sample["video_end"], int(sample["video_end"] - sample["video_start"]))
-            #continue
-
             response = model.generate(
                 query=sample["query"],
                 video_path=sample["video_path"],
