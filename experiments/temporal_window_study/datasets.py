@@ -73,7 +73,7 @@ class SF20KSceneDataset(Dataset):
         response = self.prompt.get_response(sample)
 
         return {
-            'question_id': f"{sample['question_id']}_{scene_nb}",
+            'question_id': f"{sample['question_id']}_{scene_nb:04d}",
             'video_id': video_id,
             'video_path': video_path,
             'video_start': video_start,

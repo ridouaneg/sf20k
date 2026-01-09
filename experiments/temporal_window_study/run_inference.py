@@ -1,3 +1,6 @@
+#import decord
+#decord.bridge.set_bridge('torch')
+
 import argparse
 import os
 import json
@@ -9,6 +12,7 @@ from tqdm import tqdm
 from models import get_model
 from datasets import SF20KSceneDataset
 from sf20k.prompts import OEQAPrompt
+
 
 cmd_lines = """
 
@@ -131,7 +135,7 @@ def main(args):
             
             prediction = prompt.postprocess_response(response)
 
-            results[f"{question_id}_{n_gen}"] = {
+            results[f"{question_id}_{n_gen:04d}"] = {
                 "question_id": question_id,
                 "video_id": sample["video_id"],
                 "video_path": sample["video_path"],
