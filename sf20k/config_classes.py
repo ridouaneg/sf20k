@@ -10,10 +10,15 @@ class TrainingConfig:
     output_dir: str = "./results/"
     weights_dir: str = "/geovic/ghermi/weights/"
     train_data_path: str = "/users/ghermi/code/sf20k/data/train.csv"
-    test_data_path: str = "/users/ghermi/code/sf20k/data/train.csv"
+    test_data_path: str = "/users/ghermi/code/sf20k/data/test_expert.csv"
     video_dir: str = "/geovic/geovic/SF20K/videos/"
     train_subtitles_path: str = "/geovic/geovic/SF20K/subtitles.parquet"
     test_subtitles_path: str = "/users/ghermi/code/sf20k/data/test_subtitles.csv"
+
+    # Inference
+    data_path: str = "/users/ghermi/code/sf20k/data/test_expert.csv"
+    subtitles_path: str = "/users/ghermi/code/sf20k/data/test_subtitles.csv"
+    adapter_path: str = None
 
     # Dataset Parameters
     n_subsample_train: int = 64
@@ -21,7 +26,7 @@ class TrainingConfig:
 
     # Model Parameters
     model_name: str = "qwen3-vl-2b"
-    adapter_path: str = None
+    #adapter_path: str = None
     load_in_4bit: bool = False
     modality: str = "vision_language"
     fps: float = 1.0

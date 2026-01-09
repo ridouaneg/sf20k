@@ -18,8 +18,17 @@ source /lustre/fsn1/projects/rech/kcn/ucm72yx/virtual_envs/sf20k/bin/activate
 cd /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/experiments/instruction_tuning/
 wandb offline
 
+# Train
 accelerate launch \
     --num_processes 2 \
     --config_file default_config.yaml \
     train.py \
     --config configs/qwen3-vl-2b_1024_32f.yaml
+
+# Run inference
+python run_inference.py \
+    tmp
+
+# Run evaluation
+python run_evaluation.py \
+    tmp

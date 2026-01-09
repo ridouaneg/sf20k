@@ -58,6 +58,7 @@ def main(args):
 
     for question_id, sample in tqdm(data.items(), total=len(data)):
         if question_id in results and not args.force_rerun:
+            #print(f"Skipping question {question_id}")
             continue
         
         question = sample['question']
@@ -65,6 +66,7 @@ def main(args):
         prediction = sample['prediction']
 
         if prediction is None:
+            print(f"Prediction is None for question {question_id}")
             continue
         
         USER_PROMPT = PROMPT_TEMPLATE.format(
@@ -109,8 +111,8 @@ def main(args):
 
     # Compute metrics
     df = pd.DataFrame(results.values())
-    accuracy = df['pred'].mean()
-    score = df['score'].mean()
+    accuracy = df['pred'].sum() / 979.
+    score = df['score'].sum() / 979.
     print(f"Accuracy: {accuracy}")
     print(f"Score: {score}")
 

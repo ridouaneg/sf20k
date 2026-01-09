@@ -24,8 +24,8 @@ OPENAI_ORG_ID = os.getenv("OPENAI_ORG_ID", None)
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input_path", type=str, default="movieqa.csv")
-    parser.add_argument("--output_dir", type=str, default=".")
+    parser.add_argument("--input_path", type=str, default="data/movieqa.csv")
+    parser.add_argument("--output_dir", type=str, default="results")
     parser.add_argument("--model_name", type=str, default="gpt-5-nano")
     parser.add_argument("--force_rerun", action="store_true")
     parser.add_argument("--n_subsample", type=int, default=-1)

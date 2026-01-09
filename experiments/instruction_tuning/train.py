@@ -35,7 +35,7 @@ def main(args):
     module = QwenVLModel(
         model_name=config.model_name,
         weights_dir=config.weights_dir,
-        adapter_path=config.adapter_path,
+        #adapter_path=config.adapter_path,
         load_in_4bit=config.load_in_4bit,
         modality=config.modality,
         fps=config.fps,
