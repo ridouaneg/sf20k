@@ -303,14 +303,12 @@ def _read_video_decord(
     Returns:
         torch.Tensor: the video tensor with shape (T, C, H, W).
     """
-    import decord
-    #from decord import cpu
+    from decord import VideoReader, cpu
     
     video_path = ele["video"]
     st = time.time()
     #vr = decord.VideoReader(video_path)
-    vr = decord.VideoReader(video_path, num_threads=1) # NEW
-    #vr = decord.VideoReader(video_path, ctx=cpu(0), num_threads=0) # NEW
+    vr = VideoReader(video_path, ctx=cpu(0), num_threads=1) # NEW
     total_frames, video_fps = len(vr), vr.get_avg_fps()
     start_frame, end_frame, total_frames = calculate_video_frame_range(
         ele,

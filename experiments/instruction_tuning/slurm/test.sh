@@ -1,5 +1,5 @@
 # Train
-CUDA_VISIBLE_DEVICES=0 accelerate launch \
+CUDA_VISIBLE_DEVICES=1 accelerate launch \
     --num_processes 1 \
     --config_file default_config.yaml \
     train.py \
