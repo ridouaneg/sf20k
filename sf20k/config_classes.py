@@ -45,6 +45,7 @@ class TrainingConfig:
     lr_scheduler_type: str = "cosine"
     max_grad_norm: float = 0.3
     warmup_ratio: float = 0.03
+    weight_decay: float = 0.
 
     per_device_train_batch_size: int = 1
     per_device_eval_batch_size: int = 1

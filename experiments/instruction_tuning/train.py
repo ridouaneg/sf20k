@@ -6,6 +6,7 @@ from trl import SFTConfig, SFTTrainer
 import wandb
 import yaml
 import random
+import torch.distributed as dist
 
 from sf20k.utils import convert_to_hf_dataset, set_seed, load_config, get_num_gpus
 from sf20k.prompts import OEQAPrompt
@@ -51,6 +52,8 @@ def main(args):
         task_type="CAUSAL_LM",
     )
 
+    print(f"Model {config.model_name} loaded.")
+
     # Prepare data
     prompt = OEQAPrompt()
 
@@ -62,7 +65,6 @@ def main(args):
         n_subsample=config.n_subsample_train,
         seed=config.seed,
     )
-    train_dataset = convert_to_hf_dataset(train_dataset)
 
     test_dataset = SF20KDataset(
         prompt=prompt,
@@ -72,6 +74,8 @@ def main(args):
         n_subsample=config.n_subsample_test,
         seed=config.seed,
     )
+
+    train_dataset = convert_to_hf_dataset(train_dataset)
     test_dataset = convert_to_hf_dataset(test_dataset)
 
     print(f"Train dataset size: {len(train_dataset)}")
@@ -99,6 +103,7 @@ def main(args):
         max_length=config.max_length,
         optim=config.optim,
         learning_rate=config.learning_rate,
+        weight_decay=config.weight_decay,
         lr_scheduler_type=config.lr_scheduler_type,
         logging_steps=config.logging_steps,
         eval_steps=config.eval_steps,
@@ -154,6 +159,10 @@ def main(args):
         trainer.save_model(final_checkpoint_dir)
         print(f"Final model saved to {final_checkpoint_dir}")
         wandb.finish()
+
+    if dist.is_initialized():
+        dist.barrier()
+        dist.destroy_process_group()
 
 
 if __name__ == "__main__":
