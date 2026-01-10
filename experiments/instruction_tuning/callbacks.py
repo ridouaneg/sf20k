@@ -18,6 +18,7 @@ class GenerationCallback(TrainerCallback):
         self.num_generations = num_generations
         self.max_new_tokens = max_new_tokens
 
+    @torch.inference_mode()
     def on_step_end(self, args, state, control, **kwargs):
         gts = []
         preds = []
@@ -41,3 +42,4 @@ class GenerationCallback(TrainerCallback):
 
             self.module.model.train()
             print("--- Generations logged to WandB ---")
+            torch.cuda.empty_cache()

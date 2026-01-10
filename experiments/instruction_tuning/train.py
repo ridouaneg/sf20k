@@ -29,6 +29,7 @@ def parse_args():
 
 def main(args):
     # Prepare env
+    os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
     config = load_config(args.config)
     set_seed(config.seed)
 
@@ -142,6 +143,7 @@ def main(args):
         data_collator=module.collate_fn,
         callbacks=[generation_callback],
         #dataset_text_field="text",
+        packing=True,
     )
 
     if training_args.process_index == 0:
