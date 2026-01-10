@@ -2,16 +2,16 @@
 project_name: sf20k
 run_name: test
 output_dir: results
-weights_dir: /geovic/ghermi/weights/
-video_dir: /geovic/geovic/SF20K/videos/
-train_data_path: /users/ghermi/code/sf20k/data/train.csv
-test_data_path: /users/ghermi/code/sf20k/data/test_expert.csv
-train_subtitles_path: /users/ghermi/code/sf20k/data/subtitles.parquet
-test_subtitles_path: /users/ghermi/code/sf20k/data/test_subtitles.csv
+weights_dir: /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/
+video_dir: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/
+train_data_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/train.csv
+test_data_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv
+train_subtitles_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/subtitles.parquet
+test_subtitles_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv
 
 # Inference Parameters
-#data_path: /users/ghermi/code/sf20k/data/test_expert.csv
-#subtitles_path: /users/ghermi/code/sf20k/data/test_subtitles.csv
+#data_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv
+#subtitles_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv
 #adapter_path: ./results/test/checkpoint-final/
 
 # Dataset Parameters
