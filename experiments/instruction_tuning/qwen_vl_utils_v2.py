@@ -455,11 +455,11 @@ def fetch_video(ele: Dict[str, Any], image_patch_size: int = 14, return_video_sa
             video, video_metadata, sample_fps = VIDEO_READER_BACKENDS[video_reader_backend](ele)
         except Exception as e:
             try:
-                logger.warning(f"video_reader_backend {video_reader_backend} error, try torchvision, msg: {e}")
-                video, video_metadata, sample_fps = VIDEO_READER_BACKENDS["torchvision"](ele)
-            except Exception as e:
-                logger.warning(f"Backend {video_reader_backend} and torchvision failed, try cv2, msg: {e}")
+                logger.warning(f"video_reader_backend {video_reader_backend} error, try cv2, msg: {e}, video: {ele['video']}")
                 video, video_metadata, sample_fps = VIDEO_READER_BACKENDS["cv2"](ele)
+            except Exception as e:
+                logger.warning(f"video_reader_backend cv2 error, try torchvision, msg: {e}, video: {ele['video']}")
+                video, video_metadata, sample_fps = VIDEO_READER_BACKENDS["torchvision"](ele)
     else:
         # The input is a list of frames
         assert isinstance(ele["video"], (list, tuple))
