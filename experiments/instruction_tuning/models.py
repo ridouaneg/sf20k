@@ -5,7 +5,7 @@ from transformers import (
     AutoProcessor,
     BitsAndBytesConfig,
 )
-from qwen_vl_utils import process_vision_info
+from qwen_vl_utils_v2 import process_vision_info
 
 try:
     from transformers import (

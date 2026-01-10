@@ -10,6 +10,7 @@ from functools import lru_cache
 from io import BytesIO
 from typing import Optional, Union, Tuple, List, Any, Dict
 from concurrent.futures import ThreadPoolExecutor
+import cv2
 
 import requests
 import torch
@@ -289,6 +290,46 @@ def calculate_video_frame_range(
     return start_frame, end_frame, end_frame - start_frame + 1
 
 
+def _read_video_cv2(ele: Dict[str, Any]) -> Tuple[torch.Tensor, Dict[str, Any], float]:
+    """Fallback reader using OpenCV for maximum compatibility."""
+    video_path = ele["video"]
+    if video_path.startswith("file://"):
+        video_path = video_path[7:]
+    
+    cap = cv2.VideoCapture(video_path)
+    if not cap.isOpened():
+        raise ValueError(f"CV2 could not open video: {video_path}")
+    
+    video_fps = cap.get(cv2.CAP_PROP_FPS)
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    
+    nframes = smart_nframes(ele, total_frames=total_frames, video_fps=video_fps)
+    # Generate indices to sample
+    idx = np.linspace(0, total_frames - 1, nframes).astype(int)
+    
+    frames = []
+    for i in idx:
+        cap.set(cv2.CAP_PROP_POS_FRAMES, i)
+        ret, frame = cap.read()
+        if not ret:
+            # If a frame fails, we append a blank frame or the last successful one
+            frame = frames[-1] if frames else np.zeros((int(cap.get(4)), int(cap.get(3)), 3), np.uint8)
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frames.append(frame)
+    cap.release()
+    
+    video = torch.from_numpy(np.array(frames)).permute(0, 3, 1, 2) # TCHW
+    sample_fps = nframes / max(total_frames, 1e-6) * video_fps
+    
+    video_metadata = dict(
+        fps=video_fps,
+        frames_indices=idx.tolist(),
+        total_num_frames=total_frames,
+        video_backend="cv2_fallback",
+    )
+    return video, video_metadata, sample_fps
+
+
 def _read_video_decord(
     ele: Dict[str, Any],
 ) -> Tuple[torch.Tensor, float]:
@@ -308,7 +349,7 @@ def _read_video_decord(
     video_path = ele["video"]
     st = time.time()
     #vr = decord.VideoReader(video_path)
-    vr = VideoReader(video_path, ctx=cpu(0), num_threads=1) # NEW
+    vr = VideoReader(video_path, ctx=cpu(0), num_threads=1)
     total_frames, video_fps = len(vr), vr.get_avg_fps()
     start_frame, end_frame, total_frames = calculate_video_frame_range(
         ele,
@@ -383,6 +424,7 @@ VIDEO_READER_BACKENDS = {
     "decord": _read_video_decord,
     "torchvision": _read_video_torchvision,
     "torchcodec": _read_video_torchcodec,
+    "cv2": _read_video_cv2,
 }
 
 FORCE_QWENVL_VIDEO_READER = os.getenv("FORCE_QWENVL_VIDEO_READER", None)
@@ -412,8 +454,12 @@ def fetch_video(ele: Dict[str, Any], image_patch_size: int = 14, return_video_sa
         try:
             video, video_metadata, sample_fps = VIDEO_READER_BACKENDS[video_reader_backend](ele)
         except Exception as e:
-            logger.warning(f"video_reader_backend {video_reader_backend} error, use torchvision as default, msg: {e}")
-            video, video_metadata, sample_fps = VIDEO_READER_BACKENDS["torchvision"](ele)
+            try:
+                logger.warning(f"video_reader_backend {video_reader_backend} error, try torchvision, msg: {e}")
+                video, video_metadata, sample_fps = VIDEO_READER_BACKENDS["torchvision"](ele)
+            except Exception as e:
+                logger.warning(f"Backend {video_reader_backend} and torchvision failed, try cv2, msg: {e}")
+                video, video_metadata, sample_fps = VIDEO_READER_BACKENDS["cv2"](ele)
     else:
         # The input is a list of frames
         assert isinstance(ele["video"], (list, tuple))
