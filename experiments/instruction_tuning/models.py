@@ -5,7 +5,6 @@ from transformers import (
     AutoProcessor,
     BitsAndBytesConfig,
 )
-from qwen_vl_utils_v2 import process_vision_info
 
 try:
     from transformers import (
@@ -17,6 +16,8 @@ except:
     Qwen2_5_VLForConditionalGeneration = None
     Qwen3VLForConditionalGeneration = None
     Qwen3VLMoeForConditionalGeneration = None
+
+from qwen_vl_utils_v2 import process_vision_info
 
 
 class QwenVLModel:
