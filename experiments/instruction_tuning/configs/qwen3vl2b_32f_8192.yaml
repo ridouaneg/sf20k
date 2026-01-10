@@ -18,7 +18,7 @@ model_name: qwen3-vl-2b
 load_in_4bit: false
 modality: vision_language
 fps: 1.0
-max_frames: 8
+max_frames: 32
 
 # LoRA Configuration
 lora_r: 8
@@ -31,7 +31,7 @@ batch_size: 8
 per_device_train_batch_size: 1
 per_device_eval_batch_size: 4
 optim: adamw_torch_fused
-learning_rate: 0.001
+learning_rate: 0.0000002
 lr_scheduler_type: cosine
 weight_decay: 0.0
 max_grad_norm: 0.3
