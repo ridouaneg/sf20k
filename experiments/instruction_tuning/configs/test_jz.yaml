@@ -9,11 +9,6 @@ test_data_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expe
 train_subtitles_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/subtitles.parquet
 test_subtitles_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv
 
-# Inference Parameters
-#data_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv
-#subtitles_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv
-#adapter_path: ./results/test/checkpoint-final/
-
 # Dataset Parameters
 n_subsample_train: 64
 n_subsample_test: 8
@@ -38,7 +33,7 @@ per_device_eval_batch_size: 4
 optim: adamw_torch_fused
 learning_rate: 0.001
 lr_scheduler_type: cosine
-#weight_decay: 0.01
+weight_decay: 0.0
 max_grad_norm: 0.3
 warmup_ratio: 0.03
 max_length: null

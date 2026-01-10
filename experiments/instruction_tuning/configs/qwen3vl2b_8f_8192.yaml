@@ -33,7 +33,7 @@ per_device_eval_batch_size: 4
 optim: adamw_torch_fused
 learning_rate: 0.001
 lr_scheduler_type: cosine
-weight_decay: 0.01
+weight_decay: 0.0
 max_grad_norm: 0.3
 warmup_ratio: 0.03
 max_length: null

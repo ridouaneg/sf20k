@@ -42,7 +42,8 @@ class SF20KDataset(Dataset):
         #    subtitles_dict[video_id] = subtitles
 
         self.df = df
-        self.subtitles_dict = subtitles_dict
+        #self.subtitles_dict = subtitles_dict
+        self.df_subs = df_subs
         self.video_files = video_files
         self.n_subsample = n_subsample
         self.seed = seed
