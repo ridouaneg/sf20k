@@ -1,6 +1,6 @@
 # File and Directory Paths
 project_name: sf20k
-run_name: qwen3vl2b_8f_8192
+run_name: qwen3vl2b_32f_8192
 output_dir: results
 weights_dir: /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/
 video_dir: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/
