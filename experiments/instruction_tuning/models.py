@@ -139,8 +139,8 @@ class QwenVLModel:
                 "video": video_path,
                 "total_pixels": total_pixels, 
                 "min_pixels": min_pixels, 
+                "fps": fps,
                 "max_frames": max_frames,
-                "sample_fps":sample_fps
             })
         content.append({"type": "text", "text": query})
 

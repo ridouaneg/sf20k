@@ -23,36 +23,30 @@ accelerate launch \
     --num_processes 1 \
     --config_file default_config.yaml \
     train.py \
-    --config configs/test_jz.yaml
+    --config configs/qwen3vl2b_8f_8192.yaml
 
 # Run inference
-#python run_inference.py \
-#    --config configs/test_jz.yaml \
-#python run_inference.py \
-#    --config configs/test_jz.yaml \
-#    --finetuned
-
 python run_inference.py \
-    --output_dir ./results/test/ \
+    --output_dir ./results/qwen3vl2b_8f_8192/ \
     --data_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv \
     --subtitles_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
     --model_name qwen3-vl-2b \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
-    --num_frames 8 \
     --fps 1.0 \
-    --n_subsample 8
+    --num_frames 8 \
+    --n_subsample -1
 
 python run_inference.py \
-    --output_dir ./results/test/ \
+    --output_dir ./results/qwen3vl2b_8f_8192/ \
+    --adapter_path ./results/qwen3vl2b_8f_8192/checkpoint-final/ \
     --data_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv \
     --subtitles_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
     --model_name qwen3-vl-2b \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
-    --adapter_path ./results/test/checkpoint-final/ \
     --modality vision_language \
-    --num_frames 8 \
     --fps 1.0 \
-    --n_subsample 8
+    --num_frames 8 \
+    --n_subsample -1
