@@ -7,6 +7,7 @@ import wandb
 import yaml
 import random
 import torch.distributed as dist
+from datetime import datetime
 
 from sf20k.utils import convert_to_hf_dataset, set_seed, load_config, get_num_gpus
 from sf20k.prompts import OEQAPrompt
@@ -83,7 +84,8 @@ def main(args):
 
     # Prepare trainer
     run_name = config.run_name
-    output_folder = os.path.join(config.output_dir, run_name)
+    date = datetime.now().strftime("%H%M%S-%d%m%Y")
+    output_folder = os.path.join(config.output_dir, f"{run_name}_{date}")
     os.makedirs(output_folder, exist_ok=True)
     
     config_path = os.path.join(output_folder, "config.yaml")
