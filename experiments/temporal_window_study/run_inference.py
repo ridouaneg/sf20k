@@ -114,17 +114,19 @@ def main(args):
         with open(output_path, "r") as f:
             results = json.load(f)
         print(f"Resuming from {len(results)} existing results")
-    
     existing_ids = set(results.keys())
+    import pdb; pdb.set_trace() 
 
     for i in tqdm(range(len(dataset))):
         sample = dataset[i]
         question_id = sample["question_id"]
-        
-        if question_id in existing_ids and not args.force_rerun:
-            continue
-
         for n_gen in range(args.n_generations):
+            gen_id = f"{n_gen:04d}"
+            sample_id = f"{question_id}_{gen_id}"
+            if sample_id in existing_ids and not args.force_rerun:
+                #print(f"Skipping {sample_id}")
+                continue
+        
             response = model.generate(
                 query=sample["query"],
                 video_path=sample["video_path"],
@@ -135,8 +137,9 @@ def main(args):
             
             prediction = prompt.postprocess_response(response)
 
-            results[f"{question_id}_{n_gen:04d}"] = {
+            results[sample_id] = {
                 "question_id": question_id,
+                #"gen_id": gen_id,
                 "video_id": sample["video_id"],
                 "video_path": sample["video_path"],
                 "video_start": sample["video_start"],
@@ -150,9 +153,9 @@ def main(args):
                 "fps": args.fps,
                 "max_frames": args.max_frames,
             }
-                        
-        with open(output_path, "w") as f:
-            json.dump(results, f, indent=4)
+      
+            with open(output_path, "w") as f:
+                json.dump(results, f, indent=4)
             
     print(f"Saved results to {output_path}")
     with open(output_path, "w") as f:
