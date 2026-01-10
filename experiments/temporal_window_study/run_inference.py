@@ -115,7 +115,6 @@ def main(args):
             results = json.load(f)
         print(f"Resuming from {len(results)} existing results")
     existing_ids = set(results.keys())
-    import pdb; pdb.set_trace() 
 
     for i in tqdm(range(len(dataset))):
         sample = dataset[i]
