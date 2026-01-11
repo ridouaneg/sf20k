@@ -1,5 +1,6 @@
 import random
 from transformers import TrainerCallback
+import torch
 
 
 class GenerationCallback(TrainerCallback):

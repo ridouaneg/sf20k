@@ -145,7 +145,6 @@ def main(args):
         data_collator=module.collate_fn,
         callbacks=[generation_callback],
         #dataset_text_field="text",
-        packing=True,
     )
 
     if training_args.process_index == 0:
