@@ -1,0 +1,47 @@
+# File and Directory Paths
+project_name: sf20k
+run_name: qwen3vl2b_32f_8192
+output_dir: results
+weights_dir: /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/
+video_dir: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/
+train_data_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/train.csv
+test_data_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv
+train_subtitles_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/subtitles.parquet
+test_subtitles_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv
+
+# Dataset Parameters
+n_subsample_train: 100000
+n_subsample_test: 256
+
+# Model Parameters
+model_name: qwen3-vl-2b
+load_in_4bit: false
+modality: vision_language
+fps: 1.0
+max_frames: 32
+
+# LoRA Configuration
+lora_r: 8
+lora_alpha: 16
+lora_dropout: 0.0
+
+# Training Arguments
+num_train_epochs: 1
+batch_size: 8
+per_device_train_batch_size: 1
+per_device_eval_batch_size: 4
+optim: adamw_torch_fused
+learning_rate: 0.0000002
+lr_scheduler_type: cosine
+weight_decay: 0.0
+max_grad_norm: 0.3
+warmup_ratio: 0.03
+max_length: 16384
+
+# Miscellaneous
+logging_steps: 1
+eval_steps: 128
+save_steps: 128
+generation_log_steps: 128
+num_gens_to_log: 5
+seed: 42
