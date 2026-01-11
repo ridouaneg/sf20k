@@ -18,7 +18,7 @@ source /lustre/fsn1/projects/rech/kcn/ucm72yx/virtual_envs/sf20k/bin/activate
 cd /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/experiments/instruction_tuning/
 wandb offline
 
-config_name=qwen3vl2b_32f_8192
+config_name=qwen3vl2b_32f_100000
 
 # Train
 accelerate launch \
@@ -37,7 +37,7 @@ python run_inference.py \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
     --fps 1.0 \
-    --num_frames 8 \
+    --num_frames 32 \
     --n_subsample -1
 
 python run_inference.py \
@@ -50,5 +50,5 @@ python run_inference.py \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
     --fps 1.0 \
-    --num_frames 8 \
+    --num_frames 32 \
     --n_subsample -1
