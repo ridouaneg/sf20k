@@ -42,6 +42,7 @@ def main(args):
         modality=config.modality,
         fps=config.fps,
         max_frames=config.max_frames,
+        device_map=None,
     )
 
     peft_config = LoraConfig(
@@ -87,6 +88,7 @@ def main(args):
     date = datetime.now().strftime("%H%M%S-%d%m%Y")
     output_folder = os.path.join(config.output_dir, f"{run_name}_{date}")
     os.makedirs(output_folder, exist_ok=True)
+    print(f"Output folder: {output_folder}")
     
     config_path = os.path.join(output_folder, "config.yaml")
     with open(config_path, "w") as f:

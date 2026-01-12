@@ -5,6 +5,7 @@ from transformers import (
     AutoProcessor,
     BitsAndBytesConfig,
 )
+from peft import PeftModel
 
 try:
     from transformers import (
@@ -33,6 +34,7 @@ class QwenVLModel:
         max_frames: int = 8,
         total_pixels: int = 20480 * 32 * 32,
         min_pixels: int = 64 * 32 * 32,
+        device_map: str = None,
         **kwargs,
     ):
         assert model_name in [
@@ -58,6 +60,7 @@ class QwenVLModel:
             model_path=model_path, 
             load_in_4bit=load_in_4bit, 
             adapter_path=adapter_path,
+            device_map=device_map,
         )
 
         self.model_name = model_name
@@ -78,6 +81,7 @@ class QwenVLModel:
         model_path: str, 
         load_in_4bit: bool = False,
         adapter_path: str = None,
+        device_map: str = None,
     ):
         processor = self.processor_class_.from_pretrained(
             model_path,
@@ -95,12 +99,19 @@ class QwenVLModel:
         else:
             bnb_config = None
 
-        model = self.model_class_.from_pretrained(
-            model_path,
-            dtype=torch.bfloat16,
-            #device_map="auto",
-            quantization_config=bnb_config,
-        )
+        if device_map is not None:
+            model = self.model_class_.from_pretrained(
+                model_path,
+                dtype=torch.bfloat16,
+                device_map=device_map,
+                quantization_config=bnb_config,
+            )
+        else:
+            model = self.model_class_.from_pretrained(
+                model_path,
+                dtype=torch.bfloat16,
+                quantization_config=bnb_config,
+            )
 
         if isinstance(adapter_path, list):
             for path in adapter_path:
@@ -116,17 +127,22 @@ class QwenVLModel:
 
     @staticmethod
     def format_chat_template(
-        sample: dict,
+        #sample: dict,
+        #response: str = None,
+        query: str,
+        video_path: str,
+        system_prompt: str = None,
+        response: str = None,
         modality: str = "vision_language",
         sample_fps: float = 1.0,
         max_frames: int = 8,
         total_pixels: int = 20480 * 32 * 32,
         min_pixels: int = 64 * 32 * 32,
     ):
-        video_path = sample['video_path']
-        system_prompt = sample['system_prompt']
-        query = sample['query']
-        response = sample['response']
+        #video_path = sample['video_path']
+        #system_prompt = sample['system_prompt']
+        #query = sample['query']
+        #response = sample['response']
         
         messages = []
         if system_prompt is not None:
@@ -147,12 +163,15 @@ class QwenVLModel:
         messages.append({"role": "user", "content": content})
         if response is not None:
             messages.append({"role": "assistant", "content": [{"type": "text", "text": response}]})
-
+        
         return messages
 
     def generate(
         self,
-        sample: dict,
+        #sample: dict,
+        query: str,
+        video_path: str,
+        system_prompt: str = None,
         max_new_tokens: int = 256,
         do_sample: bool = True,
         top_p: float = 0.8,
@@ -162,7 +181,9 @@ class QwenVLModel:
         **kwargs,
     ):
         messages = self.format_chat_template(
-            sample=sample,
+            query=query,
+            video_path=video_path,
+            system_prompt=system_prompt,
             modality=self.modality,
             sample_fps=self.fps,
             max_frames=self.max_frames,
@@ -198,7 +219,7 @@ class QwenVLModel:
             text=[text],
             images=image_inputs,
             videos=video_inputs,
-            video_metadata=video_metadatas,
+            #video_metadata=video_metadatas,
             **video_kwargs,
             do_resize=False,
             return_tensors="pt"
@@ -238,6 +259,7 @@ class QwenVLModel:
         for sample in samples:
             messages = self.format_chat_template(
                 sample=sample,
+                response=sample['response'],
                 modality=self.modality,
                 sample_fps=self.fps,
                 max_frames=self.max_frames,

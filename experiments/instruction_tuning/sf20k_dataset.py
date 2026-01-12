@@ -67,6 +67,10 @@ class SF20KDataset(Dataset):
         response = self.prompt.get_response(sample)
         
         return {
+            'question_id': sample['question_id'],
+            'video_id': sample['video_id'],
+            'question': sample['question'],
+            'answer': sample['answer'],
             'system_prompt': None,
             'video_path': video_path,
             'query': query,

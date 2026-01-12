@@ -30,7 +30,10 @@ class GenerationCallback(TrainerCallback):
             for i, sample in enumerate(self.eval_dataset):
                 gt = sample['response']
                 pred = self.module.generate(
-                    sample=sample,
+                    #sample=sample,
+                    query=sample["query"],
+                    video_path=sample["video_path"],
+                    system_prompt=sample["system_prompt"],
                     max_new_tokens=self.max_new_tokens,
                 )
 

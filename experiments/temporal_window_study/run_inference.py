@@ -98,13 +98,13 @@ def main(args):
 
     # Initialize model
     print(f"Loading model {args.model_name}...")
-    model = get_model(
+    module = get_model(
         model_name=args.model_name,
         weights_dir=args.weights_dir,
         modality=args.modality,
         fps=args.fps,
         max_frames=args.max_frames,
-        load_in_4bit=args.load_in_4bit
+        load_in_4bit=args.load_in_4bit,
     )
     print("Model loaded successfully")
 
@@ -119,26 +119,23 @@ def main(args):
     for i in tqdm(range(len(dataset))):
         sample = dataset[i]
         question_id = sample["question_id"]
-        for n_gen in range(args.n_generations):
-            gen_id = f"{n_gen:04d}"
-            sample_id = f"{question_id}_{gen_id}"
-            if sample_id in existing_ids and not args.force_rerun:
-                #print(f"Skipping {sample_id}")
-                continue
-        
-            response = model.generate(
-                query=sample["query"],
-                video_path=sample["video_path"],
-                video_start=sample["video_start"],
-                video_end=sample["video_end"],
-                system_prompt=None,
-            )
-            
-            prediction = prompt.postprocess_response(response)
+        if f"{question_id}_0000" in existing_ids and not args.force_rerun:
+            continue
 
+        responses = module.generate(
+            query=sample["query"],
+            video_path=sample["video_path"],
+            video_start=sample["video_start"],
+            video_end=sample["video_end"],
+            system_prompt=None,
+            n_generations=args.n_generations,
+        )
+        
+        for n_gen, response in enumerate(responses):
+            sample_id = f"{question_id}_{n_gen:04d}"
+            prediction = prompt.postprocess_response(response)
             results[sample_id] = {
                 "question_id": question_id,
-                #"gen_id": gen_id,
                 "video_id": sample["video_id"],
                 "video_path": sample["video_path"],
                 "video_start": sample["video_start"],
@@ -153,8 +150,8 @@ def main(args):
                 "max_frames": args.max_frames,
             }
       
-            with open(output_path, "w") as f:
-                json.dump(results, f, indent=4)
+        with open(output_path, "w") as f:
+            json.dump(results, f, indent=4)
             
     print(f"Saved results to {output_path}")
     with open(output_path, "w") as f:

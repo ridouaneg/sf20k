@@ -18,7 +18,6 @@ except:
     Qwen3VLMoeForConditionalGeneration = None
 
 from sf20k.qwen_vl_utils import process_vision_info
-#from ..utils import load_video
 
 
 class QwenVLModel:
@@ -164,7 +163,7 @@ class QwenVLModel:
         video_path: str,
         modality: str = "vision_language",
         system_prompt: str = None,
-        ground_truth: str = None,
+        response: str = None,
         fps: float = 1.0,
         # min_frames: int = 4,
         max_frames: int = 8,
@@ -194,8 +193,8 @@ class QwenVLModel:
         content.append({"type": "text", "text": query})
 
         messages.append({"role": "user", "content": content})
-        if ground_truth is not None:
-            messages.append({"role": "assistant", "content": [{"type": "text", "text": ground_truth}]})
+        if response is not None:
+            messages.append({"role": "assistant", "content": [{"type": "text", "text": response}]})
 
         return messages
 
@@ -214,6 +213,7 @@ class QwenVLModel:
         repetition_penalty: float = 1.0,
         total_pixels: int = 20480 * 32 * 32,
         min_pixels: int = 64 * 32 * 32,
+        n_generations: int = 1,
         **kwargs,
     ):
         messages = self.format_chat_template(
@@ -221,6 +221,7 @@ class QwenVLModel:
             video_path=video_path,
             modality=self.modality,
             system_prompt=system_prompt,
+            response=None,
             fps=self.fps,
             max_frames=self.max_frames,
             video_start=video_start,
@@ -253,10 +254,6 @@ class QwenVLModel:
             video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
         else:
             video_metadatas = None
-
-        #print("video_inputs.shape", video_inputs[0].shape)
-        #print(video_inputs[0][-1][0])
-        #import pdb; pdb.set_trace()
         
         inputs = self.processor(
             text=text_inputs,
@@ -268,29 +265,33 @@ class QwenVLModel:
             return_tensors="pt"
         ).to(self.model.device)
 
-        with torch.no_grad():
-            output_ids = self.model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                do_sample=do_sample,
-                top_p=top_p,
-                top_k=top_k,
-                temperature=temperature,
-                repetition_penalty=repetition_penalty,
-            )
+        responses = []
+        for _ in range(n_generations):
+            with torch.no_grad():
+                output_ids = self.model.generate(
+                    **inputs,
+                    max_new_tokens=max_new_tokens,
+                    do_sample=do_sample,
+                    top_p=top_p,
+                    top_k=top_k,
+                    temperature=temperature,
+                    repetition_penalty=repetition_penalty,
+                )
 
-        generated_ids = [
-            output_ids[len(input_ids):]
-            for input_ids, output_ids in zip(inputs.input_ids, output_ids)
-        ]
+            generated_ids = [
+                output_ids[len(input_ids):]
+                for input_ids, output_ids in zip(inputs.input_ids, output_ids)
+            ]
 
-        response = self.processor.batch_decode(
-            generated_ids,
-            skip_special_tokens=True,
-            clean_up_tokenization_spaces=True
-        )[0]
+            response = self.processor.batch_decode(
+                generated_ids,
+                skip_special_tokens=True,
+                clean_up_tokenization_spaces=True
+            )[0]
 
-        return response
+            responses.append(response)
+
+        return responses
 
 
 def get_model(model_name: str, **kwargs):

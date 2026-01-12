@@ -7,9 +7,12 @@ import numpy as np
 from pathlib import Path
 from tqdm import tqdm
 
-from sf20k.models import get_model
-from sf20k.datasets.sf20k import SF20KDataset
+#from sf20k.models import get_model
+#from sf20k.datasets.sf20k import SF20KDataset
 from sf20k.prompts import OEQAPrompt
+
+from models import QwenVLModel
+from sf20k_dataset import SF20KDataset
 
 
 def parse_args():
@@ -63,20 +66,20 @@ def main(args):
 
     # Initialize model
     print(f"Loading model {args.model_name}...")
-    model = get_model(
+    module = QwenVLModel(
         model_name=args.model_name,
         weights_dir=args.weights_dir,
         adapter_path=args.adapter_path,
         modality=args.modality,
         fps=args.fps,
         max_frames=args.num_frames,
-        load_in_4bit=args.load_in_4bit
+        load_in_4bit=args.load_in_4bit,
+        device_map='auto',
     )
-    print("Model loaded successfully")
+    print(f"Model {args.model_name} loaded successfully")
 
     # Generation loop
     results = {}
-    # Check if output file exists and load existing results to resume
     if os.path.exists(output_path) and not args.force_rerun:
         with open(output_path, "r") as f:
             results = json.load(f)
@@ -92,12 +95,12 @@ def main(args):
             continue
 
         try:
-            response = model.generate(
+            #response = module.generate(sample=sample)
+            response = module.generate(
                 query=sample["query"],
                 video_path=sample["video_path"],
-                system_prompt=None,
+                system_prompt=sample["system_prompt"],
             )
-            
             prediction = prompt.postprocess_response(response)
 
             results[question_id] = {
@@ -105,10 +108,12 @@ def main(args):
                 "video_id": sample["video_id"],
                 "question": sample["question"],
                 "answer": sample["answer"], # Ground truth
+                "query": sample["query"],
                 "response": response,
                 "prediction": prediction,
                 "model": args.model_name,
                 "modality": args.modality,
+                "fps": args.fps,
                 "num_frames": args.num_frames,
             }
                             
