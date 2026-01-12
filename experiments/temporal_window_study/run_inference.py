@@ -119,7 +119,8 @@ def main(args):
     for i in tqdm(range(len(dataset))):
         sample = dataset[i]
         question_id = sample["question_id"]
-        if f"{question_id}_0000" in existing_ids and not args.force_rerun:
+        last_sample_id = f"{question_id}_{args.n_generations - 1:04d}"
+        if last_sample_id in existing_ids and not args.force_rerun:
             continue
 
         responses = module.generate(
