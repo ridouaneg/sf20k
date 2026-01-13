@@ -324,3 +324,88 @@ class QwenVLModel:
 
         batch["labels"] = labels
         return batch
+
+    def get_loss(
+        self,
+        query: str,
+        video_path: str,
+        response: str,  # We need the target answer to calculate loss
+        system_prompt: str = None,
+        **kwargs,
+    ):
+        # 1. Format the template WITH the response included
+        messages = self.format_chat_template(
+            query=query,
+            video_path=video_path,
+            system_prompt=system_prompt,
+            response=response, # Include the answer here
+            modality=self.modality,
+            sample_fps=self.fps,
+            max_frames=self.max_frames,
+            total_pixels=self.total_pixels,
+            min_pixels=self.min_pixels,
+        )
+
+        # 2. Apply template (tokenize=False to match your generate flow)
+        text = self.processor.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=False, # False because the response is already there
+        )
+
+        # 3. Process Vision Info
+        if self.modality in ["vision", "vision_language"]:
+            image_inputs, video_inputs, video_kwargs = process_vision_info(
+                [messages],
+                return_video_kwargs=True, 
+                image_patch_size=16,
+                return_video_metadata=True
+            )
+        else:
+            image_inputs = None
+            video_inputs = None
+            video_kwargs = {}
+
+        if video_inputs is not None:
+            video_inputs, _ = zip(*video_inputs)
+            video_inputs = list(video_inputs)
+
+        # 4. Prepare model inputs
+        inputs = self.processor(
+            text=[text],
+            images=image_inputs,
+            videos=video_inputs,
+            **video_kwargs,
+            do_resize=False,
+            return_tensors="pt"
+        ).to(self.model.device, self.model.dtype)
+
+        # 5. Create Labels (Masking the prompt)
+        # We only want loss on the 'assistant' part.
+        labels = inputs["input_ids"].clone()
+        
+        # Find where the assistant response starts
+        # self.response_token_ids was defined in __init__ as "<|im_start|>assistant\n"
+        response_token_ids = torch.tensor(self.response_token_ids).to(self.model.device)
+        
+        # Simple sliding window to find the response header in the input_ids
+        target_idx = -1
+        for i in range(len(labels[0]) - len(response_token_ids) + 1):
+            if torch.equal(labels[0, i : i + len(response_token_ids)], response_token_ids):
+                target_idx = i + len(response_token_ids)
+                break
+
+        if target_idx != -1:
+            # Mask everything before the actual answer starts
+            labels[:, :target_idx] = self.ignore_index
+        else:
+            # Fallback: if header not found, this sample is malformed
+            return None
+
+        # 6. Forward pass (No Gradients)
+        with torch.no_grad():
+            outputs = self.model(**inputs, labels=labels)
+            # .loss is the cross-entropy loss averaged over non-ignore tokens
+            loss = outputs.loss.item()
+
+        return loss

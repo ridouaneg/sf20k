@@ -1,6 +1,3 @@
-#import decord
-#decord.bridge.set_bridge('torch')
-
 import argparse
 import os
 import json

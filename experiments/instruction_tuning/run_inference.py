@@ -27,6 +27,7 @@ def parse_args():
     parser.add_argument("--modality", type=str, default="vision_language", choices=["vision", "language", "vision_language"], help="Modality to use")
     parser.add_argument("--fps", type=float, default=1.0, help="Frames per second for sampling")
     parser.add_argument("--num_frames", type=int, default=None, help="Number of frames to sample")
+    parser.add_argument("--do_sample", action="store_true", help="Use sampling")
     parser.add_argument("--n_subsample", type=int, default=-1, help="Number of samples to run (for debugging)")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     parser.add_argument("--load_in_4bit", action="store_true", help="Load model in 4-bit quantization")
@@ -36,18 +37,20 @@ def parse_args():
 
 def main(args):
     # Setup output directory
-    os.makedirs(args.output_dir, exist_ok=True)
+    parts = [
+        f"model_{args.model_name}",
+        f"modality_{args.modality}"
+    ]
     if args.modality in ['vision', 'vision_language']:
-        if args.adapter_path is not None:
-            output_filename = f"model_{args.model_name}_modality_{args.modality}_num_frames_{args.num_frames}_adapter_path_{Path(args.adapter_path).stem}.json"
-        else:
-            output_filename = f"model_{args.model_name}_modality_{args.modality}_num_frames_{args.num_frames}.json"
-    else:
-        if args.adapter_path is not None:
-            output_filename = f"model_{args.model_name}_modality_{args.modality}_adapter_path_{Path(args.adapter_path).stem}.json"
-        else:
-            output_filename = f"model_{args.model_name}_modality_{args.modality}.json"
+        parts.append(f"num_frames_{args.num_frames}")
+    if args.adapter_path:
+        adapter_stem = Path(args.adapter_path).stem
+        parts.append(f"adapter_path_{adapter_stem}")
+    if args.do_sample:
+        parts.append("do_sample")
+    output_filename = f"{'_'.join(parts)}.json"
     output_path = os.path.join(args.output_dir, output_filename)
+    os.makedirs(args.output_dir, exist_ok=True)
     print(f"Results will be saved to {output_path}")
 
     # Initialize prompt
@@ -95,11 +98,11 @@ def main(args):
             continue
 
         try:
-            #response = module.generate(sample=sample)
             response = module.generate(
                 query=sample["query"],
                 video_path=sample["video_path"],
                 system_prompt=sample["system_prompt"],
+                do_sample=args.do_sample,
             )
             prediction = prompt.postprocess_response(response)
 

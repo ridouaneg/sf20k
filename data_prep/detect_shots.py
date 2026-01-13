@@ -7,139 +7,79 @@ import json
 import argparse
 from pathlib import Path
 import numpy as np
+from scenedetect import detect, ContentDetector
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--input_file",
+        "--input_path",
         type=str,
-        default="../data/test.csv",
-        help="Path to the csv file with video ids",
+        default="video_ids.json",
+        help="Path to the json file with video ids",
+    )
+    parser.add_argument(
+        "--output_path",
+        type=str,
+        default="shots.parquet",
+        help="Path to the output file",
     )
     parser.add_argument(
         "--video_dir",
         type=str,
-        default="../data/videos/",
+        default="videos",
         help="Path to the video directory",
-    )
-    parser.add_argument(
-        "--output_dir",
-        type=str,
-        default="../data/shots/",
-        help="Path to the output directory",
-    )
-    parser.add_argument(
-        "--save_images",
-        action="store_true",
-        help="Save images for each shot",
-    )
-    parser.add_argument(
-        "--num_images",
-        type=int,
-        default=1,
-        help="Number of images to save for each shot (if --save_images)",
-    )
-    parser.add_argument(
-        "--n_subsample",
-        type=int,
-        default=-1,
-        help="Number of videos to subsample",
     )
     return parser.parse_args()
 
 
-def setup_logging():
-    logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-    )
-
-
-def save_config(config, output_dir):
-    """
-    Save the configuration settings to a JSON file in the output directory.
-
-    :param config: Dictionary containing configuration settings.
-    :param output_dir: Path to the output directory.
-    """
-    config_path = os.path.join(output_dir, "config.json")
-    os.makedirs(output_dir, exist_ok=True)
-    if os.path.exists(config_path):
-        logging.warning(f"Config file already exists at {config_path}")
-        config = json.load(open(config_path))
-    else:
-        with open(config_path, "w") as f:
-            json.dump(config, f, indent=4)
-    return config
-
-
-def find_scenes(input_path, output_path, save_images=False, num_images=1):
-    try:
-        cmd = [
-            "scenedetect",
-            "--input",
-            input_path,
-            "--output",
-            output_path,
-            "--quiet",
-            "detect-adaptive",
-            "list-scenes",
-        ]
-        if save_images:
-            cmd.extend(
-                [
-                    "save-images",
-                    "--num-images",
-                    f"{num_images}",
-                ]
-            )
-        subprocess.run(cmd)
-    except Exception as e:
-        logging.error(f"Error occurred while finding scenes: {str(e)}")
-        return
-
-
 def main(args):
-    # Get parameters
-    input_file = args.input_file
-    video_dir = args.video_dir
-    output_dir = args.output_dir
-    save_images = args.save_images
-    num_images = args.num_images
-    n_subsample = args.n_subsample
+    video_ids = json.load(open(args.input_path))
+    video_ids = list(set(video_ids))
+    video_paths = {vid: os.path.join(args.video_dir, f"{vid}.mkv") for vid in video_ids}
+    video_paths = {k: v for k, v in video_paths.items() if os.path.exists(v)}
+    print(len(video_ids), len(video_paths))
 
-    # Setup logging
-    setup_logging()
+    if os.path.exists(args.output_path):
+        results = pd.read_parquet(args.output_path)
+        processed_video_ids = results.video_id.unique()
+        video_paths = {k: v for k, v in video_paths.items() if k not in processed_video_ids}
+        print(len(results), len(processed_video_ids), len(video_paths))
+    else:
+        results = pd.DataFrame()
 
-    # Save config
-    config = {
-        "save_images": save_images,
-        "num_images": num_images,
-    }
-    config = save_config(config, output_dir)
+    all_results = []
+    for i, (video_id, video_path) in tqdm(enumerate(video_paths.items()), total=len(video_paths)):
+        try:
+            scenes = detect(video_path, ContentDetector(threshold=27.0))
+            
+            for i, (start, end) in enumerate(scenes):
+                duration = end - start                
+                all_results.append({
+                    'Scene Number': i + 1,
+                    'Start Frame': start.get_frames(),
+                    'Start Timecode': start.get_timecode(),
+                    'Start Time (seconds)': start.get_seconds(),
+                    'End Frame': end.get_frames(),
+                    'End Timecode': end.get_timecode(),
+                    'End Time (seconds)': end.get_seconds(),
+                    'Length (frames)': duration.get_frames(),
+                    'Length (timecode)': duration.get_timecode(),
+                    'Length (seconds)': duration.get_seconds(),
+                    'video_id': video_id,
+                    'shot_id': f"{video_id}_{i+1}" # Example shot_id format
+                })
+        except Exception as e:
+            print(f"Failed to process {video_id}: {e}")
 
-    logging.info(f"Config: {config}")
-
-    # Get video paths
-    video_ids = pd.read_csv(input_file).video_id.tolist()
-    video_paths = [os.path.join(video_dir, f"{video_id}.mkv") for video_id in video_ids]
-    if n_subsample > 0:
-        video_paths = np.random.choice(video_paths, n_subsample, replace=False)
-
-    logging.info(f"Found {len(video_paths)} video paths")
-
-    for video_path in tqdm(video_paths, total=len(video_paths)):
-        video_id = Path(video_path).stem
-        output_path = os.path.join(output_dir, f"{video_id}")
-        os.makedirs(output_path, exist_ok=True)
-
-        # Check if the scenes file already exists
-        scenes_file = os.path.join(output_path, f"{video_id}-Scenes.csv")
-        if os.path.exists(scenes_file):
-            # logging.info(f"Shots already detected for {video_path}")
-            continue
-
-        find_scenes(video_path, output_path, save_images, num_images)
+        if i % 500:
+            new_results_df = pd.DataFrame(all_results)
+            final_df = pd.concat([results, new_results_df], ignore_index=True)
+            final_df.to_parquet(args.output_path, index=False)
+            
+    new_results_df = pd.DataFrame(all_results)
+    final_df = pd.concat([results, new_results_df], ignore_index=True)
+    final_df.to_parquet(args.output_path, index=False)
 
 
 if __name__ == "__main__":
