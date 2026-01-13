@@ -5,7 +5,7 @@ import torch
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-
+    
 from models import get_model
 from datasets import SF20KSceneDataset
 from sf20k.prompts import OEQAPrompt
