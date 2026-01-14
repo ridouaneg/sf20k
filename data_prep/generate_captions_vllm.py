@@ -44,7 +44,6 @@ def parse_args():
 def prepare_inputs_for_vllm(messages, processor):
     text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     
-    # FIX: Added return_video_metadata=True
     image_inputs, video_inputs, video_kwargs = process_vision_info(
         messages,
         return_video_kwargs=True,
@@ -149,11 +148,11 @@ def main():
         frame_indices = range(0, total_frames, int(video_fps)) # Sample 1 FPS
         
         frames_cache = {}
-        for fid in frame_indices:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, fid)
+        for frame_id in frame_indices:
+            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_id)
             ret, frame = cap.read()
             if ret:
-                frames_cache[fid] = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                frames_cache[frame_id] = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
         cap.release()
 
         # --- B. Batch Preparation ---
@@ -164,13 +163,12 @@ def main():
             shot_id = row['shot_id']
             start_frame, end_frame = int(row['Start Frame']), int(row['End Frame'])
 
-            shot_frame_ids = [fid for fid in frame_indices if start_frame <= fid <= end_frame]
+            shot_frame_ids = [frame_id for frame_id in frames_cache.keys() if start_frame <= frame_id <= end_frame]
             shot_frame_ids.sort()
-            
             if len(shot_frame_ids) < 2:
                 continue 
             
-            shot_frames = [frames_cache[fid] for fid in shot_frame_ids]
+            shot_frames = [frames_cache[frame_id] for frame_id in shot_frame_ids]
 
             messages = [
                 {
@@ -179,7 +177,6 @@ def main():
                         {
                             "type": "video", 
                             "video": shot_frames,
-                            # Removed max_pixels to fix previous error
                         }, 
                         {"type": "text", "text": VLM_PROMPT},
                     ],

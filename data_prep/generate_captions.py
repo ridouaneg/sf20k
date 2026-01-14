@@ -8,7 +8,8 @@ import json
 from transformers import Qwen3VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
 from qwen_vl_utils import process_vision_info
 import argparse
-
+from decord import VideoReader, cpu
+import numpy as np
 
 VLM_PROMPT = (
     "Please describe the movie clip in the following four steps: "
@@ -20,7 +21,6 @@ VLM_PROMPT = (
     "###ANSWER TEMPLATE###: 1. Main characters: ''; 2. Actions: ''; 3. Character-character interactions: ''; 4. Facial expressions: ''."
 )
 
-
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_path", type=str, default="train_video_ids.json")
@@ -30,8 +30,11 @@ def parse_args():
     parser.add_argument("--weights_dir", type=str, default="/geovic/ghermi/weights/")
     parser.add_argument("--model_id", type=str, default="Qwen/Qwen3-VL-2B-Instruct")
     parser.add_argument("--load_in_4bit", action="store_true")
+    parser.add_argument("--num_chunks", type=int, default=1)
+    parser.add_argument("--chunk_idx", type=int, default=0)
+    parser.add_argument("--save_interval", type=int, default=10)
+    parser.add_argument("--use_flash_attn", action="store_true")
     return parser.parse_args()
-
 
 def inference(
     video, 
@@ -63,7 +66,7 @@ def inference(
     )
 
     image_inputs, video_inputs, video_kwargs = process_vision_info(
-        [messages], 
+        [messages],
         return_video_kwargs=True, 
         image_patch_size=16,
         return_video_metadata=True
@@ -99,6 +102,20 @@ def inference(
     
     return output_text[0]
 
+def get_chunk(full_list, num_chunks, chunk_idx):
+    """
+    Splits a list into chunks and returns the requested slice.
+    """
+    if num_chunks <= 1:
+        return full_list
+    
+    # Sort to ensure deterministic splitting across jobs
+    full_list = sorted(full_list)
+    chunk_size = math.ceil(len(full_list) / num_chunks)
+    start_idx = chunk_idx * chunk_size
+    end_idx = min(start_idx + chunk_size, len(full_list))
+    
+    return full_list[start_idx:end_idx]
 
 def main():
     args = parse_args()
@@ -107,10 +124,16 @@ def main():
     video_ids = json.load(open(args.input_path))
     video_paths = {video_id: os.path.join(args.video_dir, video_id + ".mkv") for video_id in video_ids}
     video_paths = {k: v for k, v in video_paths.items() if os.path.exists(v)}
+
     shots = pd.read_parquet(args.shots_path)
-    video_ids = set(shots['video_id'].unique()).intersection(set(video_paths.keys()))
-    video_paths = {k: v for k, v in video_paths.items() if k in video_ids}
-    shots = shots[shots['video_id'].isin(video_ids)]
+    valid_ids = set(shots['video_id'].unique()).intersection(set(video_paths.keys()))
+
+    valid_id_list = sorted(list(valid_ids))
+    my_video_ids = get_chunk(valid_id_list, args.num_chunks, args.chunk_idx)
+    print(f"Job {args.chunk_idx}/{args.num_chunks}: Processing {len(my_video_ids)} videos (Total dataset: {len(valid_id_list)})")
+
+    video_paths = {k: v for k, v in video_paths.items() if k in my_video_ids}
+    shots = shots[shots['video_id'].isin(my_video_ids)]
 
     # Prepare VLM
     if args.load_in_4bit:
@@ -122,68 +145,84 @@ def main():
         )
     else:
         bnb_config = None
-
+    
     model_path = os.path.join(args.weights_dir, args.model_id)
-    model = Qwen3VLForConditionalGeneration.from_pretrained(
-        model_path,
-        dtype=torch.bfloat16,
-        device_map="auto",
-        quantization_config=bnb_config,
-    )
     processor = AutoProcessor.from_pretrained(model_path)
 
+    if args.use_flash_attn:
+        model = Qwen3VLForConditionalGeneration.from_pretrained(
+            model_path,
+            dtype=torch.bfloat16,
+            device_map="auto",
+            quantization_config=bnb_config,
+        )
+    else:
+        model = Qwen3VLForConditionalGeneration.from_pretrained(
+            model_path,
+            dtype=torch.bfloat16,
+            attn_implementation="flash_attention_2",
+            device_map="auto",
+            quantization_config=bnb_config,
+        )
+
     # Resume
+    if args.num_chunks > 1:
+        base, ext = os.path.splitext(args.output_path)
+        final_output_path = f"{base}_part_{args.chunk_idx}{ext}"
+    else:
+        final_output_path = args.output_path
+    
     all_results = []
-
+    if os.path.exists(final_output_path):
+        print(f"Warning: Output file {final_output_path} already exists. New results will overwrite/append depending on logic.")
+    
     # Run captioning
-    for i, (video_id, video_path) in enumerate(tqdm(video_paths.items(), total=len(video_paths))):
-        scenes = shots[shots['video_id'] == video_id]
+    for i, (video_id, video_path) in enumerate(tqdm(video_paths.items(), desc=f"Job {args.chunk_idx}")):
+        scene_data = shots[shots['video_id'] == video_id]
+        if scene_data.empty:
+            continue
 
-        cap = cv2.VideoCapture(video_path)
-        video_fps = float(cap.get(cv2.CAP_PROP_FPS))
-        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        frame_ids = list(range(0, total_frames, int(video_fps)))
-        
-        frames = {}
-        for frame_id in tqdm(frame_ids, total=len(frame_ids), leave=True):
-            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_id)
-            ret, frame = cap.read()
-            if ret:
-                frames[frame_id] = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        vr = VideoReader(video_path, ctx=cpu(0), num_threads=1)
+        fps = vr.get_avg_fps()
 
         results = []
-        for i, row in tqdm(scenes.iterrows(), total=len(scenes), leave=True):
+
+        for _, row in tqdm(scene_data.iterrows(), total=len(scene_data), leave=True):
             shot_id = row['shot_id']
-            start_s, end_s = float(row['Start Time (seconds)']), float(row['End Time (seconds)'])
             start_frame, end_frame = int(row['Start Frame']), int(row['End Frame'])
 
-            scene_frame_ids = [fid for fid in frame_ids if start_frame <= fid <= end_frame]
-            scene_frame_ids.sort()
-            scene_frames = [frames[fid] for fid in scene_frame_ids]
+            step = int(fps) if fps > 0 else 1
+            #indices = list(range(start_frame, min(end_frame, len(vr)), step))
+            num_frames = 8
+            indices = list(np.linspace(start_frame, end_frame - 1, num=num_frames))
+            if len(indices) < 2:
+                continue
             
-            if len(scene_frames) < 2:
-                caption = None
-            else:
-                caption = inference(video=scene_frames, prompt=VLM_PROMPT, model=model, processor=processor)
-                print(video_id, shot_id, caption)
+            frames = vr.get_batch(indices).asnumpy() 
+            shot_frames = [Image.fromarray(f) for f in frames]
+            
+            caption = inference(video=shot_frames, prompt=VLM_PROMPT, model=model, processor=processor)
+            #print(caption)
 
             results.append({
                 "video_id": video_id,
                 "shot_id": shot_id,
-                "start_second": start_s,
-                "end_second": end_s,
+                #"start_second": start_s,
+                #"end_second": end_s,
                 "start_frame": start_frame,
                 "end_frame": end_frame,
                 "caption": caption,
             })
 
-        cap.release()
-
         all_results.extend(results)
 
+        if (i + 1) % args.save_interval == 0:
+            pd.DataFrame(all_results).to_parquet(final_output_path, index=False)
+            tqdm.write(f"Saved {len(all_results)} shots to {final_output_path}")
+
     # Save results
-    all_results_df = pd.DataFrame(all_results)
-    all_results_df.to_parquet(args.output_path, index=False)
+    pd.DataFrame(all_results).to_parquet(final_output_path, index=False)
+    print(f"Finished Job {args.chunk_idx}. Saved to {final_output_path}")
     
 
 if __name__ == "__main__":
