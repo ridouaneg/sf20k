@@ -21,6 +21,20 @@ VLM_PROMPT = (
     "###ANSWER TEMPLATE###: 1. Main characters: ''; 2. Actions: ''; 3. Character-character interactions: ''; 4. Facial expressions: ''."
 )
 
+cmd_line = """
+python generate_captions.py \
+    --input_path train_video_ids.json \
+    --output_path results/captions.parquet \
+    --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
+    --shots_path shots.parquet \
+    --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
+    --model_id Qwen/Qwen3-VL-2B-Instruct \
+    --save_interval 100 \
+    --num_chunks 20 \
+    --chunk_idx 4 \
+    --use_flash_attn
+"""
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_path", type=str, default="train_video_ids.json")

@@ -63,16 +63,21 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     parser.add_argument("--load_in_4bit", action="store_true", help="Load model in 4-bit quantization")
     parser.add_argument("--force_rerun", action="store_true", help="Force rerunning all samples")
+    parser.add_argument("--n_chunks", type=int, default=1, help="Total number of parallel jobs/chunks")
+    parser.add_argument("--chunk_idx", type=int, default=0, help="Index of the current chunk (0 to n_chunks-1)")
     return parser.parse_args()
 
 
 def main(args):
     # Setup output directory
     os.makedirs(args.output_dir, exist_ok=True)
+    chunk_str = f"_chunk_{args.chunk_idx}_of_{args.n_chunks}" if args.n_chunks > 1 else ""
+    
     if args.modality in ['vision', 'vision_language']:
-        output_filename = f"model_{args.model_name}_modality_{args.modality}_fps{args.fps}_max_frames_{args.max_frames}_n_generations_{args.n_generations}_n_scenes_{args.n_scenes}.json"
+        output_filename = f"model_{args.model_name}_modality_{args.modality}_fps{args.fps}_max_frames_{args.max_frames}_n_gen{args.n_generations}_n_scenes{args.n_scenes}{chunk_str}.json"
     else:
-        output_filename = f"model_{args.model_name}_modality_{args.modality}_n_generations_{args.n_generations}_n_scenes_{args.n_scenes}.json"
+        output_filename = f"model_{args.model_name}_modality_{args.modality}_n_gen{args.n_generations}_n_scenes{args.n_scenes}{chunk_str}.json"
+    
     output_path = os.path.join(args.output_dir, output_filename)
     print(f"Results will be saved to {output_path}")
 
@@ -82,7 +87,7 @@ def main(args):
     )
 
     # Initialize dataset
-    dataset = SF20KSceneDataset(
+    full_dataset = SF20KSceneDataset(
         prompt=prompt,
         data_path=args.data_path,
         video_dir=args.video_dir,
@@ -91,7 +96,14 @@ def main(args):
         n_subsample=args.n_subsample,
         seed=args.seed
     )
-    print(f"Loaded dataset with {len(dataset)} samples")
+    
+    total_samples = len(full_dataset)
+    indices = list(range(total_samples))
+
+    chunk_indices = np.array_split(indices, args.n_chunks)[args.chunk_idx]
+    
+    print(f"Global dataset size: {total_samples}")
+    print(f"Chunk {args.chunk_idx+1}/{args.n_chunks} processing indices {chunk_indices[0]} to {chunk_indices[-1]} (Size: {len(chunk_indices)})")
 
     # Initialize model
     print(f"Loading model {args.model_name}...")
@@ -111,11 +123,13 @@ def main(args):
         with open(output_path, "r") as f:
             results = json.load(f)
         print(f"Resuming from {len(results)} existing results")
+    
     existing_ids = set(results.keys())
 
-    for i in tqdm(range(len(dataset))):
-        sample = dataset[i]
+    for i in tqdm(chunk_indices, total=len(chunk_indices)):
+        sample = full_dataset[i]
         question_id = sample["question_id"]
+
         last_sample_id = f"{question_id}_{args.n_generations - 1:04d}"
         if last_sample_id in existing_ids and not args.force_rerun:
             continue
@@ -139,7 +153,7 @@ def main(args):
                 "video_start": sample["video_start"],
                 "video_end": sample["video_end"],
                 "question": sample["question"],
-                "answer": sample["answer"], # Ground truth
+                "answer": sample["answer"],
                 "response": response,
                 "prediction": prediction,
                 "model": args.model_name,
@@ -151,10 +165,10 @@ def main(args):
         with open(output_path, "w") as f:
             json.dump(results, f, indent=4)
             
-    print(f"Saved results to {output_path}")
     with open(output_path, "w") as f:
         json.dump(results, f, indent=4)
-    print("Done!")
+    
+    print(f"Chunk {args.chunk_idx} complete. Saved to {output_path}")
 
 
 if __name__ == "__main__":

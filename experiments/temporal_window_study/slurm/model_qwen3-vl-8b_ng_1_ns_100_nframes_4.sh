@@ -28,4 +28,6 @@ python run_inference.py \
     --fps 1.0 \
     --max_frames 4 \
     --n_generations 1 \
-    --n_scenes 100
+    --n_scenes 100 \
+    --n_chunks 4 \
+    --chunk_idx 0

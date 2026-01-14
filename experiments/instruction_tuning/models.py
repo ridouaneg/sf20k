@@ -11,12 +11,12 @@ try:
     from transformers import (
         Qwen2_5_VLForConditionalGeneration,
         Qwen3VLForConditionalGeneration,
-        Qwen3VLMoeForConditionalGeneration,
+        #Qwen3VLMoeForConditionalGeneration,
     )
 except:
     Qwen2_5_VLForConditionalGeneration = None
     Qwen3VLForConditionalGeneration = None
-    Qwen3VLMoeForConditionalGeneration = None
+    #Qwen3VLMoeForConditionalGeneration = None
 
 from qwen_vl_utils_v2 import process_vision_info
 
@@ -42,6 +42,8 @@ class QwenVLModel:
             "qwen3-vl-4b",
             "qwen3-vl-8b",
             "qwen3-vl-32b",
+            "qwen2.5-vl-3b",
+            "qwen2.5-vl-7b",
         ]
 
         dict_model_name_to_model_id = {
@@ -49,11 +51,16 @@ class QwenVLModel:
             "qwen3-vl-4b": "Qwen/Qwen3-VL-4B-Instruct",
             "qwen3-vl-8b": "Qwen/Qwen3-VL-8B-Instruct",
             "qwen3-vl-32b": "Qwen/Qwen3-VL-32B-Instruct",
+            "qwen2.5-vl-3b": "Qwen/Qwen2.5-VL-3B-Instruct",
+            "qwen2.5-vl-7b": "Qwen/Qwen2.5-VL-7B-Instruct",
         }
         model_id = dict_model_name_to_model_id[model_name]
 
-        self.model_class_ = Qwen3VLForConditionalGeneration
         self.processor_class_ = AutoProcessor
+        if model_name in ["qwen2.5-vl-3b", "qwen2.5-vl-7b"]:
+            self.model_class_ = Qwen2_5_VLForConditionalGeneration
+        else:
+            self.model_class_ = Qwen3VLForConditionalGeneration
 
         model_path = os.path.join(weights_dir, model_id) if weights_dir is not None else model_id
         model, processor = self.load_model(
@@ -127,23 +134,16 @@ class QwenVLModel:
 
     @staticmethod
     def format_chat_template(
-        #sample: dict,
-        #response: str = None,
         query: str,
         video_path: str,
         system_prompt: str = None,
         response: str = None,
         modality: str = "vision_language",
-        sample_fps: float = 1.0,
+        fps: float = 1.0,
         max_frames: int = 8,
         total_pixels: int = 20480 * 32 * 32,
         min_pixels: int = 64 * 32 * 32,
     ):
-        #video_path = sample['video_path']
-        #system_prompt = sample['system_prompt']
-        #query = sample['query']
-        #response = sample['response']
-        
         messages = []
         if system_prompt is not None:
             messages.append({"role": "system", "content": system_prompt})
@@ -154,8 +154,10 @@ class QwenVLModel:
                 "type": "video",
                 "video": video_path,
                 "total_pixels": total_pixels, 
-                "min_pixels": min_pixels, 
-                "fps": sample_fps,
+                "min_pixels": min_pixels,
+                # max_pixels
+                "fps": fps,
+                # min_frames
                 "max_frames": max_frames,
             })
         content.append({"type": "text", "text": query})
@@ -168,7 +170,6 @@ class QwenVLModel:
 
     def generate(
         self,
-        #sample: dict,
         query: str,
         video_path: str,
         system_prompt: str = None,
@@ -185,7 +186,7 @@ class QwenVLModel:
             video_path=video_path,
             system_prompt=system_prompt,
             modality=self.modality,
-            sample_fps=self.fps,
+            fps=self.fps,
             max_frames=self.max_frames,
             total_pixels=self.total_pixels,
             min_pixels=self.min_pixels,
@@ -215,15 +216,30 @@ class QwenVLModel:
         else:
             video_metadatas = None
         
-        inputs = self.processor(
-            text=[text],
-            images=image_inputs,
-            videos=video_inputs,
-            #video_metadata=video_metadatas,
-            **video_kwargs,
-            do_resize=False,
-            return_tensors="pt"
-        ).to(
+        if self.model_name.startswith("qwen3-vl"):
+            inputs = self.processor(
+                text=[text],
+                images=image_inputs,
+                videos=video_inputs,
+                return_tensors="pt",
+                **video_kwargs,
+                # qwen3-vl
+                video_metadata=video_metadatas,
+                do_resize=False,
+            )
+        else:
+            inputs = self.processor(
+                text=[text],
+                images=image_inputs,
+                videos=video_inputs,
+                return_tensors="pt",
+                **video_kwargs,
+                # qwen2.5-vl
+                padding=True,
+                #fps=self.fps,
+            )
+        
+        inputs = inputs.to(
             self.model.device,
             self.model.dtype,
         )
@@ -257,11 +273,18 @@ class QwenVLModel:
         text_inputs = []
         
         for sample in samples:
+            query = sample['query']
+            video_path = sample['video_path']
+            system_prompt = sample['system_prompt']
+            response = sample['response']
+
             messages = self.format_chat_template(
-                sample=sample,
-                response=sample['response'],
+                query=query,
+                video_path=video_path,
+                system_prompt=system_prompt,
+                response=response,
                 modality=self.modality,
-                sample_fps=self.fps,
+                fps=self.fps,
                 max_frames=self.max_frames,
                 total_pixels=self.total_pixels,
                 min_pixels=self.min_pixels,
@@ -340,7 +363,7 @@ class QwenVLModel:
             system_prompt=system_prompt,
             response=response, # Include the answer here
             modality=self.modality,
-            sample_fps=self.fps,
+            fps=self.fps,
             max_frames=self.max_frames,
             total_pixels=self.total_pixels,
             min_pixels=self.min_pixels,

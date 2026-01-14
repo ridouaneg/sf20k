@@ -7,6 +7,7 @@ import math
 import torch
 from tqdm import tqdm
 from PIL import Image
+import decord
 
 # vLLM and Qwen Utils
 from vllm import LLM, SamplingParams
@@ -128,12 +129,8 @@ def main():
     )
 
     all_results = []
-    
-    # Check if we should resume (optional simple check)
     if os.path.exists(final_output_path):
         print(f"Warning: Output file {final_output_path} already exists. New results will overwrite/append depending on logic.")
-        # Optional: Load existing results to skip processing? 
-        # For now, we overwrite to keep it simple as per prompt instructions.
 
     # 3. Process Video by Video
     for i, (video_id, video_path) in enumerate(tqdm(video_paths.items(), desc=f"Job {args.chunk_idx}")):
@@ -142,18 +139,21 @@ def main():
             continue
 
         # --- A. Frame Extraction ---
-        cap = cv2.VideoCapture(video_path)
-        video_fps = float(cap.get(cv2.CAP_PROP_FPS))
-        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        frame_indices = range(0, total_frames, int(video_fps)) # Sample 1 FPS
-        
-        frames_cache = {}
-        for frame_id in frame_indices:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_id)
-            ret, frame = cap.read()
-            if ret:
-                frames_cache[frame_id] = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-        cap.release()
+        try:
+            vr = decord.VideoReader(video_path, ctx=decord.cpu(0), num_threads=1)
+            
+            video_fps = vr.get_avg_fps()
+            duration = len(vr) / video_fps
+
+            frame_indices = [round(i * video_fps) for i in range(int(duration))] # 1 FPS
+            frame_indices = [fid for fid in frame_indices if fid < len(vr)]
+
+            frames_nd = vr.get_batch(frame_indices).asnumpy()
+            frames_cache = {idx: Image.fromarray(frames_nd[j]) for j, idx in enumerate(frame_indices)}
+            
+        except Exception as e:
+            print(f"Error loading {video_path}: {e}")
+            continue
 
         # --- B. Batch Preparation ---
         batch_inputs = []
@@ -162,6 +162,7 @@ def main():
         for _, row in scene_data.iterrows():
             shot_id = row['shot_id']
             start_frame, end_frame = int(row['Start Frame']), int(row['End Frame'])
+            start_s, end_s = float(row['Start Time (seconds)']), float(row['End Time (seconds)'])
 
             shot_frame_ids = [frame_id for frame_id in frames_cache.keys() if start_frame <= frame_id <= end_frame]
             shot_frame_ids.sort()
