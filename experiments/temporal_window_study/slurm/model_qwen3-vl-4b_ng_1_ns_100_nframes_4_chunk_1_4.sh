@@ -21,7 +21,7 @@ python run_inference.py \
     --output_dir results \
     --data_path ../../data/test_expert.csv \
     --subtitles_path ../../data/test_subtitles.csv \
-    --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
+    --video_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
     --model_name qwen3-vl-4b \
     --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/ \
     --modality vision_language \
