@@ -34,7 +34,7 @@ python run_inference.py \
     --subtitles_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
     --model_name qwen2.5-vl-3b \
-    --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
+    --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/ \
     --modality vision_language \
     --fps 1.0 \
     --num_frames 32 \
@@ -47,7 +47,7 @@ python run_inference.py \
     --subtitles_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
     --model_name qwen2.5-vl-3b \
-    --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
+    --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/ \
     --modality vision_language \
     --fps 1.0 \
     --num_frames 32 \
