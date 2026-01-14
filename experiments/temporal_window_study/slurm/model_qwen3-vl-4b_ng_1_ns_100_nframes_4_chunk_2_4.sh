@@ -21,11 +21,13 @@ python run_inference.py \
     --output_dir results \
     --data_path ../../data/test_expert.csv \
     --subtitles_path ../../data/test_subtitles.csv \
-    --video_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
-    --model_name qwen3-vl-8b \
+    --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
+    --model_name qwen3-vl-4b \
     --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/ \
     --modality vision_language \
     --fps 1.0 \
     --max_frames 4 \
     --n_generations 1 \
-    --n_scenes 100
+    --n_scenes 100 \
+    --n_chunks 4 \
+    --chunk_idx 2
