@@ -25,6 +25,7 @@ def parse_args():
         default="./configs/test.yaml",
         help="Path to the configuration file."
     )
+    parser.add_argument("--output_dir", type=str, default=None)
     return parser.parse_args()
 
 
@@ -84,9 +85,12 @@ def main(args):
     print(f"Test dataset size: {len(test_dataset)}")
 
     # Prepare trainer
-    run_name = config.run_name
-    date = datetime.now().strftime("%H%M%S-%d%m%Y")
-    output_folder = os.path.join(config.output_dir, f"{run_name}_{date}")
+    if args.output_dir is not None:
+        output_folder = args.output_dir
+    else:
+        date = datetime.now().strftime("%H%M%S-%d%m%Y")
+        output_folder = os.path.join(config.output_dir, f"{config.run_name}_{date}")
+    
     os.makedirs(output_folder, exist_ok=True)
     print(f"Output folder: {output_folder}")
     
@@ -98,7 +102,7 @@ def main(args):
     gradient_accumulation_steps = config.batch_size // (config.per_device_train_batch_size * num_gpus)
 
     training_args = SFTConfig(
-        run_name=run_name,
+        run_name=config.run_name,
         output_dir=output_folder,
         num_train_epochs=config.num_train_epochs,
         per_device_train_batch_size=config.per_device_train_batch_size,
@@ -127,7 +131,7 @@ def main(args):
     if training_args.process_index == 0:
         wandb.init(
             project=config.project_name,
-            name=run_name,
+            name=config.run_name,
             config=config,
         )
 

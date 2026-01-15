@@ -18,18 +18,21 @@ source /lustre/fsn1/projects/rech/kcn/ucm72yx/virtual_envs/sf20k/bin/activate
 cd /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/experiments/instruction_tuning/
 wandb offline
 
-config_name=qwen25vl3b_32f_10000
+CONFIG=qwen25vl3b_32f_10000
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+OUTPUT_DIR="./results/${CONFIG}_${TIMESTAMP}"
 
 # Train
 accelerate launch \
     --num_processes 1 \
     --config_file default_config.yaml \
     train.py \
-    --config configs/${config_name}.yaml
+    --config configs/${CONFIG}.yaml \
+    --output_dir ${OUTPUT_DIR}
 
 # Run inference
 python run_inference.py \
-    --output_dir ./results/${config_name}/ \
+    --output_dir ${OUTPUT_DIR} \
     --data_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv \
     --subtitles_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
@@ -41,8 +44,8 @@ python run_inference.py \
     --n_subsample -1
 
 python run_inference.py \
-    --output_dir ./results/${config_name}/ \
-    --adapter_path ./results/${config_name}/checkpoint-final/ \
+    --output_dir ${OUTPUT_DIR} \
+    --adapter_path ${OUTPUT_DIR}/checkpoint-final/ \
     --data_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv \
     --subtitles_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \

@@ -26,11 +26,16 @@ def set_seed(seed: int = 42):
 
 def convert_to_hf_dataset(dataset):
     """Converts a dataset to a Hugging Face dataset."""
+    #return Dataset.from_list(dataset)
+    #
     data = {k: [] for k in dataset[0].keys()}
     for item in tqdm(dataset, total=len(dataset)):
         for k in data.keys():
             data[k].append(item[k])
     return Dataset.from_dict(data)
+    #
+    #data = {k: [dic[k] for dic in dataset] for k in dataset[0].keys()}
+    #return Dataset.from_dict(data)
 
 
 def load_config(config_path: str) -> TrainingConfig:
