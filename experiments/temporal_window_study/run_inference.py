@@ -7,12 +7,11 @@ import numpy as np
 from tqdm import tqdm
     
 from models import get_model
-from datasets import SF20KSceneDataset
+from sf20k_scene_dataset import SF20KSceneDataset
 from sf20k.prompts import OEQAPrompt
 
 
 cmd_lines = """
-
 modl_name: qwen3-vl-2b, qwen3-vl-4b, qwen3-vl-8b
 n_generations x n_scenes: 1x100, 10x10, 100x1
 modality: vision, language, vision_language
@@ -43,21 +42,33 @@ python run_inference.py \
     --n_generations 1 \
     --n_scenes 2
 
+CUDA_VISIBLE_DEVICES=0 python run_inference.py \
+    --output_dir ./results/ \
+    --data_path ../../data/test_expert.csv \
+    --subtitles_path ../../data/test_subtitles.csv \
+    --video_dir /geovic/geovic/SF20K/videos/ \
+    --model_name qwen3-vl-2b \
+    --weights_dir /geovic/ghermi/weights/ \
+    --modality vision_language \
+    --fps 1.0 \
+    --max_frames 2048 \
+    --n_generations 1 \
+    --n_scenes 4
 """
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Run baselines on SF20K dataset")
     parser.add_argument("--output_dir", type=str, default="results", help="Directory to save results")
-    parser.add_argument("--data_path", type=str, required=True, help="Path to the dataset CSV file")
-    parser.add_argument("--subtitles_path", type=str, required=True, help="Path to the subtitles CSV file")
-    parser.add_argument("--video_dir", type=str, required=True, help="Directory containing video files")
-    parser.add_argument("--model_name", type=str, required=True, help="Name of the model to run")
-    parser.add_argument("--weights_dir", type=str, default=None, help="Directory containing model weights")
+    parser.add_argument("--data_path", type=str, default="../../data/test_expert.csv", help="Path to the dataset CSV file")
+    parser.add_argument("--subtitles_path", type=str, default="../../data/test_subtitles.csv", help="Path to the subtitles CSV file")
+    parser.add_argument("--video_dir", type=str, default="/geovic/geovic/SF20K/videos/", help="Directory containing video files")
+    parser.add_argument("--model_name", type=str, default="qwen3-vl-2b", help="Name of the model to run")
+    parser.add_argument("--weights_dir", type=str, default="/geovic/ghermi/weights/", help="Directory containing model weights")
     parser.add_argument("--modality", type=str, default="vision_language", choices=["vision", "language", "vision_language"], help="Modality to use")
     parser.add_argument("--fps", type=float, default=1.0, help="Frames per second for sampling")
-    parser.add_argument("--max_frames", type=int, default=None, help="Number of frames to sample")
-    parser.add_argument("--n_generations", type=int, default=10, help="Number of generations")
+    parser.add_argument("--max_frames", type=int, default=2048, help="Number of frames to sample")
+    parser.add_argument("--n_generations", type=int, default=1, help="Number of generations")
     parser.add_argument("--n_scenes", type=int, default=10, help="Number of scenes to sample")
     parser.add_argument("--n_subsample", type=int, default=-1, help="Number of samples to run (for debugging)")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")

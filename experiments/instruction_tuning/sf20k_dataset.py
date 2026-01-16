@@ -25,7 +25,6 @@ class SF20KDataset(Dataset):
         #df['video_path'] = df['video_id'].apply(lambda x: os.path.join(video_dir, f"{x}.mp4"))
         df['video_path'] = df['video_id'].apply(lambda x: os.path.join(video_dir, f"{x}.mkv"))
         df = df[df.video_path.apply(os.path.exists)]
-        #video_files = {row['video_id']: row['video_path'] for _, row in df.iterrows()}
 
         # Load subtitles
         df_subs = pd.read_csv(subtitles_path) if subtitles_path.endswith('.csv') else pd.read_parquet(subtitles_path)

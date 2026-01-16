@@ -240,9 +240,9 @@ class QwenVLModel:
         if self.modality in ["vision", "vision_language"]:
             image_inputs, video_inputs, video_kwargs = process_vision_info(
                 [messages],
-                return_video_kwargs=True, 
                 image_patch_size=16,
-                return_video_metadata=True
+                return_video_kwargs=True, 
+                return_video_metadata=True,
             )
         else:
             image_inputs = None
@@ -262,7 +262,7 @@ class QwenVLModel:
             video_metadata=video_metadatas,
             **video_kwargs,
             do_resize=False,
-            return_tensors="pt"
+            return_tensors="pt",
         ).to(self.model.device)
 
         responses = []
