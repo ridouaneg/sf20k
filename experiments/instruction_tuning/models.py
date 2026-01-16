@@ -199,22 +199,30 @@ class QwenVLModel:
         )
 
         if self.modality in ["vision", "vision_language"]:
-            image_inputs, video_inputs, video_kwargs = process_vision_info(
-                [messages],
-                return_video_kwargs=True, 
-                image_patch_size=16,
-                return_video_metadata=True
-            )
+            if self.model_name.startswith("qwen3-vl"):
+                image_inputs, video_inputs, video_kwargs = process_vision_info(
+                    [messages],
+                    return_video_kwargs=True, 
+                    image_patch_size=16,
+                    return_video_metadata=True
+                )
+
+                if video_inputs is not None:
+                    video_inputs, video_metadatas = zip(*video_inputs)
+                    video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
+                else:
+                    video_metadatas = None
+            else:
+                image_inputs, video_inputs, video_kwargs = process_vision_info(
+                    [messages],
+                    return_video_kwargs=True, 
+                    image_patch_size=16,
+                    return_video_metadata=False,
+                )
         else:
             image_inputs = None
             video_inputs = None
             video_kwargs = {}
-
-        if video_inputs is not None:
-            video_inputs, video_metadatas = zip(*video_inputs)
-            video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
-        else:
-            video_metadatas = None
         
         if self.model_name.startswith("qwen3-vl"):
             inputs = self.processor(
@@ -223,9 +231,9 @@ class QwenVLModel:
                 videos=video_inputs,
                 return_tensors="pt",
                 **video_kwargs,
-                # qwen3-vl
+                #do_resize=False,
+                padding=True,
                 video_metadata=video_metadatas,
-                do_resize=False,
             )
         else:
             inputs = self.processor(
@@ -234,9 +242,8 @@ class QwenVLModel:
                 videos=video_inputs,
                 return_tensors="pt",
                 **video_kwargs,
-                # qwen2.5-vl
+                #do_resize=False,
                 padding=True,
-                #fps=self.fps,
             )
         
         inputs = inputs.to(
@@ -300,32 +307,52 @@ class QwenVLModel:
             text_inputs.append(text)
 
         if self.modality in ["vision", "vision_language"]:
-            image_inputs, video_inputs, video_kwargs = process_vision_info(
-                messages_list,
-                return_video_kwargs=True, 
-                image_patch_size=16,
-                return_video_metadata=True
-            )
+            if self.model_name.startswith("qwen3-vl"):
+                image_inputs, video_inputs, video_kwargs = process_vision_info(
+                    messages_list,
+                    return_video_kwargs=True, 
+                    image_patch_size=16,
+                    return_video_metadata=True,
+                )
+
+                if video_inputs is not None:
+                    video_inputs, video_metadatas = zip(*video_inputs)
+                    video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
+                else:
+                    video_metadatas = None
+            else:
+                image_inputs, video_inputs, video_kwargs = process_vision_info(
+                    messages_list,
+                    return_video_kwargs=True, 
+                    image_patch_size=14,
+                    return_video_metadata=False,
+                )
         else:
             image_inputs = None
             video_inputs = None
             video_kwargs = {}
 
-        if video_inputs is not None:
-            video_inputs, video_metadatas = zip(*video_inputs)
-            video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
+        if self.model_name.startswith("qwen3-vl"):
+            batch = self.processor(
+                text=text_inputs,
+                images=image_inputs,
+                videos=video_inputs,
+                video_metadata=video_metadatas,
+                **video_kwargs,
+                return_tensors="pt",
+                padding=True,
+                #do_resize=False,
+            )
         else:
-            video_metadatas = None
-
-        batch = self.processor(
-            text=text_inputs,
-            images=image_inputs,
-            videos=video_inputs,
-            #video_metadata=video_metadatas,
-            **video_kwargs,
-            return_tensors="pt",
-            padding=True,
-        )
+            batch = self.processor(
+                text=text_inputs,
+                images=image_inputs,
+                videos=video_inputs,
+                **video_kwargs,
+                return_tensors="pt",
+                padding=True,
+                #do_resize=False,
+            )
 
         labels = batch['input_ids'].clone()
         labels[labels == self.processor.tokenizer.pad_token_id] = self.ignore_index
