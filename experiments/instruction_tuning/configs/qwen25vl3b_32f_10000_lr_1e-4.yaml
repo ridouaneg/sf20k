@@ -1,6 +1,6 @@
 # File and Directory Paths
 project_name: sf20k
-run_name: qwen25vl3b_32f_10000
+run_name: qwen25vl3b_32f_10000_lr_1e-4
 output_dir: results
 weights_dir: /lustre/fsmisc/dataset/HuggingFace_Models/
 video_dir: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/
