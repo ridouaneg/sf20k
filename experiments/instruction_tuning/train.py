@@ -73,7 +73,8 @@ def main(args):
         prompt=prompt,
         data_path=config.test_data_path,
         video_dir=config.video_dir,
-        subtitles_path=config.test_subtitles_path,
+        #subtitles_path=config.test_subtitles_path,
+        subtitles_path=config.train_subtitles_path,
         n_subsample=config.n_subsample_test,
         seed=config.seed,
     )
@@ -150,7 +151,6 @@ def main(args):
         peft_config=peft_config,
         data_collator=module.collate_fn,
         callbacks=[generation_callback],
-        #dataset_text_field="text",
     )
 
     if training_args.process_index == 0:

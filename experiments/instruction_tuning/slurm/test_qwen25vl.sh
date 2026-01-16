@@ -42,13 +42,15 @@ CUDA_VISIBLE_DEVICES=1 python run_inference.py \
 
 python run_inference.py \
     --output_dir ./results/${config}/ \
+    --adapter_path ./results/${config}/checkpoint-final/ \
     --data_path /users/ghermi/code/sf20k/data/test_expert.csv \
     --subtitles_path /users/ghermi/code/sf20k/data/test_subtitles.csv \
     --video_dir /geovic/geovic/SF20K/videos/ \
-    --model_name qwen3-vl-2b \
+    --model_name qwen2.5-vl-3b \
     --weights_dir /geovic/ghermi/weights/ \
-    --adapter_path ./results/${config}/checkpoint-final/ \
     --modality vision_language \
-    --num_frames 8 \
+    --num_frames 32 \
     --fps 1.0 \
     --n_subsample 8
+
+
