@@ -4,7 +4,7 @@
 #SBATCH -C h100
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=10
 #SBATCH --hint=nomultithread
 #SBATCH --time=20:00:00
@@ -24,7 +24,7 @@ OUTPUT_DIR="./results/${CONFIG}_${TIMESTAMP}"
 
 # Train
 accelerate launch \
-    --num_processes 2 \
+    --num_processes 1 \
     --config_file default_config.yaml \
     train.py \
     --config configs/${CONFIG}.yaml \
@@ -43,7 +43,7 @@ python run_inference.py \
     --fps 1.0 \
     --num_frames 32 \
     --n_subsample -1
-    
+
 python run_inference.py \
     --output_dir ${OUTPUT_DIR} \
     --data_path /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/test_expert.csv \
