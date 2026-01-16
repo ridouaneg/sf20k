@@ -4,7 +4,7 @@
 #SBATCH -C h100
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:4
 #SBATCH --cpus-per-task=10
 #SBATCH --hint=nomultithread
 #SBATCH --time=20:00:00
@@ -24,7 +24,7 @@ OUTPUT_DIR="./results/${CONFIG}_${TIMESTAMP}"
 
 # Train
 accelerate launch \
-    --num_processes 2 \
+    --num_processes 4 \
     --config_file default_config.yaml \
     train.py \
     --config configs/${CONFIG}.yaml \

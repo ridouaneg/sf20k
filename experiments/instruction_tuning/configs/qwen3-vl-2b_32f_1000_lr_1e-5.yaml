@@ -2,7 +2,7 @@
 project_name: sf20k
 run_name: qwen3-vl-2b_32f_1000_lr_1e-5
 output_dir: results
-weights_dir: /lustre/fsmisc/dataset/HuggingFace_Models/
+weights_dir: /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/
 video_dir: /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/
 train_data_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/train.csv
 test_data_path: /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k/data/val.csv
