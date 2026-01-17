@@ -17,7 +17,7 @@ except:
     Qwen3VLForConditionalGeneration = None
     Qwen3VLMoeForConditionalGeneration = None
 
-from sf20k.qwen_vl_utils import process_vision_info
+from qwen_vl_utils_v2 import process_vision_info
 
 
 class QwenVLModel:
