@@ -24,8 +24,8 @@ python run_inference.py \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
     --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/ \
     --model_name qwen3-vl-8b \
-    --modality language \
+    --modality vision \
     --fps 1.0 \
     --max_frames 2048 \
     --n_generations 1 \
-    --n_scenes 1
+    --n_scenes 10
