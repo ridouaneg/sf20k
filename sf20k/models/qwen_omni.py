@@ -7,12 +7,15 @@ from transformers import (
 
 try:
     import soundfile as sf
+except ImportError:
+    sf = None
+
+try:
     from transformers import (
         Qwen2_5OmniForConditionalGeneration,
         Qwen2_5OmniProcessor,
     )
-except:
-    sf = None
+except ImportError:
     Qwen2_5OmniForConditionalGeneration = None
     Qwen2_5OmniProcessor = None
 
@@ -20,7 +23,7 @@ except:
 try:
     from qwen_omni_utils import process_mm_info
 except:
-    process_visionprocess_mm_info_info = None
+    process_mm_info = None
 
 
 class QwenOmniModel:
@@ -76,20 +79,25 @@ class QwenOmniModel:
     ):
         #bnb_config = BitsAndBytesConfig(load_in_4bit=load_in_4bit) if load_in_4bit else None
 
-        model = Qwen2_5OmniForConditionalGeneration.from_pretrained(
-            model_path,
-            torch_dtype="auto",
-            device_map="auto",
-            #quantization_config=bnb_config,
-        )
+        # transformers requires torch >= 2.6 for torch.load (CVE-2025-32434) but
+        # the speaker weights shipped with Qwen2.5-Omni are plain .pt files.
+        # We patch the safety check locally so loading works on torch 2.5.x.
+        import transformers.models.qwen2_5_omni.modeling_qwen2_5_omni as _omni_mod
+        _orig = getattr(_omni_mod, "check_torch_load_is_safe", None)
+        if _orig is not None:
+            _omni_mod.check_torch_load_is_safe = lambda: None
+        try:
+            model = Qwen2_5OmniForConditionalGeneration.from_pretrained(
+                model_path,
+                torch_dtype="auto",
+                device_map="auto",
+            )
+        finally:
+            if _orig is not None:
+                _omni_mod.check_torch_load_is_safe = _orig
         model.disable_talker()
 
-        processor = Qwen2_5OmniProcessor.from_pretrained(
-            #model_path,
-            "/geovic/ghermi/weights/Qwen/Qwen2.5-Omni-7B",
-            #padding_side="left",
-            #use_fast=True,
-        )
+        processor = Qwen2_5OmniProcessor.from_pretrained(model_path)
 
         return model, processor
 

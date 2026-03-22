@@ -2,9 +2,14 @@ from .qwen_vl import QwenVLModel
 from .qwen_omni import QwenOmniModel
 from .gemini import GeminiModel
 from .gpt import GPTModel
+from .claude import ClaudeModel
 from .internvl import InternVLModel
+from .llava_video import LlavaVideoModel
+from .llava_onevision import LlavaOneVisionModel
 from .longva import LongVAModel
 from .longvu import LongVUModel
+from .llovi import LLoViModel
+from .lvagent import LVAgentModel
 
 
 def get_model(model_name: str, **kwargs):
@@ -17,12 +22,10 @@ def get_model(model_name: str, **kwargs):
         "qwen3-vl-4b",
         "qwen3-vl-8b",
         "qwen3-vl-32b",
-        #"qwen3-vl-2b-think",
-        #"qwen3-vl-4b-think",
-        #"qwen3-vl-8b-think",
-        #"qwen3-vl-32b-think",
-        #"qwen3-vl-30b-a3b",
-        #"qwen3-vl-235b-a22b",
+        "qwen3-vl-2b-think",
+        "qwen3-vl-4b-think",
+        "qwen3-vl-8b-think",
+        "qwen3-vl-32b-think",
     ]:
         return QwenVLModel(model_name=model_name, **kwargs)
     elif model_name in [
@@ -34,7 +37,9 @@ def get_model(model_name: str, **kwargs):
         "gemini-2.5-flash-lite",
         "gemini-2.5-flash",
         "gemini-2.5-pro",
-        "gemini-3-pro",
+        "gemini-3-flash",
+        "gemini-3.1-flash-lite",
+        "gemini-3.1-pro",
     ]:
         return GeminiModel(model_name=model_name, **kwargs)
     elif model_name in [
@@ -49,6 +54,12 @@ def get_model(model_name: str, **kwargs):
     ]:
         return GPTModel(model_name=model_name, **kwargs)
     elif model_name in [
+        "claude-haiku-4-5",
+        "claude-sonnet-4-6",
+        "claude-opus-4-6",
+    ]:
+        return ClaudeModel(model_name=model_name, **kwargs)
+    elif model_name in [
         "internvl3.5-1b",
         "internvl3.5-2b",
         "internvl3.5-4b",
@@ -57,19 +68,41 @@ def get_model(model_name: str, **kwargs):
     ]:
         return InternVLModel(model_name=model_name, **kwargs)
     elif model_name in [
-        "longva-7b", 
+        "llava-video-7b",
+        "llava-video-72b",
+    ]:
+        return LlavaVideoModel(model_name=model_name, **kwargs)
+    elif model_name in [
+        "llava-onevision-1.5-4b",
+        "llava-onevision-1.5-8b",
+    ]:
+        return LlavaOneVisionModel(model_name=model_name, **kwargs)
+    elif model_name in [
+        "longva-7b",
         "longva-7b-dpo",
     ]:
         return LongVAModel(model_name=model_name, **kwargs)
     elif model_name in [
-        "longvu-3b", 
+        "longvu-3b",
         "longvu-7b",
     ]:
         return LongVUModel(model_name=model_name, **kwargs)
-    # baselines: video-llava, llava-video
+    elif model_name in [
+        "llovi-gpt4o-mini",
+        "llovi-gpt4o",
+        "llovi-llama3-8b",
+    ]:
+        return LLoViModel(model_name=model_name, **kwargs)
+    elif model_name in [
+        "lvagent-qwen2.5-7b",
+        "lvagent-qwen2.5-7b+internvl3.5-2b",
+        "lvagent-qwen2.5-7b+internvl3.5-2b+llava-video-7b",
+    ]:
+        return LVAgentModel(model_name=model_name, **kwargs)
+    # baselines: video-llava
     # reasoning: longvt, video-r1
     # memory: ma-lmm, moviechat
     # keyframe selection: tspo, tcot
-    # others: videotree, llovi, langrepo, videoagent, video-salmonn-2+
+    # others: videotree, langrepo, videoagent, video-salmonn-2+
     else:
         raise ValueError(f"Model {model_name} not supported")

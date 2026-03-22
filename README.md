@@ -40,6 +40,23 @@ The dataset is designed to challenge models with story-level reasoning through t
 
 ## 🚀 Getting Started
 
+### Installation
+
+**Prerequisites:** [uv](https://github.com/astral-sh/uv)
+
+```bash
+# Clone the repository
+git clone https://github.com/ridouaneg/sf20k.git
+cd sf20k
+
+# Create a virtual environment and install dependencies
+uv venv .venv
+uv pip install -e . --python .venv/bin/python
+
+# Activate the environment
+source .venv/bin/activate
+```
+
 ### Accessing the Dataset
 
 The SF20K dataset is hosted on the Hugging Face Hub and can be easily loaded using the `datasets` library.

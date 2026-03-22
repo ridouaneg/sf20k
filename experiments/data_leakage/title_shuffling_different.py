@@ -25,6 +25,7 @@ OPENAI_ORG_ID = os.getenv("OPENAI_ORG_ID", None)
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_path", type=str, default="movieqa.csv")
+    parser.add_argument("--title_source_path", type=str, default=None, help="Optional: A second dataset to steal titles from.")
     parser.add_argument("--output_dir", type=str, default=".")
     parser.add_argument("--model_name", type=str, default="gpt-5-nano")
     parser.add_argument("--force_rerun", action="store_true")
@@ -35,14 +36,13 @@ def parse_args():
 class Prompt:
 
     def __init__(self):
-        #self.template = "In the movie '{movie_title}', {question}\nAnswer shortly and directly without repeating the question. If you don't know the movie, try to guess the answer."
-        self.template = "Here is a question about a movie: {question}\nAnswer shortly and directly without repeating the question. If you don't know the movie, try to guess the answer."
+        self.template = "In the movie '{movie_title}', {question}\nAnswer shortly and directly without repeating the question. If you don't know the movie, try to guess the answer."
 
     def get_query(self, sample):
         question = sample['question']
         question = question[0].lower() + question[1:] # remove first upper case
         return self.template.format(
-            #movie_title=sample["movie_title"],
+            movie_title=sample["movie_title"],
             question=question,
         )
 
@@ -52,9 +52,14 @@ class Prompt:
 
 class Dataset:
 
-    def __init__(self, input_path: str, prompt, n_subsample: int = -1):
+    def __init__(
+        self, 
+        input_path: str, 
+        prompt, 
+        title_source_path: str = None,
+        n_subsample: int = -1,
+    ):
         self.df = pd.read_csv(input_path)
-        #self.df['movie_title'] = np.random.permutation(self.df['movie_title'])
         self.prompt = prompt
 
         assert "question_id" in self.df.columns
@@ -64,6 +69,17 @@ class Dataset:
 
         if n_subsample > 0:
             self.df = self.df.sample(n=n_subsample, random_state=42)
+
+        if title_source_path:
+            # Load the second dataset purely for its titles
+            print(f"Swapping titles: replacing titles in {Path(input_path).name} with titles from {Path(title_source_path).name}")
+            df_source = pd.read_csv(title_source_path)
+            df_source = df_source.sample(n=n_subsample, random_state=42)
+            self.df['movie_title'] = np.random.permutation(df_source['movie_title'].values)
+        else:
+            # Original behavior: shuffle in-domain
+            print(f"Shuffling titles within {Path(input_path).name}")
+            self.df['movie_title'] = np.random.permutation(self.df['movie_title'].values)
 
     def __len__(self):
         return len(self.df)
@@ -264,7 +280,14 @@ def get_model(model_name: str):
 def main(args):
     # Setup output file
     os.makedirs(args.output_dir, exist_ok=True)
-    output_filename = f"no_title_dataset_{Path(args.input_path).stem}_model_{args.model_name}.json"
+
+    input_stem = Path(args.input_path).stem
+    if args.title_source_path:
+        source_stem = Path(args.title_source_path).stem
+        output_filename = f"title_swap_TARGET_{input_stem}_SOURCE_{source_stem}_model_{args.model_name}.json"
+    else:
+        output_filename = f"title_shuffling_dataset_{input_stem}_model_{args.model_name}.json"
+    
     output_path = os.path.join(args.output_dir, output_filename)
     print(f"Results will be saved to {output_path}")
 
@@ -275,6 +298,7 @@ def main(args):
     dataset = Dataset(
         input_path=args.input_path,
         prompt=prompt,
+        title_source_path=args.title_source_path,
         n_subsample=args.n_subsample,
     )
     print(f"Loaded dataset with {len(dataset)} samples")
@@ -296,7 +320,6 @@ def main(args):
         try:
             response = model.generate(
                 query=sample["query"],
-                #system_prompt="You are a helpful assistant.",
             )
             
             prediction = prompt.postprocess_response(response)
@@ -310,7 +333,6 @@ def main(args):
                 "prediction": prediction,
                 "model": args.model_name,
             }
-                            
             with open(output_path, "w") as f:
                 json.dump(results, f, indent=4)
             

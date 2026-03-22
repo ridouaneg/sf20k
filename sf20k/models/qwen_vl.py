@@ -186,7 +186,7 @@ class QwenVLModel:
                 "video": video_path,
                 "total_pixels": total_pixels, 
                 "min_pixels": min_pixels, 
-                "fps": fps,
+                "fps": sample_fps,
                 "max_frames": max_frames,
             }) ### TO CHECK
         content.append({"type": "text", "text": query})
@@ -231,31 +231,19 @@ class QwenVLModel:
         text_inputs = [text]
 
         if self.modality in ["vision", "vision_language"]:
-            image_inputs, video_inputs, video_kwargs = process_vision_info(
+            image_inputs, video_inputs, _ = process_vision_info(
                 [messages],
-                return_video_kwargs=True, 
-                image_patch_size=16,
-                return_video_metadata=True
+                return_video_kwargs=True,
             )
         else:
             image_inputs = None
             video_inputs = None
-            video_kwargs = {}
 
-        if video_inputs is not None:
-            video_inputs, video_metadatas = zip(*video_inputs)
-            video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
-        else:
-            video_metadatas = None
-        
         inputs = self.processor(
             text=text_inputs,
             images=image_inputs,
             videos=video_inputs,
-            video_metadata=video_metadatas,
-            **video_kwargs,
-            do_resize=False,
-            return_tensors="pt"
+            return_tensors="pt",
         ).to(self.model.device)
 
         with torch.no_grad():
@@ -279,5 +267,9 @@ class QwenVLModel:
             skip_special_tokens=True,
             clean_up_tokenization_spaces=True
         )[0]
+
+        # Strip thinking tokens emitted by Qwen3-VL-*-Thinking variants
+        if "</think>" in response:
+            response = response.split("</think>")[-1].strip()
 
         return response

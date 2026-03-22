@@ -56,6 +56,9 @@ def main(args):
     )
 
     print(f"Model {config.model_name} loaded.")
+    # print nb of trainable parameters
+    print(f"Trainable parameters: {sum(p.numel() for p in module.model.parameters() if p.requires_grad)}")
+    import pdb; pdb.set_trace()
 
     # Prepare data
     prompt = OEQAPrompt()

@@ -10,9 +10,17 @@ from transformers import AutoModel, AutoTokenizer
 from sf20k.prompts import OEQAPrompt
 from sf20k.datasets import SF20KDataset
 
+import math
+import numpy as np
+import torch
+import torchvision.transforms as T
+from decord import VideoReader, cpu
+from PIL import Image
+from torchvision.transforms.functional import InterpolationMode
+from transformers import AutoModel, AutoTokenizer
+
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
-
 
 def build_transform(input_size):
     MEAN, STD = IMAGENET_MEAN, IMAGENET_STD
@@ -23,7 +31,6 @@ def build_transform(input_size):
         T.Normalize(mean=MEAN, std=STD)
     ])
     return transform
-
 
 def find_closest_aspect_ratio(aspect_ratio, target_ratios, width, height, image_size):
     best_ratio_diff = float('inf')
@@ -39,7 +46,6 @@ def find_closest_aspect_ratio(aspect_ratio, target_ratios, width, height, image_
             if area > 0.5 * image_size * image_size * ratio[0] * ratio[1]:
                 best_ratio = ratio
     return best_ratio
-
 
 def dynamic_preprocess(image, min_num=1, max_num=12, image_size=448, use_thumbnail=False):
     orig_width, orig_height = image.size
@@ -79,6 +85,13 @@ def dynamic_preprocess(image, min_num=1, max_num=12, image_size=448, use_thumbna
         processed_images.append(thumbnail_img)
     return processed_images
 
+def load_image(image_file, input_size=448, max_num=12):
+    image = Image.open(image_file).convert('RGB')
+    transform = build_transform(input_size=input_size)
+    images = dynamic_preprocess(image, image_size=input_size, use_thumbnail=True, max_num=max_num)
+    pixel_values = [transform(image) for image in images]
+    pixel_values = torch.stack(pixel_values)
+    return pixel_values
 
 def get_index(bound, fps, max_frame, first_idx=0, num_segments=32):
     if bound:
@@ -94,9 +107,8 @@ def get_index(bound, fps, max_frame, first_idx=0, num_segments=32):
     ])
     return frame_indices
 
-
 def load_video(video_path, bound=None, input_size=448, max_num=1, num_segments=32):
-    vr = VideoReader(video_path, num_threads=1) #ctx=cpu(0), num_threads=1)
+    vr = VideoReader(video_path, ctx=cpu(0), num_threads=1)
     max_frame = len(vr) - 1
     fps = float(vr.get_avg_fps())
 
@@ -112,7 +124,6 @@ def load_video(video_path, bound=None, input_size=448, max_num=1, num_segments=3
         pixel_values_list.append(pixel_values)
     pixel_values = torch.cat(pixel_values_list)
     return pixel_values, num_patches_list
-
 
 class InternVLModel:
 
@@ -140,13 +151,11 @@ class InternVLModel:
 
         model = AutoModel.from_pretrained(
             model_path,
-            dtype=torch.bfloat16,
-            load_in_8bit=False,
-            low_cpu_mem_usage=True,
-            use_flash_attn=False, # True
+            torch_dtype=torch.bfloat16,
+            use_flash_attn=False,
             trust_remote_code=True,
-            device_map="auto",
-        ).eval()
+            #device_map="auto",
+        ).eval().cuda()
 
         tokenizer = AutoTokenizer.from_pretrained(
             model_path,
@@ -156,11 +165,13 @@ class InternVLModel:
 
         self.model = model
         self.tokenizer = tokenizer
-    
+        #self.num_frames = num_frames if num_frames is not None else 8
+        self.num_frames = max_frames
+
     def generate(
         self,
         query: str,
-        video_path: str, 
+        video_path: str,
         system_prompt: str = None,
         max_new_tokens: int = 256,
         do_sample: bool = False,
@@ -169,12 +180,12 @@ class InternVLModel:
     ):
         generation_config = dict(
             max_new_tokens=max_new_tokens,
-            do_sample=do_sample,
-            temperature=temperature
+            do_sample=True,
         )
 
-        pixel_values, num_patches_list = load_video(video_path, num_segments=8, max_num=1)
+        pixel_values, num_patches_list = load_video(video_path, num_segments=self.num_frames, max_num=1)
         pixel_values = pixel_values.to(self.model.device, self.model.dtype)
+        print(pixel_values.shape, len(num_patches_list))
 
         video_prefix = ''.join([f'Frame{i+1}: <image>\n' for i in range(len(num_patches_list))])
         question = video_prefix + query

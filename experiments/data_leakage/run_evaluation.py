@@ -1,4 +1,5 @@
 import ast
+import re
 import os
 import numpy as np
 import pandas as pd
@@ -6,6 +7,8 @@ import openai
 import argparse
 import json
 from tqdm import tqdm
+
+OPTION_LETTERS = ["A", "B", "C", "D", "E"]
 
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", None)
@@ -57,44 +60,54 @@ def main(args):
     results = json.load(open(output_path)) if os.path.exists(output_path) and not args.force_rerun else {}
     existing_ids = set(results.keys())
 
+    is_mcqa = any("correct_idx" in s for s in data.values())
+
     for question_id, sample in tqdm(data.items(), total=len(data)):
         if question_id in existing_ids and not args.force_rerun:
             continue
-        question = sample['question']
-        answer = sample['answer']
         prediction = sample['prediction']
 
         if prediction is None:
             continue
-        
-        USER_PROMPT = PROMPT_TEMPLATE.format(
-            question=question,
-            answer=answer,
-            prediction=prediction,
-        )
-        
-        try:
-            response = client.chat.completions.create(
-                model="gpt-4.1-nano-2025-04-14",
-                messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": USER_PROMPT}
-                ],
-                max_tokens=16,
-                temperature=0.0, # Set to 0 for deterministic output
-            )
-            output = response.choices[0].message.content
-        except Exception as e:
-            print(f"An error occurred with the OpenAI API call: {e}")
-            output = None
 
-        try:
-            score = int(ast.literal_eval(output)["score"])
-            pred = 1 * (str(ast.literal_eval(output)["pred"]).lower() == 'yes')
-        except (ValueError, SyntaxError, KeyError) as e:
-            print(f"Error parsing the output: {e}\nOutput was: {output}")
-            score = 0
-            pred = 0
+        if is_mcqa:
+            correct_letter = OPTION_LETTERS[int(sample['correct_idx'])]
+            match = re.search(r'\b([A-E])\b', str(prediction).upper())
+            pred_letter = match.group(1) if match else None
+            pred = 1 if pred_letter == correct_letter else 0
+            score = 5 if pred else 0
+        else:
+            question = sample['question']
+            answer = sample['answer']
+
+            USER_PROMPT = PROMPT_TEMPLATE.format(
+                question=question,
+                answer=answer,
+                prediction=prediction,
+            )
+
+            try:
+                response = client.chat.completions.create(
+                    model="gpt-4.1-nano-2025-04-14",
+                    messages=[
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": USER_PROMPT}
+                    ],
+                    max_tokens=16,
+                    temperature=0.0,
+                )
+                output = response.choices[0].message.content
+            except Exception as e:
+                print(f"An error occurred with the OpenAI API call: {e}")
+                output = None
+
+            try:
+                score = int(ast.literal_eval(output)["score"])
+                pred = 1 * (str(ast.literal_eval(output)["pred"]).lower() == 'yes')
+            except (ValueError, SyntaxError, KeyError) as e:
+                print(f"Error parsing the output: {e}\nOutput was: {output}")
+                score = 0
+                pred = 0
 
         results[question_id] = {
             "question_id": sample['question_id'],
