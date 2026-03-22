@@ -6,12 +6,8 @@ OUTPUT=results
 N_SUBSAMPLE=256
 #MODELS="gpt-5-nano gpt-5-mini gpt-5"
 MODELS="gpt-5-nano gpt-5-mini"
-#DATASETS="movieqa tvqa cinepile infinibench sf20k"
-DATASETS="movieqa sf20k"
-#DATASETS_MCQA="movieqa tvqa cinepile"
-DATASETS_MCQA=""
-
-# 3 * (5 * 2 + 3 * 2) = 48
+DATASETS="movieqa tvqa cinepile infinibench sf20k"
+DATASETS_MCQA="movieqa tvqa cinepile"
 
 for MODEL in $MODELS; do
     for DATASET in $DATASETS; do
