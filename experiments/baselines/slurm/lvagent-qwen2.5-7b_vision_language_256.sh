@@ -17,32 +17,12 @@ module load pytorch-gpu/py3/2.6.0
 cd /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k
 source .lmms/bin/activate
 
-python run_inference.py \
-    --output_dir ./results/ijcv_rebuttal/ \
-    --data_path ../data/test_expert.csv \
-    --subtitles_path ../data/test_subtitles.csv \
+python scripts/run_inference.py \
+    --output_dir scripts/results \
+    --data_path data/test_expert.csv \
+    --subtitles_path data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
-    --model_name lvagent-qwen2.5-7b \
     --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/ \
+    --model_name lvagent-qwen2.5-7b \
     --modality vision_language \
-    --num_frames 256
-
-python scripts/run_inference.py \
-    --output_dir scripts/results \
-    --data_path data/test_expert.csv \
-    --subtitles_path data/test_subtitles.csv \
-    --video_dir /geovic/geovic/SF20K/videos/ \
-    --model_name lvagent-qwen2.5-3b \
-    --weights_dir /geovic/ghermi/weights/ \
-    --modality vision_language \
-    --num_frames 8
-
-python scripts/run_inference.py \
-    --output_dir scripts/results \
-    --data_path data/test_expert.csv \
-    --subtitles_path data/test_subtitles.csv \
-    --video_dir /geovic/geovic/SF20K/videos/ \
-    --model_name lvagent-qwen2.5-7b+internvl3.5-8b \
-    --weights_dir /geovic/ghermi/weights/ \
-    --modality vision_language \
-    --num_frames 8
+    --num_frames 32

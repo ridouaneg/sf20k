@@ -25,14 +25,4 @@ python scripts/run_inference.py \
     --model_name llava-onevision-1.5-4b \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
-    --num_frames 256
-
-python scripts/run_inference.py \
-    --output_dir scripts/results \
-    --data_path data/test_expert.csv \
-    --subtitles_path data/test_subtitles.csv \
-    --video_dir /geovic/geovic/SF20K/videos/ \
-    --model_name llava-onevision-1.5-4b \
-    --weights_dir /geovic/ghermi/weights/ \
-    --modality vision_language \
-    --num_frames 8
+    --num_frames 64

@@ -25,4 +25,4 @@ python scripts/run_inference.py \
     --model_name llava-onevision-1.5-8b \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
-    --num_frames 8
+    --num_frames 64

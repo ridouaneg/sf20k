@@ -14,15 +14,15 @@
 module load arch/h100
 module load ffmpeg/6.1.1
 module load pytorch-gpu/py3/2.6.0
-source /lustre/fsn1/projects/rech/kcn/ucm72yx/virtual_envs/sf20k/bin/activate
-cd /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/scripts/
+cd /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k
+source .lmms/bin/activate
 
-python run_inference.py \
-    --output_dir ./results/ijcv_rebuttal/ \
-    --data_path ../data/test_expert.csv \
-    --subtitles_path ../data/test_subtitles.csv \
+python scripts/run_inference.py \
+    --output_dir scripts/results \
+    --data_path data/test_expert.csv \
+    --subtitles_path data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
-    --model_name lvagent-qwen2.5-7b+internvl3.5-2b \
-    --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/ \
+    --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
+    --model_name lvagent-qwen2.5-7b+internvl3.5-8b \
     --modality vision_language \
-    --num_frames 256
+    --num_frames 32
