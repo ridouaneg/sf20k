@@ -27,5 +27,6 @@ setup(
         "packaging",
         "einops",
         "timm",
+        "bitsandbytes",
     ],
 )

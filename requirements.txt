@@ -18,3 +18,4 @@ packaging
 qwen-vl-utils
 einops
 timm
+bitsandbytes
