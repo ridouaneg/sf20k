@@ -109,6 +109,44 @@ class LLoViCaptioner:
             captions.append(f"[t={t:.1f}s] {caption}")
         return " ".join(captions)
 
+    def caption_videos(
+        self,
+        video_paths: dict,
+        output_path: str,
+        fps: float = 1.0,
+        max_frames: int = 16,
+        resume: bool = True,
+    ) -> dict:
+        """
+        Caption a collection of videos and save to a JSON file.
+
+        Args:
+            video_paths: dict mapping video_id -> video_path (or list of video_paths,
+                         in which case video_id defaults to the path itself).
+            output_path: where to write/append captions as JSON.
+            resume: if True, skip videos already present in output_path.
+
+        Returns:
+            dict mapping video_id -> caption string.
+        """
+        if isinstance(video_paths, list):
+            video_paths = {p: p for p in video_paths}
+
+        captions: dict = {}
+        if resume and os.path.exists(output_path):
+            with open(output_path) as f:
+                captions = json.load(f)
+
+        os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+        for video_id, video_path in video_paths.items():
+            if video_id in captions:
+                continue
+            captions[video_id] = self.caption_video(video_path, fps=fps, max_frames=max_frames)
+            with open(output_path, "w") as f:
+                json.dump(captions, f, indent=2)
+
+        return captions
+
 
 # ── LLoVi model ───────────────────────────────────────────────────────────────
 
@@ -129,6 +167,7 @@ class LLoViModel:
         "llovi-gpt4o-mini": ("gpt",    "gpt-4o-mini"),
         "llovi-gpt4o":      ("gpt",    "gpt-4o"),
         "llovi-llama3-8b":  ("llama3", "meta-llama/Llama-3.1-8B-Instruct"),
+        "llovi-llama3-1b":  ("llama3", "meta-llama/Llama-3.2-1B-Instruct"),
     }
 
     def __init__(
@@ -233,3 +272,50 @@ class LLoViModel:
         head = system_prompt or "You are a helpful expert in video analysis."
         response, _ = self.llm.forward(head=head, prompts=[prompt])
         return response
+
+
+# ── LLoVi stage-2 only (bring your own LLM) ──────────────────────────────────
+
+class LLoViCaptionsModel:
+    """
+    Stage 2 of LLoVi using pre-computed captions and *any* text LLM.
+
+    Usage::
+
+        # Step 1 — caption once (offline)
+        captioner = LLoViCaptioner("qwen2.5-vl-3b", weights_dir=...)
+        captioner.caption_videos({"vid1": "vid1.mp4", ...}, output_path="captions.json")
+
+        # Step 2 — QA with any model
+        from sf20k.models import get_model
+        llm = get_model("gpt-4.1-mini", ...)
+        model = LLoViCaptionsModel(llm=llm, captions_path="captions.json")
+        answer = model.generate(query, video_path)
+
+    The ``llm`` can be any object with a ``generate(query, video_path, **kwargs)``
+    interface — i.e. anything returned by ``get_model()``.  For text-only LLMs
+    the captions are folded into the query and ``video_path=None`` is passed.
+    """
+
+    _PROMPT_TEMPLATE = (
+        "Here are descriptions of a video:\n{captions}\n\n"
+        "Answer the following question based on the descriptions:\n{query}"
+    )
+
+    def __init__(self, llm, captions_path: str):
+        self.llm = llm
+        with open(captions_path) as f:
+            self.captions: dict = json.load(f)
+
+    def _lookup_captions(self, video_path: str) -> str:
+        captions = self.captions.get(video_path) or self.captions.get(
+            os.path.splitext(os.path.basename(video_path))[0], ""
+        )
+        if isinstance(captions, list):
+            captions = " ".join(captions)
+        return captions
+
+    def generate(self, query: str, video_path: str, **kwargs) -> str:
+        captions = self._lookup_captions(video_path)
+        prompt = self._PROMPT_TEMPLATE.format(captions=captions, query=query)
+        return self.llm.generate(prompt, video_path=None, **kwargs)

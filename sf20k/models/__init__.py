@@ -8,7 +8,7 @@ from .llava_video import LlavaVideoModel
 from .llava_onevision import LlavaOneVisionModel
 from .longva import LongVAModel
 from .longvu import LongVUModel
-from .llovi import LLoViModel
+from .llovi import LLoViModel, LLoViCaptioner, LLoViCaptionsModel
 from .lvagent import LVAgentModel
 
 
@@ -91,10 +91,18 @@ def get_model(model_name: str, **kwargs):
         "llovi-gpt4o-mini",
         "llovi-gpt4o",
         "llovi-llama3-8b",
+        "llovi-llama3-1b",
     ]:
         return LLoViModel(model_name=model_name, **kwargs)
+    elif model_name.startswith("llovi-captions+"):
+        # e.g. "llovi-captions+gpt-4.1-mini" — step-2 only, requires captions_path kwarg
+        llm_name = model_name[len("llovi-captions+"):]
+        captions_path = kwargs.pop("captions_path")
+        llm = get_model(llm_name, **kwargs)
+        return LLoViCaptionsModel(llm=llm, captions_path=captions_path)
     elif model_name in [
         "lvagent-qwen2.5-7b",
+        "lvagent-qwen2.5-3b+internvl3.5-1b",
         "lvagent-qwen2.5-7b+internvl3.5-2b",
         "lvagent-qwen2.5-7b+internvl3.5-2b+llava-video-7b",
     ]:
