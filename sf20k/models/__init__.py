@@ -101,10 +101,11 @@ def get_model(model_name: str, **kwargs):
         llm = get_model(llm_name, **kwargs)
         return LLoViCaptionsModel(llm=llm, captions_path=captions_path)
     elif model_name in [
+        "lvagent-qwen2.5-3b",
         "lvagent-qwen2.5-7b",
         "lvagent-qwen2.5-3b+internvl3.5-1b",
-        "lvagent-qwen2.5-7b+internvl3.5-2b",
-        "lvagent-qwen2.5-7b+internvl3.5-2b+llava-video-7b",
+        "lvagent-qwen2.5-7b+internvl3.5-8b",
+        "lvagent-qwen2.5-7b+internvl3.5-8b+llava-video-7b",
     ]:
         return LVAgentModel(model_name=model_name, **kwargs)
     # baselines: video-llava

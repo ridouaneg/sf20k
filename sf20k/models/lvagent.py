@@ -176,25 +176,30 @@ class LVAgentModel:
     """
 
     _configs = {
+        "lvagent-qwen2.5-3b": {
+            "qwen_id":      "Qwen/Qwen2.5-VL-3B-Instruct",
+            "internvl_id":  None,
+            "llava_id":     None,
+        },
         "lvagent-qwen2.5-7b": {
             "qwen_id":      "Qwen/Qwen2.5-VL-7B-Instruct",
             "internvl_id":  None,
             "llava_id":     None,
         },
-        "lvagent-qwen2.5-7b+internvl3.5-2b": {
-            "qwen_id":      "Qwen/Qwen2.5-VL-7B-Instruct",
-            "internvl_id":  "OpenGVLab/InternVL3_5-2B",
-            "llava_id":     None,
-        },
-        "lvagent-qwen2.5-7b+internvl3.5-2b+llava-video-7b": {
-            "qwen_id":      "Qwen/Qwen2.5-VL-7B-Instruct",
-            "internvl_id":  "OpenGVLab/InternVL3_5-2B",
-            "llava_id":     "llava-hf/llava-onevision-qwen2-7b-ov-hf",
-        },
         "lvagent-qwen2.5-3b+internvl3.5-1b": {
             "qwen_id":      "Qwen/Qwen2.5-VL-3B-Instruct",
             "internvl_id":  "OpenGVLab/InternVL3_5-1B",
             "llava_id":     None,
+        },
+        "lvagent-qwen2.5-7b+internvl3.5-8b": {
+            "qwen_id":      "Qwen/Qwen2.5-VL-7B-Instruct",
+            "internvl_id":  "OpenGVLab/InternVL3_5-8B",
+            "llava_id":     None,
+        },
+        "lvagent-qwen2.5-7b+internvl3.5-8b+llava-video-7b": {
+            "qwen_id":      "Qwen/Qwen2.5-VL-7B-Instruct",
+            "internvl_id":  "OpenGVLab/InternVL3_5-8B",
+            "llava_id":     "llava-hf/llava-onevision-qwen2-7b-ov-hf",
         },
     }
 

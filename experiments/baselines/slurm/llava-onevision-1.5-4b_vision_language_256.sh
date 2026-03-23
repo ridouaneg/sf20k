@@ -14,25 +14,25 @@
 module load arch/h100
 module load ffmpeg/6.1.1
 module load pytorch-gpu/py3/2.6.0
-source /lustre/fsn1/projects/rech/kcn/ucm72yx/virtual_envs/sf20k/bin/activate
-cd /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/scripts/
+cd /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k
+source .lmms/bin/activate
 
-python run_inference.py \
-    --output_dir results \
-    --data_path ../data/test_expert.csv \
-    --subtitles_path ../data/test_subtitles.csv \
+python scripts/run_inference.py \
+    --output_dir scripts/results \
+    --data_path data/test_expert.csv \
+    --subtitles_path data/test_subtitles.csv \
     --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
     --model_name llava-onevision-1.5-4b \
-    --weights_dir $SCRATCH/weights/ \
+    --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
     --num_frames 256
 
-python run_inference.py \
-    --output_dir results \
-    --data_path ../data/test_expert.csv \
-    --subtitles_path ../data/test_subtitles.csv \
+python scripts/run_inference.py \
+    --output_dir scripts/results \
+    --data_path data/test_expert.csv \
+    --subtitles_path data/test_subtitles.csv \
     --video_dir /geovic/geovic/SF20K/videos/ \
     --model_name llava-onevision-1.5-4b \
     --weights_dir /geovic/ghermi/weights/ \
     --modality vision_language \
-    --num_frames 256
+    --num_frames 8

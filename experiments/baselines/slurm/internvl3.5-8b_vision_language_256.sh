@@ -25,4 +25,4 @@ python scripts/run_inference.py \
     --model_name internvl3.5-8b \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
-    --num_frames 128 --force_rerun
+    --num_frames 32 --force_rerun

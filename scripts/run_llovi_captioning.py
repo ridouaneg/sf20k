@@ -20,6 +20,7 @@ import os
 
 import pandas as pd
 from tqdm import tqdm
+import json
 
 from sf20k.models import LLoViCaptioner
 
@@ -38,22 +39,38 @@ def parse_args():
 
 def main(args):
     df = pd.read_csv(args.data_path)
+
     # Build video_id -> path mapping (deduplicated)
     video_ids = df["video_id"].unique()
     video_paths = {
-        vid: os.path.join(args.video_dir, f"{vid}.mp4")
+        vid: os.path.join(args.video_dir, f"{vid}.mkv")
         for vid in video_ids
     }
     print(f"Found {len(video_paths)} unique videos")
 
     captioner = LLoViCaptioner(args.captioner_name, weights_dir=args.weights_dir)
-    captioner.caption_videos(
-        video_paths=video_paths,
-        output_path=args.output_path,
-        fps=args.fps,
-        max_frames=args.max_frames,
-        resume=True,
-    )
+
+    output_path = args.output_path
+    resume = True
+
+    if isinstance(video_paths, list):
+        video_paths = {p: p for p in video_paths}
+
+    captions: dict = {}
+    if resume and os.path.exists(output_path):
+        with open(output_path) as f:
+            captions = json.load(f)
+
+    os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+    for video_id, video_path in tqdm(video_paths.items(), total=len(video_paths)):
+        if video_id in captions:
+            continue
+        captions[video_id] = captioner.caption_video(video_path, fps=args.fps, max_frames=args.max_frames)
+        with open(output_path, "w") as f:
+            json.dump(captions, f, indent=2)
+
+    with open(output_path, "w") as f:
+        json.dump(captions, f, indent=2)
     print(f"Captions saved to {args.output_path}")
 
 

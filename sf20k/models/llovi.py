@@ -2,10 +2,11 @@ import os
 import sys
 import json
 import importlib.util
-
+import cv2
 import torch
 from PIL import Image
 from transformers import AutoProcessor
+from tqdm import tqdm
 
 try:
     from transformers import Qwen2_5_VLForConditionalGeneration
@@ -93,7 +94,7 @@ class LLoViCaptioner:
             output_ids = self.model.generate(**inputs, max_new_tokens=max_new_tokens)
         generated = output_ids[0][inputs.input_ids.shape[-1]:]
         return self.processor.decode(generated, skip_special_tokens=True).strip()
-
+    
     def caption_video(
         self,
         video_path: str,
@@ -101,51 +102,23 @@ class LLoViCaptioner:
         max_frames: int = 16,
     ) -> str:
         """Sample frames and caption each one; return concatenated descriptions."""
+        cap = cv2.VideoCapture(video_path)
+        fps_video = cap.get(cv2.CAP_PROP_FPS)
+        frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+        duration = frame_count / fps_video if fps_video > 0 else 0
+        cap.release()
+
         frames = load_video(video_path, desired_fps=fps, max_frames=max_frames, return_as="pil")
+        num_sampled_frames = len(frames)
+        time_step = duration / max(1, num_sampled_frames - 1) if num_sampled_frames > 1 else 0
+
         captions = []
-        for i, frame in enumerate(frames):
-            t = i / fps
+        for i, frame in tqdm(enumerate(frames), total=num_sampled_frames, leave=True):
+            t = i * time_step
             caption = self.caption_frame(frame)
             captions.append(f"[t={t:.1f}s] {caption}")
+            
         return " ".join(captions)
-
-    def caption_videos(
-        self,
-        video_paths: dict,
-        output_path: str,
-        fps: float = 1.0,
-        max_frames: int = 16,
-        resume: bool = True,
-    ) -> dict:
-        """
-        Caption a collection of videos and save to a JSON file.
-
-        Args:
-            video_paths: dict mapping video_id -> video_path (or list of video_paths,
-                         in which case video_id defaults to the path itself).
-            output_path: where to write/append captions as JSON.
-            resume: if True, skip videos already present in output_path.
-
-        Returns:
-            dict mapping video_id -> caption string.
-        """
-        if isinstance(video_paths, list):
-            video_paths = {p: p for p in video_paths}
-
-        captions: dict = {}
-        if resume and os.path.exists(output_path):
-            with open(output_path) as f:
-                captions = json.load(f)
-
-        os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
-        for video_id, video_path in video_paths.items():
-            if video_id in captions:
-                continue
-            captions[video_id] = self.caption_video(video_path, fps=fps, max_frames=max_frames)
-            with open(output_path, "w") as f:
-                json.dump(captions, f, indent=2)
-
-        return captions
 
 
 # ── LLoVi model ───────────────────────────────────────────────────────────────
@@ -284,7 +257,7 @@ class LLoViCaptionsModel:
 
         # Step 1 — caption once (offline)
         captioner = LLoViCaptioner("qwen2.5-vl-3b", weights_dir=...)
-        captioner.caption_videos({"vid1": "vid1.mp4", ...}, output_path="captions.json")
+        captioner.caption_video("vid1.mp4")
 
         # Step 2 — QA with any model
         from sf20k.models import get_model

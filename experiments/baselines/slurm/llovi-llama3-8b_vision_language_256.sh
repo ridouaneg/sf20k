@@ -14,36 +14,23 @@
 module load arch/h100
 module load ffmpeg/6.1.1
 module load pytorch-gpu/py3/2.6.0
-source /lustre/fsn1/projects/rech/kcn/ucm72yx/virtual_envs/sf20k/bin/activate
-cd /lustre/fswork/projects/rech/kcn/ucm72yx/code/sf20k/scripts/
+cd /lustre/fsn1/projects/rech/kcn/ucm72yx/code/sf20k
+source .lmms/bin/activate
 
-python run_llovi_captioning.py \
-    --data_path ../data/test_expert.csv \
-    --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
-    --output_path ../data/captions/llovi_qwen2.5-vl-3b_1fps_16f.json \
-    --captioner_name qwen2.5-vl-3b \
-    --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/
-
-python run_inference.py \
-    --model_name llovi-captions+llama \
-    --captions_path data/captions/llovi_qwen2.5-vl-3b_1fps_16f.json \
-    --modality language \
-    
-    --output_dir results \
-    --data_path ../data/test_expert.csv \
-    --subtitles_path ../data/test_subtitles.csv \
-    --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
-    --model_name llovi-llama3-8b \
+python scripts/run_llovi_captioning.py \
+    --data_path data/test_expert.csv \
+    --output_path data/captions/llovi_qwen2.5-vl-3b_1fps_256f.json \
+    --captioner_name qwen2.5-vl-7b \
     --weights_dir /lustre/fsmisc/dataset/HuggingFace_Models/ \
-    --modality vision_language \
-    --num_frames 256
+    --video_dir /lustre/fswork/projects/rech/kcn/ucm72yx/data/SF20K/videos/ \
+    --fps 1.0 \
+    --max_frames 256
 
-python run_inference.py \
-    --output_dir results \
-    --data_path ../data/test_expert.csv \
-    --subtitles_path ../data/test_subtitles.csv \
+python scripts/run_llovi_inference.py \
+    --data_path data/test_expert.csv \
+    --subtitles_path data/test_subtitles.csv \
     --video_dir /geovic/geovic/SF20K/videos/ \
-    --model_name llovi-llama3-1b \
+    --model_name llovi-llama3-8b \
+    --captions_path data/captions/llovi_qwen2.5-vl-3b_1fps_1f.json \
     --weights_dir /geovic/ghermi/weights/ \
-    --modality vision_language \
-    --num_frames 8
+    --output_dir scripts/results
