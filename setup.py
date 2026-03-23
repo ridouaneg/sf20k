@@ -25,5 +25,7 @@ setup(
         "openai",
         "google-genai",
         "packaging",
+        "einops",
+        "timm",
     ],
 )

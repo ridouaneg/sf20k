@@ -152,10 +152,12 @@ class InternVLModel:
         model = AutoModel.from_pretrained(
             model_path,
             torch_dtype=torch.bfloat16,
+            load_in_8bit=False,
+            low_cpu_mem_usage=True,
             use_flash_attn=False,
             trust_remote_code=True,
             device_map="auto",
-        )#.eval()#.cuda()
+        ).eval()
 
         tokenizer = AutoTokenizer.from_pretrained(
             model_path,
@@ -183,7 +185,8 @@ class InternVLModel:
             do_sample=True,
         )
 
-        pixel_values, num_patches_list = load_video(video_path, num_segments=self.num_frames, max_num=1)
+        #pixel_values, num_patches_list = load_video(video_path, bound=None, input_size=224, max_num=1, num_segments=32)
+        pixel_values, num_patches_list = load_video(video_path, bound=None, input_size=224, max_num=1, num_segments=self.num_frames)
         pixel_values = pixel_values.to(self.model.device, self.model.dtype)
 
         video_prefix = ''.join([f'Frame{i+1}: <image>\n' for i in range(len(num_patches_list))])
