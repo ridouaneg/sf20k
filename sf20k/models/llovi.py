@@ -39,13 +39,30 @@ def _load_llovi_module(name):
     return mod
 
 
-try:
-    _model_mod = _load_llovi_module("model")
-    LLoViGPT = _model_mod.GPT
-    LLoViLLaMA3 = _model_mod.LLaMA3
-except Exception:
-    LLoViGPT = None
-    LLoViLLaMA3 = None
+def _load_llovi_llm(backend_type: str):
+    """Lazily load GPT or LLaMA3 from the vendor module, surfacing real errors."""
+    if vendor_path not in sys.path:
+        sys.path.insert(0, vendor_path)
+    if backend_type == "gpt":
+        # model.py imports openai at the top — use importlib so the error is clear
+        mod = _load_llovi_module("model")
+        return mod.GPT
+    elif backend_type == "llama3":
+        # Import LLaMA3 directly; skip the top-level `import openai` in model.py
+        # by importing only the class we need via exec after patching the namespace.
+        import importlib.util as _ilu
+        spec = _ilu.spec_from_file_location("llovi_model", os.path.join(vendor_path, "model.py"))
+        mod = _ilu.module_from_spec(spec)
+        # Pre-populate openai with a stub so the top-level `import openai` doesn't crash
+        import types
+        if "openai" not in sys.modules:
+            sys.modules["openai"] = types.ModuleType("openai")
+        if "prompts" not in sys.modules:
+            _p = _load_llovi_module("prompts")
+            sys.modules["prompts"] = _p
+        spec.loader.exec_module(mod)
+        return mod.LLaMA3
+    raise ValueError(f"Unknown backend_type: {backend_type}")
 
 
 # ── Captioner ────────────────────────────────────────────────────────────────
@@ -203,10 +220,10 @@ class LLoViModel:
         if backend_type == "gpt":
             if api_key is None:
                 api_key = os.environ.get("OPENAI_API_KEY", "")
-            self.llm = LLoViGPT(api_key, backend_id, temperature)
+            self.llm = _load_llovi_llm("gpt")(api_key, backend_id, temperature)
         elif backend_type == "llama3":
             model_path = os.path.join(weights_dir, backend_id) if weights_dir else backend_id
-            self.llm = LLoViLLaMA3(model_path, temperature, max_new_tokens)
+            self.llm = _load_llovi_llm("llama3")(model_path, temperature, max_new_tokens)
 
     def generate(
         self,
