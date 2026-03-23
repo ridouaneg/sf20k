@@ -25,4 +25,14 @@ python scripts/run_inference.py \
     --model_name internvl3.5-1b \
     --weights_dir /lustre/fsn1/projects/rech/kcn/ucm72yx/weights/ \
     --modality vision_language \
-    --num_frames 64 --force_rerun
+    --num_frames 32 --force_rerun
+
+python scripts/run_inference.py \
+    --output_dir scripts/results/ \
+    --data_path data/test_expert.csv \
+    --subtitles_path data/test_subtitles.csv \
+    --video_dir /geovic/geovic/SF20K/videos/ \
+    --model_name internvl3.5-1b \
+    --weights_dir /geovic/ghermi/weights/ \
+    --modality vision_language \
+    --num_frames 32 --force_rerun
