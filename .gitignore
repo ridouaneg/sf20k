@@ -5,6 +5,7 @@ data/
 notebooks/
 results/
 sf20k/vendor/
+wandb/
 
 # NEVER REMOVE
 sf20k/constants.py

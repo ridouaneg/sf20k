@@ -10,10 +10,8 @@ from tqdm import tqdm
 
 OPTION_LETTERS = ["A", "B", "C", "D", "E"]
 
-
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", None)
 OPENAI_ORG_ID = os.getenv("OPENAI_ORG_ID", None)
-
 
 SYSTEM_PROMPT = (
     "You are an intelligent chatbot designed for evaluating the correctness of generative outputs for question-answer pairs. "
@@ -25,7 +23,6 @@ SYSTEM_PROMPT = (
     "- Evaluate the correctness of the prediction compared to the answer."
 )
 
-
 PROMPT_TEMPLATE = (
     "Please evaluate the following video-based question-answer pair:\n\n"
     "Question: {question}\n"
@@ -36,6 +33,17 @@ PROMPT_TEMPLATE = (
     "DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only provide the Python dictionary string. "
     "For example, your response should look like this: {{'pred': 'yes', 'score': 4}}."
 )
+
+cmd_lines = """
+DATASETS="movieqa sf20k cinepile tvqa infinibench"
+MODELS="gpt-5-nano gpt-5-mini"
+for DATASET in $DATASETS; do
+    for MODEL in $MODELS; do
+        python run_evaluation.py --pred_path "results/dataset_${DATASET}_model_${MODEL}.json"
+        python run_evaluation.py --pred_path "results/no_title_dataset_${DATASET}_model_${MODEL}.json"
+    done
+done
+"""
 
 
 def parse_args():

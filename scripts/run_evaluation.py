@@ -111,9 +111,17 @@ def main(args):
 
     # Compute metrics
     df = pd.DataFrame(results.values())
-    accuracy = df['pred'].sum() / 979.
-    score = df['score'].sum() / 979.
-    print(f"Accuracy: {accuracy}")
+    
+    N = len(df)
+    accuracy = df['pred'].sum() / N
+    score = df['score'].sum() / N
+    print(f"Accuracy: {accuracy} (n={N})")
+    print(f"Score: {score}")
+
+    N = 979
+    accuracy = df['pred'].sum() / N
+    score = df['score'].sum() / N
+    print(f"Accuracy: {accuracy} (n={N})")
     print(f"Score: {score}")
 
     # Save results

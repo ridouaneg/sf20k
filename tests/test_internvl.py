@@ -1,4 +1,4 @@
-import os
+import math
 import numpy as np
 import torch
 import torchvision.transforms as T
@@ -113,133 +113,73 @@ def load_video(video_path, bound=None, input_size=448, max_num=1, num_segments=3
     pixel_values = torch.cat(pixel_values_list)
     return pixel_values, num_patches_list
 
-class InternVLModel:
+####
 
-    def __init__(
-        self,
-        model_name: str,
-        weights_dir: str = None,
-        modality: str = "vision_language",
-        num_frames: int = 8,
-        fps: float = None,
-        max_frames: int = None,
-        load_in_4bit: bool = False,
-        target_size: tuple = None,
-        **kwargs,
-    ):
-        assert modality in ["vision", "language", "vision_language"]
+path = "/geovic/ghermi/weights/OpenGVLab/InternVL3_5-1B"
 
-        dict_model_name_to_model_id = {
-            "internvl3.5-1b": "OpenGVLab/InternVL3_5-1B",
-            "internvl3.5-2b": "OpenGVLab/InternVL3_5-2B",
-            "internvl3.5-4b": "OpenGVLab/InternVL3_5-4B",
-            "internvl3.5-8b": "OpenGVLab/InternVL3_5-8B",
-            "internvl3.5-14b": "OpenGVLab/InternVL3_5-14B",
-        }
-        model_id = dict_model_name_to_model_id[model_name]
-        model_path = os.path.join(weights_dir, model_id) if weights_dir is not None else model_id
+tokenizer = AutoTokenizer.from_pretrained(path, trust_remote_code=True, use_fast=False)
+model = AutoModel.from_pretrained(
+    path,
+    torch_dtype=torch.bfloat16,
+    low_cpu_mem_usage=True,
+    use_flash_attn=True,
+    trust_remote_code=True,
+    device_map="auto",
+).eval()
 
-        model = AutoModel.from_pretrained(
-            model_path,
-            torch_dtype=torch.bfloat16,
-            #load_in_4bit=load_in_4bit,
-            #load_in_8bit=True,
-            low_cpu_mem_usage=True,
-            use_flash_attn=True,
-            trust_remote_code=True,
-            device_map="auto",
-        ).eval()
+print(tokenizer, model)
 
-        tokenizer = AutoTokenizer.from_pretrained(
-            model_path,
-            trust_remote_code=True,
-            use_fast=False,
-        )
+generation_config = dict(max_new_tokens=1024, do_sample=True)
 
-        self.model = model
-        self.tokenizer = tokenizer
-        self.fps = fps
-        self.max_frames = max_frames
-        self.modality = modality
+# pure text
+question = 'Hello, who are you?'
+response, history = model.chat(tokenizer, None, question, generation_config, history=None, return_history=True)
+print(f'User: {question}\nAssistant: {response}')
 
-    def generate(
-        self,
-        query: str,
-        video_path: str,
-        system_prompt: str = None,
-        max_new_tokens: int = 256,
-        do_sample: bool = True,
-        temperature: float = 1.0,
-        **kwargs,
-    ):
-        #generation_config = dict(max_new_tokens=max_new_tokens, do_sample=do_sample)
-        generation_config = dict(max_new_tokens=1024, do_sample=True)
+# single image
+pixel_values = load_image('tests/test.jpg', max_num=12).to(torch.bfloat16).cuda()
+print(pixel_values.shape)
 
-        if self.modality in ["vision", "vision_language"]:
-            pixel_values, num_patches_list = load_video(video_path, num_segments=self.max_frames, max_num=1)
-            #pixel_values = pixel_values.to(torch.bfloat16).cuda()
-            pixel_values = pixel_values.to(self.model.device, self.model.dtype)
-            video_prefix = ''.join([f'Frame{i+1}: <image>\n' for i in range(len(num_patches_list))])
-            question = video_prefix + query
-        else:
-            pixel_values = None
-            question = query
-            
-        with torch.no_grad():
-            response = self.model.chat(
-                self.tokenizer,
-                pixel_values,
-                question,
-                generation_config,
-                num_patches_list=num_patches_list,
-                history=None,
-                return_history=False,
-            )
-        
-        return response
-    
+question = '<image>\nPlease describe the image shortly.'
+response = model.chat(tokenizer, pixel_values, question, generation_config)
+print(f'User: {question}\nAssistant: {response}')
 
-if __name__ == "__main__":
-    import argparse
-    from sf20k.datasets.sf20k import SF20KDataset
-    from sf20k.prompts import OEQAPrompt
+# multiple images, combined images
+pixel_values1 = load_image('tests/test.jpg', max_num=12).to(torch.bfloat16).cuda()
+pixel_values2 = load_image('tests/test.jpg', max_num=12).to(torch.bfloat16).cuda()
+pixel_values = torch.cat((pixel_values1, pixel_values2), dim=0)
+print(pixel_values.shape)
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--data_path", type=str, default="../../data/test_expert.csv")
-    parser.add_argument("--subtitles_path", type=str, default="../../data/test_subtitles.csv")
-    parser.add_argument("--video_dir", type=str, default="/geovic/geovic/SF20K/videos/")
-    parser.add_argument("--model_name", type=str, default="internvl3.5-1b")
-    parser.add_argument("--weights_dir", type=str, default="/geovic/ghermi/weights/")
-    parser.add_argument("--num_frames", type=int, default=8)
-    args = parser.parse_args()
+question = '<image>\nDescribe the two images in detail.'
+response = model.chat(tokenizer, pixel_values, question, generation_config,
+                               history=None, return_history=False)
+print(f'User: {question}\nAssistant: {response}')
 
-    prompt = OEQAPrompt(modality="vision_language")
-    dataset = SF20KDataset(
-        prompt=prompt,
-        data_path=args.data_path,
-        video_dir=args.video_dir,
-        subtitles_path=args.subtitles_path,
-        n_subsample=1,
-        seed=42,
-    )
-    sample = dataset[0]
-    print(f"Question ID : {sample['question_id']}")
-    print(f"Video ID    : {sample['video_id']}")
-    print(f"Question    : {sample['question']}")
-    print(f"Ground truth: {sample['answer']}")
-    print(f"Query       :\n{sample['query']}\n")
+# multiple images, separate images
+pixel_values1 = load_image('tests/test.jpg', max_num=12).to(torch.bfloat16).cuda()
+pixel_values2 = load_image('tests/test.jpg', max_num=12).to(torch.bfloat16).cuda()
+pixel_values = torch.cat((pixel_values1, pixel_values2), dim=0)
+num_patches_list = [pixel_values1.size(0), pixel_values2.size(0)]
+print(pixel_values.shape)
 
-    model = InternVLModel(
-        model_name=args.model_name,
-        weights_dir=args.weights_dir,
-        modality="vision_language",
-        max_frames=args.num_frames,
-    )
+question = 'Image-1: <image>\nImage-2: <image>\nDescribe the two images in detail.'
+response = model.chat(tokenizer, pixel_values, question, generation_config,
+                               num_patches_list=num_patches_list,
+                               history=None, return_history=False)
+print(f'User: {question}\nAssistant: {response}')
 
-    response = model.generate(
-        query=sample["query"],
-        video_path=sample["video_path"],
-    )
-    prediction = prompt.postprocess_response(response)
-    print(f"Response    : {response}")
-    print(f"Prediction  : {prediction}")
+# single video
+video_path = 'tests/test.mp4'
+num_frames = 32
+pixel_values, num_patches_list = load_video(video_path, num_segments=num_frames, max_num=1)
+pixel_values = pixel_values.to(torch.bfloat16).cuda()
+print(pixel_values.shape)
+
+video_prefix = ''.join([f'Frame{i+1}: <image>\n' for i in range(len(num_patches_list))])
+question = video_prefix + 'What animal is on the video?'
+
+response = model.chat(tokenizer, pixel_values, question, generation_config,
+                               num_patches_list=num_patches_list, history=None, return_history=False)
+print(f'User: {question}\nAssistant: {response}')
+
+import pdb; pdb.set_trace()

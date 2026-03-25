@@ -5,9 +5,12 @@ cd /users/ghermi/code/sf20k/experiments/data_leakage
 OUTPUT=results
 N_SUBSAMPLE=256
 #MODELS="gpt-5-nano gpt-5-mini gpt-5"
-MODELS="gpt-5-nano gpt-5-mini"
-DATASETS="movieqa tvqa cinepile infinibench sf20k"
-DATASETS_MCQA="movieqa tvqa cinepile"
+#MODELS="gpt-5-nano gpt-5-mini"
+MODELS="gpt-5"
+#DATASETS="movieqa tvqa cinepile infinibench sf20k"
+DATASETS="movieqa sf20k"
+#DATASETS_MCQA="movieqa tvqa cinepile"
+DATASETS_MCQA=""
 
 for MODEL in $MODELS; do
     for DATASET in $DATASETS; do
