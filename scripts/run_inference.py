@@ -25,6 +25,7 @@ def parse_args():
     parser.add_argument("--n_subsample", type=int, default=-1, help="Number of samples to run (for debugging)")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     parser.add_argument("--load_in_4bit", action="store_true", help="Load model in 4-bit quantization")
+    parser.add_argument("--print_prediction", action="store_true")
     parser.add_argument("--force_rerun", action="store_true", help="Force rerunning all samples")
     return parser.parse_args()
 
@@ -90,6 +91,9 @@ def main(args):
             )
             
             prediction = prompt.postprocess_response(response)
+            if args.print_prediction:
+                print(f"Query: {sample['query']}")
+                print(f"Prediction: {prediction}")
 
             results[question_id] = {
                 "question_id": question_id,

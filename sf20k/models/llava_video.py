@@ -1,19 +1,9 @@
-from PIL import Image
-import requests
+import os
 import copy
-import torch
-import sys
 import warnings
 from decord import VideoReader, cpu
 import numpy as np
-import os
-
-from ..utils import load_video
-
-# ── Vendor LLaVA imports ──────────────────────────────────────────────────────
-#_vendor_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../vendor/LLaVA'))
-#if _vendor_path not in sys.path:
-#    sys.path.insert(0, _vendor_path)
+import torch
 
 try:
     from llava.model.builder import load_pretrained_model
@@ -26,7 +16,9 @@ except Exception as e:
     _llava_available = False
     _llava_import_error = e
 
-def load_video_dep(video_path, max_frames_num, fps=1, force_sample=False):
+warnings.filterwarnings("ignore")
+
+def load_video(video_path, max_frames_num,fps=1,force_sample=False):
     if max_frames_num == 0:
         return np.zeros((1, 336, 336, 3))
     vr = VideoReader(video_path, ctx=cpu(0),num_threads=1)
@@ -43,7 +35,6 @@ def load_video_dep(video_path, max_frames_num, fps=1, force_sample=False):
     frame_time = ",".join([f"{i:.2f}s" for i in frame_time])
     spare_frames = vr.get_batch(frame_idx).asnumpy()
     return spare_frames,frame_time,video_time
-
 
 class LlavaVideoModel:
 
@@ -74,21 +65,22 @@ class LlavaVideoModel:
         model_id = dict_model_name_to_model_id[model_name]
         model_path = os.path.join(weights_dir, model_id) if weights_dir is not None else model_id
 
-        tokenizer, model, image_processor, _ = load_pretrained_model(
+        tokenizer, model, image_processor, max_length = load_pretrained_model(
             model_path,
             None,
-            "llava_qwen",
-            torch_dtype="bfloat16",
-            device_map="auto",
+            "llava_qwen", 
+            torch_dtype="bfloat16", 
+            device_map="auto", 
             attn_implementation="eager",
         )
+        model.eval()
 
-        self.tokenizer = tokenizer
-        self.model = model
-        self.image_processor = image_processor
         self.modality = modality
         self.fps = fps
         self.max_frames = max_frames
+        self.image_processor = image_processor
+        self.tokenizer = tokenizer
+        self.model = model
 
     def generate(
         self,
@@ -100,55 +92,38 @@ class LlavaVideoModel:
         temperature: float = 0.0,
         **kwargs,
     ):
+        if self.modality not in ["vision", "vision_language"]:
+            raise NotImplementedError
+        
+        video, frame_time, video_time = load_video(video_path, self.max_frames, 1, force_sample=True)
+        video = self.image_processor.preprocess(video, return_tensors="pt")["pixel_values"].to(self.model.device, self.model.dtype)
+        video = [video]
+
         conv_template = "qwen_1_5"
+        time_instruciton = f"The video lasts for {video_time:.2f} seconds, and {len(video[0])} frames are uniformly sampled from it. These frames are located at {frame_time}.Please answer the following questions related to this video."
+        question = DEFAULT_IMAGE_TOKEN + f"\n{time_instruciton}\n{query}"
         conv = copy.deepcopy(conv_templates[conv_template])
-
-        if self.modality in ["vision", "vision_language"]:
-            frames = load_video(
-                video_path,
-                desired_fps=self.fps,
-                max_frames=self.max_frames,
-                return_as="numpy",
-            )
-            #video, frame_time, video_time = load_video(
-            #    video_path=video_path,
-            #    max_frames_num=self.max_frames,
-            #    fps=1,
-            #    force_sample=True,
-            #)
-            video_tensor = self.image_processor.preprocess(
-                frames, return_tensors="pt"
-            )["pixel_values"].to(self.model.device, dtype=torch.bfloat16)
-            images = [video_tensor]
-            modalities = ["video"]
-            question = DEFAULT_IMAGE_TOKEN + "\n" + query
-        else:
-            images = None
-            modalities = ["text"]
-            question = query
-
-        if system_prompt is not None:
-            conv.system = system_prompt
-
         conv.append_message(conv.roles[0], question)
         conv.append_message(conv.roles[1], None)
-        prompt = conv.get_prompt()
+        prompt_question = conv.get_prompt()
 
         input_ids = tokenizer_image_token(
-            prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors="pt"
-        ).unsqueeze(0).to(self.model.device)
-
+            prompt_question, 
+            self.tokenizer, 
+            IMAGE_TOKEN_INDEX, 
+            return_tensors="pt",
+        ).unsqueeze(0).to(
+            self.model.device,
+        )
+        
         with torch.no_grad():
-            output_ids = self.model.generate(
+            cont = self.model.generate(
                 input_ids,
-                images=images,
-                modalities=modalities,
+                images=video,
+                modalities= ["video"],
+                do_sample=False,
+                temperature=0,
                 max_new_tokens=max_new_tokens,
-                do_sample=do_sample,
-                temperature=temperature,
             )
-
-        # Strip the input tokens
-        generated = output_ids[0][input_ids.shape[-1]:]
-        response = self.tokenizer.decode(generated, skip_special_tokens=True).strip()
-        return response
+        
+        return self.tokenizer.batch_decode(cont, skip_special_tokens=True)[0].strip()

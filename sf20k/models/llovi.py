@@ -9,9 +9,15 @@ from transformers import AutoProcessor
 from tqdm import tqdm
 
 try:
-    from transformers import Qwen2_5_VLForConditionalGeneration
+    from transformers import (
+        Qwen2_5_VLForConditionalGeneration,
+        Qwen3VLForConditionalGeneration,
+        Qwen3VLMoeForConditionalGeneration,
+    )
 except ImportError:
     Qwen2_5_VLForConditionalGeneration = None
+    Qwen3VLForConditionalGeneration = None
+    Qwen3VLMoeForConditionalGeneration = None
 
 try:
     from qwen_vl_utils import process_vision_info
@@ -75,9 +81,20 @@ class LLoViCaptioner:
     """
 
     _model_ids = {
+        # Qwen2.5-VL
         "qwen2.5-vl-3b": "Qwen/Qwen2.5-VL-3B-Instruct",
         "qwen2.5-vl-7b": "Qwen/Qwen2.5-VL-7B-Instruct",
+        # Qwen3-VL — Dense
+        "qwen3-vl-2b": "Qwen/Qwen3-VL-2B-Instruct",
+        "qwen3-vl-4b": "Qwen/Qwen3-VL-4B-Instruct",
+        "qwen3-vl-8b": "Qwen/Qwen3-VL-8B-Instruct",
+        "qwen3-vl-32b": "Qwen/Qwen3-VL-32B-Instruct",
+        # Qwen3-VL — MoE
+        "qwen3-vl-30b-a3b": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+        "qwen3-vl-235b-a22b": "Qwen/Qwen3-VL-235B-A22B-Instruct",
     }
+
+    _qwen3_moe_ids = {"qwen3-vl-30b-a3b", "qwen3-vl-235b-a22b"}
 
     CAPTION_PROMPT = "Briefly describe what is happening in this video frame."
 
@@ -88,7 +105,14 @@ class LLoViCaptioner:
         model_id = self._model_ids[model_name]
         model_path = os.path.join(weights_dir, model_id) if weights_dir else model_id
 
-        self.model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+        if model_name in self._qwen3_moe_ids:
+            model_class = Qwen3VLMoeForConditionalGeneration
+        elif model_name.startswith("qwen3-vl"):
+            model_class = Qwen3VLForConditionalGeneration
+        else:
+            model_class = Qwen2_5_VLForConditionalGeneration
+
+        self.model = model_class.from_pretrained(
             model_path,
             torch_dtype=torch.bfloat16,
             device_map="auto",
@@ -156,6 +180,8 @@ class LLoViModel:
     _llm_backends = {
         "llovi-gpt4o-mini": ("gpt",    "gpt-4o-mini"),
         "llovi-gpt4o":      ("gpt",    "gpt-4o"),
+        "llovi-gpt5-mini":  ("gpt",    "gpt-5-mini"),
+        "llovi-gpt5":       ("gpt",    "gpt-5"),
         "llovi-llama3-8b":  ("llama3", "meta-llama/Llama-3.1-8B-Instruct"),
         "llovi-llama3-1b":  ("llama3", "meta-llama/Llama-3.2-1B-Instruct"),
     }
@@ -164,7 +190,7 @@ class LLoViModel:
         self,
         model_name: str,
         # Stage 1 — captioner
-        captioner_name: str = "qwen2.5-vl-3b",
+        captioner_name: str = "qwen3-vl-2b",
         captioner_fps: float = 1.0,
         captioner_max_frames: int = 16,
         # Stage 1 — captions cache (persisted across runs)
