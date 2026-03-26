@@ -63,35 +63,35 @@ def main(args):
     for i in tqdm(range(len(dataset))):
         sample = dataset[i]
         question_id = sample["question_id"]
-
         if question_id in existing_ids and not args.force_rerun:
             continue
 
-        try:
-            response = model.generate(
-                query=sample["query"],
-                video_path=sample["video_path"],
-            )
+        #try:
+        response = model.generate(
+            #query=sample["query"],
+            query = sample["question"],
+            video_path=sample["video_path"],
+        )
 
-            prediction = prompt.postprocess_response(response)
+        prediction = prompt.postprocess_response(response)
 
-            results[question_id] = {
-                "question_id": question_id,
-                "video_id": sample["video_id"],
-                "question": sample["question"],
-                "answer": sample["answer"],
-                "response": response,
-                "prediction": prediction,
-                "model": args.model_name,
-                "captions_path": args.captions_path,
-            }
+        results[question_id] = {
+            "question_id": question_id,
+            "video_id": sample["video_id"],
+            "question": sample["question"],
+            "answer": sample["answer"],
+            "response": response,
+            "prediction": prediction,
+            "model": args.model_name,
+            "captions_path": args.captions_path,
+        }
 
-            with open(output_path, "w") as f:
-                json.dump(results, f, indent=4)
+        with open(output_path, "w") as f:
+            json.dump(results, f, indent=4)
 
-        except Exception as e:
-            print(f"Error processing sample {question_id}: {e}")
-            continue
+        #except Exception as e:
+        #    print(f"Error processing sample {question_id}: {e}")
+        #    continue
 
     with open(output_path, "w") as f:
         json.dump(results, f, indent=4)

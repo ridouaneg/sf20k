@@ -65,6 +65,7 @@ def get_model(model_name: str, **kwargs):
         "internvl3.5-4b",
         "internvl3.5-8b",
         "internvl3.5-14b",
+        "internvl3.5-38b",
     ]:
         return InternVLModel(model_name=model_name, **kwargs)
     elif model_name in [
@@ -88,8 +89,11 @@ def get_model(model_name: str, **kwargs):
     ]:
         return LongVUModel(model_name=model_name, **kwargs)
     elif model_name in [
-        "llovi-gpt4o-mini",
-        "llovi-gpt4o",
+        "llovi-gpt-4o-mini",
+        "llovi-gpt-4o",
+        "llovi-gpt-5-nano",
+        "llovi-gpt-5-mini",
+        "llovi-gpt-5",
         "llovi-llama3-8b",
         "llovi-llama3-1b",
     ]:

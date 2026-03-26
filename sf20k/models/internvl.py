@@ -135,6 +135,7 @@ class InternVLModel:
             "internvl3.5-4b": "OpenGVLab/InternVL3_5-4B",
             "internvl3.5-8b": "OpenGVLab/InternVL3_5-8B",
             "internvl3.5-14b": "OpenGVLab/InternVL3_5-14B",
+            "internvl3.5-38b": "OpenGVLab/InternVL3_5-38B",
         }
         model_id = dict_model_name_to_model_id[model_name]
         model_path = os.path.join(weights_dir, model_id) if weights_dir is not None else model_id

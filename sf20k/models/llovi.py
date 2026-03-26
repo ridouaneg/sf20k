@@ -9,6 +9,14 @@ from transformers import AutoProcessor
 from tqdm import tqdm
 
 try:
+    from openai import OpenAI
+except:
+    OpenAI = None
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", None)
+OPENAI_ORG_ID = os.getenv("OPENAI_ORG_ID", None)
+
+try:
     from transformers import (
         Qwen2_5_VLForConditionalGeneration,
         Qwen3VLForConditionalGeneration,
@@ -178,26 +186,23 @@ class LLoViModel:
     """
 
     _llm_backends = {
-        "llovi-gpt4o-mini": ("gpt",    "gpt-4o-mini"),
-        "llovi-gpt4o":      ("gpt",    "gpt-4o"),
-        "llovi-gpt5-mini":  ("gpt",    "gpt-5-mini"),
-        "llovi-gpt5":       ("gpt",    "gpt-5"),
-        "llovi-llama3-8b":  ("llama3", "meta-llama/Llama-3.1-8B-Instruct"),
-        "llovi-llama3-1b":  ("llama3", "meta-llama/Llama-3.2-1B-Instruct"),
+        "llovi-gpt-4o-mini": ("gpt",    "gpt-4o-mini"),
+        "llovi-gpt-4o":      ("gpt",    "gpt-4o"),
+        "llovi-gpt-5-nano":  ("gpt",    "gpt-5-nano"),
+        "llovi-gpt-5-mini":  ("gpt",    "gpt-5-mini"),
+        "llovi-gpt-5":       ("gpt",    "gpt-5"),
+        "llovi-llama3-8b":   ("llama3", "meta-llama/Llama-3.1-8B-Instruct"),
+        "llovi-llama3-1b":   ("llama3", "meta-llama/Llama-3.2-1B-Instruct"),
     }
 
     def __init__(
         self,
         model_name: str,
-        # Stage 1 — captioner
         captioner_name: str = "qwen3-vl-2b",
         captioner_fps: float = 1.0,
         captioner_max_frames: int = 16,
-        # Stage 1 — captions cache (persisted across runs)
         captions_cache_path: str = None,
-        # Stage 1 — pre-computed captions fallback (read-only)
         captions_path: str = None,
-        # Stage 2 — LLM
         weights_dir: str = None,
         api_key: str = None,
         temperature: float = 0.0,
@@ -212,27 +217,19 @@ class LLoViModel:
         self.model_name = model_name
         self.captioner_fps = captioner_fps
         self.captioner_max_frames = captioner_max_frames
+        self.backend_type = backend_type
+        self.backend_id = backend_id
 
         # Stage 1: inline captioner
-        if captioner_name is not None:
-            self.captioner = LLoViCaptioner(
-                model_name=captioner_name,
-                weights_dir=weights_dir,
-            )
-        else:
-            self.captioner = None
+        self.captioner = LLoViCaptioner(
+            model_name=captioner_name,
+            weights_dir=weights_dir,
+        ) if captioner_name is not None else None
 
         # Stage 1: caption cache — keyed by (video_path, fps, max_frames).
-        # Defaults to data/captions/llovi_captions.json at the project root.
-        # Loaded from disk on startup and written back after each new captioning.
-        if captions_cache_path is None:
-            _project_root = os.path.dirname(os.path.dirname(os.path.dirname(
-                os.path.abspath(__file__)
-            )))
-            captions_cache_path = os.path.join(_project_root, "data", "captions", "llovi_captions.json")
         self.captions_cache_path = captions_cache_path
         self.captions_cache: dict = {}
-        if os.path.exists(captions_cache_path):
+        if captions_cache_path and os.path.exists(captions_cache_path):
             with open(captions_cache_path) as f:
                 self.captions_cache = json.load(f)
 
@@ -244,9 +241,7 @@ class LLoViModel:
 
         # Stage 2: LLM
         if backend_type == "gpt":
-            if api_key is None:
-                api_key = os.environ.get("OPENAI_API_KEY", "")
-            self.llm = _load_llovi_llm("gpt")(api_key, backend_id, temperature)
+            self.llm = OpenAI(api_key=OPENAI_API_KEY, organization=OPENAI_ORG_ID)
         elif backend_type == "llama3":
             model_path = os.path.join(weights_dir, backend_id) if weights_dir else backend_id
             self.llm = _load_llovi_llm("llama3")(model_path, temperature, max_new_tokens)
@@ -282,11 +277,18 @@ class LLoViModel:
 
         # Stage 2: LLM reasoning
         prompt = (
-            f"Here are descriptions of a video:\n{captions}\n\n"
-            f"Answer the following question based on the descriptions:\n{query}"
+            "You will be given a question about a movie. Try to answer it based on the captions extracted from the movie.\n\n"
+            f"Captions:\n{captions}\n\n"
+            f"Question: {query}\n\n"
+            "Answer it shortly and directly without repeating the question."
         )
-        head = system_prompt or "You are a helpful expert in video analysis."
-        response, _ = self.llm.forward(head=head, prompts=[prompt])
+        
+        if self.backend_type == "gpt":
+            content = [{"type": "input_text", "text": prompt}]
+            messages = [{"role": "user", "content": content}]
+            response = self.llm.responses.create(model=self.backend_id, input=messages).output_text
+        else:
+            raise NotImplementedError
         return response
 
 
@@ -334,4 +336,5 @@ class LLoViCaptionsModel:
     def generate(self, query: str, video_path: str, **kwargs) -> str:
         captions = self._lookup_captions(video_path)
         prompt = self._PROMPT_TEMPLATE.format(captions=captions, query=query)
-        return self.llm.generate(prompt, video_path=None, **kwargs)
+        response = self.llm.generate(prompt, video_path=None, **kwargs)
+        return response
